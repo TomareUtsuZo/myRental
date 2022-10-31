@@ -88,18 +88,18 @@ bool Customer::PromoteCustomer() {
 	return customerWasPromoted;
 }
 
-RentalItem Customer::RentThisWithPoints(RentalItem& item) {
+RentalItem Customer::RentThisWithPoints(RentalItem& item, int copiesToRent) {
 	bool hadEnoughPoints = DecreaseRewardPoints(rewardPointCost);
-	bool itemIsInStock = item.GetCopiesInStock() > 0;
+	bool itemIsInStock = item.GetCopiesInStock() - copiesToRent >= 0;
 	if (hadEnoughPoints && itemIsInStock)
-		item = RentThisItem(item);
+		item = RentThisItem(item, copiesToRent);
 	else if (hadEnoughPoints && !itemIsInStock)
 		DecreaseRewardPoints(rewardPointCost - rewardPointsSize);
 	return item;
 } // bool Customer::RentThisWithPoints(std::string item) {
 
 
-RentalItem Customer::RentThisItem(RentalItem& item, int numberOfItems) {
+RentalItem Customer::RentThisItem(RentalItem& item, int copiesToRent) {
 	bool itemIsInStock = item.GetCopiesInStock() > 0;
 	if (itemIsInStock) {
 		int indexOfItemInList = 0;
@@ -123,7 +123,7 @@ RentalItem Customer::RentThisItem(RentalItem& item, int numberOfItems) {
 			SetListOfRentedItems(rentedList);
 		} // if (notAlreadyRented) {
 		else { // if (notAlreadyRented) { // update number of items rented 
-			workingList[indexOfItemInList].IncreaseStock(numberOfItems);
+			workingList[indexOfItemInList].IncreaseStock(copiesToRent);
 			SetListOfRentedItems(workingList);
 		} // else { // if (notAlreadyRented) {
 
@@ -132,16 +132,16 @@ RentalItem Customer::RentThisItem(RentalItem& item, int numberOfItems) {
 	return item;
 }
 
-RentalItem Customer::ReturnThisItem(RentalItem& item, int itemsReturned) {
+RentalItem Customer::ReturnThisItem(RentalItem& item, int copiesToRent) {
 	std::vector<RentalItem> updatededRentedList = ItemReturnedUpdateRentedList(item);
 	SetListOfRentedItems(updatededRentedList);
 	item.DecreaseStock();
 	return item;
 }
 
-std::vector<RentalItem> Customer::ItemReturnedUpdateRentedList(RentalItem& updateThisItem, int itemsReturned) {
+std::vector<RentalItem> Customer::ItemReturnedUpdateRentedList(RentalItem& updateThisItem, int copiesToReturned) {
 	int indexOfItemToReturn = 0;
-	bool customerWillReturnAllCopies = updateThisItem.GetCopiesInStock() > itemsReturned;
+	bool customerWillReturnAllCopies = updateThisItem.GetCopiesInStock() > copiesToReturned;
 	std::vector<RentalItem> workingList = GetListOfRentedItems();
 	std::vector<RentalItem> listToReturn;
 	while (workingList[indexOfItemToReturn].GetID() != updateThisItem.GetID()) {
@@ -150,7 +150,7 @@ std::vector<RentalItem> Customer::ItemReturnedUpdateRentedList(RentalItem& updat
 	for (int i = 0; i < (workingList.size() - customerWillReturnAllCopies); i++) {
 		if (i == indexOfItemToReturn) {
 			if (!customerWillReturnAllCopies)
-				updateThisItem.DecreaseStock(itemsReturned);
+				updateThisItem.DecreaseStock(copiesToReturned);
 			else
 				continue;
 		} // if (i == indexOfItemToReturn) {

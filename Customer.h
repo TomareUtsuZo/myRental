@@ -59,9 +59,9 @@ public:
 	void IncreaseRewardPoints(int pointsToAdd);
 	bool DecreaseRewardPoints(int pointsToSubtract);
 	bool PromoteCustomer();
-	RentalItem RentThisWithPoints(RentalItem& item);
-	RentalItem RentThisItem(RentalItem& item, int numberOfItems=1);
-	RentalItem ReturnThisItem(RentalItem& item, int itemsReturned=1);
+	RentalItem RentThisWithPoints(RentalItem& item, int copiesToRent);
+	RentalItem RentThisItem(RentalItem& item, int copiesToRent =1);
+	RentalItem ReturnThisItem(RentalItem& item, int copiesToReturned=1);
 	std::vector<RentalItem> ItemReturnedUpdateRentedList(RentalItem& updateThisItem, int itemsReturned = 1);
 	void DisplayCustomerInfo();
 
