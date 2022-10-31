@@ -104,7 +104,7 @@ bool Customer::PromoteCustomer() {
 	return customerWasPromoted;
 }
 
-bool Customer::RentThisWithPoints(RentalItem& item, int copiesToRent) {
+bool Customer::RentThisWithPoints(RentalItem item, int copiesToRent) {
 	bool hadEnoughPoints = DecreaseRewardPoints(rewardPointCost);
 	bool itemIsInStock = item.GetCopiesInStock() - copiesToRent >= 0;
 	bool thisCanBeDone = hadEnoughPoints && itemIsInStock;
@@ -114,7 +114,7 @@ bool Customer::RentThisWithPoints(RentalItem& item, int copiesToRent) {
 } // bool Customer::RentThisWithPoints(std::string item) {
 
 
-bool Customer::RentThisItem(RentalItem& item, int copiesToRent) {
+bool Customer::RentThisItem(RentalItem item, int copiesToRent) {
 	bool thisHasBeenRented = false;
 	bool itemIsInStock = item.GetCopiesInStock() > 0;
 	if (itemIsInStock) {
@@ -141,26 +141,26 @@ bool Customer::RentThisItem(RentalItem& item, int copiesToRent) {
 	return thisHasBeenRented;
 }
 
-RentalItem Customer::ReturnThisItem(RentalItem& item, int copiesToRent) {
+RentalItem Customer::ReturnThisItem(RentalItem item, int copiesToRent) {
 	std::vector<RentalItem> updatededRentedList = ItemReturnedUpdateRentedList(item);
 	SetListOfRentedItems(updatededRentedList);
 	item.DecreaseStock();
 	return item;
 }
 
-std::vector<RentalItem> Customer::ItemReturnedUpdateRentedList(RentalItem& updateThisItem, 
-	int copiesToReturned) {
+std::vector<RentalItem> Customer::ItemReturnedUpdateRentedList(RentalItem updateThisItem, 
+	int copiesToReturn) {
 	int indexOfItemToReturn = 0;
-	bool customerWillReturnAllCopies = updateThisItem.GetCopiesInStock() > copiesToReturned;
+	bool customerWillNotReturnAllCopies = updateThisItem.GetCopiesInStock() > copiesToReturn;
 	std::vector<RentalItem> workingList = GetListOfRentedItems();
 	std::vector<RentalItem> listToReturn;
 	while (workingList[indexOfItemToReturn].GetID() != updateThisItem.GetID()) {
 		indexOfItemToReturn++;
 	} // while (workingList[index] != removeThisItem) {
-	for (int i = 0; i < (workingList.size() - customerWillReturnAllCopies); i++) {
+	for (int i = 0; i < (workingList.size() - customerWillNotReturnAllCopies); i++) {
 		if (i == indexOfItemToReturn) {
-			if (!customerWillReturnAllCopies)
-				updateThisItem.DecreaseStock(copiesToReturned);
+			if (!customerWillNotReturnAllCopies)
+				updateThisItem.DecreaseStock(copiesToReturn);
 			else
 				continue;
 		} // if (i == indexOfItemToReturn) {
