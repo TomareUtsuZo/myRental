@@ -88,7 +88,7 @@ bool Customer::PromoteCustomer() {
 	return customerWasPromoted;
 }
 
-RentalItem Customer::RentThisWithPoints(RentalItem item) {
+RentalItem Customer::RentThisWithPoints(RentalItem& item) {
 	bool hadEnoughPoints = DecreaseRewardPoints(rewardPointCost);
 	bool itemIsInStock = item.GetCopiesInStock() > 0;
 	if (hadEnoughPoints && itemIsInStock)
@@ -99,7 +99,7 @@ RentalItem Customer::RentThisWithPoints(RentalItem item) {
 } // bool Customer::RentThisWithPoints(std::string item) {
 
 
-RentalItem Customer::RentThisItem(RentalItem item, int numberOfItems) {
+RentalItem Customer::RentThisItem(RentalItem& item, int numberOfItems) {
 	bool itemIsInStock = item.GetCopiesInStock() > 0;
 	if (itemIsInStock) {
 		int indexOfItemInList = 0;
@@ -132,14 +132,14 @@ RentalItem Customer::RentThisItem(RentalItem item, int numberOfItems) {
 	return item;
 }
 
-RentalItem Customer::ReturnThisItem(RentalItem item, int itemsReturned) {
+RentalItem Customer::ReturnThisItem(RentalItem& item, int itemsReturned) {
 	std::vector<RentalItem> updatededRentedList = ItemReturnedUpdateRentedList(item);
 	SetListOfRentedItems(updatededRentedList);
 	item.DecreaseStock();
 	return item;
 }
 
-std::vector<RentalItem> Customer::ItemReturnedUpdateRentedList(RentalItem updateThisItem, int itemsReturned) {
+std::vector<RentalItem> Customer::ItemReturnedUpdateRentedList(RentalItem& updateThisItem, int itemsReturned) {
 	int indexOfItemToReturn = 0;
 	bool customerWillReturnAllCopies = updateThisItem.GetCopiesInStock() > itemsReturned;
 	std::vector<RentalItem> workingList = GetListOfRentedItems();
