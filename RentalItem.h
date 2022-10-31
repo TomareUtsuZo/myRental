@@ -1,3 +1,4 @@
+#pragma once 
 #include <string>
 #include <vector>
 
@@ -47,12 +48,11 @@ public:
 
 	// Public interfaces
 
-	void IncreaseStock(int numberOfNewCopies);
+	void IncreaseStock(int numberOfNewCopies=1);
 
-	bool DecreaseStock(int numberOfRemovedCopies);
+	bool DecreaseStock(int numberOfRemovedCopies=1);
 
 	void DisplayItemInfo();
 
 
 }; // class RentalItems {
-#pragma once

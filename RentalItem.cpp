@@ -37,18 +37,18 @@ void RentalItem::SetTitle(std::string newTitle) { title = newTitle; }
 
 std::string RentalItem::GetRentalType() { return rentalType; }
 bool RentalItem::SetRentalType(std::string newRentalType) {
-	bool thisIsARentalType = std::find(availableRentalTypes.begin(), availableRentalTypes.end(), newRentalType) != availableRentalTypes.end();
-	if (thisIsARentalType == true)
+	bool thisIsRentalType = std::find(availableRentalTypes.begin(), availableRentalTypes.end(), newRentalType) != availableRentalTypes.end();
+	if (thisIsRentalType == true)
 		rentalType = newRentalType;
-	return thisIsARentalType;
+	return thisIsRentalType;
 } // bool RentalItems::SetRentalType(std::string newRentalType) {
 
 std::string RentalItem::GetLoanType() { return loanType; }
 bool RentalItem::SetLoanType(std::string newLoanType) { 
-	bool thisIsALoanType = std::find(availableLoanTypes.begin(), availableLoanTypes.end(), newLoanType) != availableLoanTypes.end();
-	if (thisIsALoanType == true)
+	bool thisIsLoanType = std::find(availableLoanTypes.begin(), availableLoanTypes.end(), newLoanType) != availableLoanTypes.end();
+	if (thisIsLoanType == true)
 		loanType = newLoanType; 
-	return thisIsALoanType;
+	return thisIsLoanType;
 } // bool RentalItems::SetRentalType(std::string newRentalType) {
 
 int RentalItem::GetCopiesInStock() { return copiesInStock; }

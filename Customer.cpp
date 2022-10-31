@@ -13,9 +13,11 @@ Customer::Customer(std::string newName, std::string newAddress, std::string newP
 
 }
 
-// Internal Methods
-void Customer::SetID(int numberOfCustomersServiced) {
-	id = fmt::format("C{:03}", numberOfCustomersServiced);
+// Internal Private Methods
+void Customer::SetID(int vadlidCustomerID) {
+	// This will need revisiting. What happens when Customer
+	// data is loaded fromt the Database?
+	id = fmt::format("C{:03}", vadlidCustomerID);
 } // bool SetID(int numberOfCustomersServiced) {
 
 void Customer::SetCanBePromoted(int numberOfRetruns) {
@@ -29,8 +31,9 @@ void Customer::SetCanBePromoted(int numberOfRetruns) {
 		canBePromoted = false;
 } // void Customer::SetCanBePromoted(int numberOfRetruns) {
 
-void Customer::IncreaseRewardPoints() {
-
+void Customer::IncreaseRewardPoints(int pointsToAdd) {
+	int newRewardPointsValue = GetRewardPoints() + pointsToAdd;
+	SetRewardPoints(newRewardPointsValue);
 }
 
 // Setters and Getters
@@ -49,10 +52,10 @@ void Customer::SetPhoneNumber(std::string newPhoneNumber) { phoneNumber = newPho
 
 std::string Customer::GetAccountType() { return accountType; }
 bool Customer::SetAccountType(std::string newAccountType, std::vector<std::string> availableAccountTypes) {
-	bool thisIsPassed = std::find(availableAccountTypes.begin(), availableAccountTypes.end(), newAccountType) != availableAccountTypes.end();
-	if (thisIsPassed == true)
+	bool isAccountType = std::find(availableAccountTypes.begin(), availableAccountTypes.end(), newAccountType) != availableAccountTypes.end();
+	if (isAccountType == true)
 		accountType = newAccountType;
-	return thisIsPassed;
+	return isAccountType;
 }
 
 std::vector<RentalItem> Customer::GetListOfRentedItems() { return listOfRentedItems; }
@@ -65,12 +68,11 @@ void Customer::SetRewardPoints(int newRewardPoints) { rewardPoints = newRewardPo
 void Customer::IncreaseRewardPoints(int pointsToAdd) { SetRewardPoints(GetRewardPoints() + pointsToAdd); }
 
 bool Customer::DecreaseRewardPoints(int pointsToSubtract) {
-	bool didNotGoBelowZero = false;
-	if (GetRewardPoints() > 0) { // will not do anything if would cause points to fall below zero
+	bool enoughPoints = (GetRewardPoints() - pointsToSubtract) > - 1;
+	if (enoughPoints) { // will not do anything if would cause points to fall below zero
 		SetRewardPoints(GetRewardPoints() - pointsToSubtract);
-		didNotGoBelowZero = true;
 	}
-	return didNotGoBelowZero;
+	return enoughPoints;
 }
 
 bool Customer::PromoteCustomer() {
@@ -83,6 +85,7 @@ bool Customer::PromoteCustomer() {
 		SetAccountType("Regular", availableAccountTypes);
 		SetCanBePromoted(false);
 	} // else if (canBePromoted == true && numberOfRentalsRetruned > 1) {
+	return customerWasPromoted;
 }
 
 RentalItem Customer::RentThisWithPoints(RentalItem item) {
@@ -132,7 +135,7 @@ RentalItem Customer::RentThisItem(RentalItem item, int numberOfItems) {
 RentalItem Customer::ReturnThisItem(RentalItem item, int itemsReturned) {
 	std::vector<RentalItem> updatededRentedList = ItemReturnedUpdateRentedList(item);
 	SetListOfRentedItems(updatededRentedList);
-	item.ReturnToStock();
+	item.DecreaseStock();
 	return item;
 }
 

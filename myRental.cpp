@@ -36,7 +36,7 @@ int main()
     stockList[1].DisplayItemInfo();
 
     customerList[0].RentThisItem(stockList[1]);
-    stockList[1].DecreaseStock(1);
+    stockList[1].DecreaseStock();
 
     std::cout << "\nThis is what is in store stock (should be 1)\n";
     stockList[1].DisplayItemInfo();
@@ -46,7 +46,7 @@ int main()
         customerList[0].GetListOfRentedItems()[i].DisplayItemInfo();
         
     customerList[0].RentThisItem(stockList[1]);
-    stockList[1].DecreaseStock(1);
+    stockList[1].DecreaseStock();
 
     std::cout << "\nThis is what is in store stock (Should be 0)\n";
     stockList[1].DisplayItemInfo();
@@ -56,7 +56,7 @@ int main()
         customerList[0].GetListOfRentedItems()[i].DisplayItemInfo();
 
     customerList[0].ReturnThisItem(stockList[1]);
-    stockList[1].IncreaseStock(1);
+    stockList[1].IncreaseStock();
     std::cout << "\nStore Stock after first return, should be 1\n";
     stockList[1].DisplayItemInfo();
 
@@ -65,7 +65,7 @@ int main()
         customerList[0].GetListOfRentedItems()[i];
 
     customerList[0].ReturnThisItem(stockList[1]);
-    stockList[1].IncreaseStock(1);
+    stockList[1].IncreaseStock();
     std::cout << "\nStore Stock after first return, should be 2\n";
     stockList[1].DisplayItemInfo();
 
