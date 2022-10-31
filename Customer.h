@@ -23,6 +23,7 @@ private:
 	void SetID(int numberOfCustomersServiced);
 	void SetCanBePromoted(int numberOfRetruns);
 	void IncreaseRewardPoints();
+	int TheItemExistsAt(int indexOfItemInList, int workingListSize, std::vector<RentalItem> workingList, RentalItem item);
 
 public:
 	// Constructors

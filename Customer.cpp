@@ -36,6 +36,19 @@ void Customer::IncreaseRewardPoints(int pointsToAdd) {
 	SetRewardPoints(newRewardPointsValue);
 }
 
+int Customer::TheItemExistsAt(int indexOfItemInList, int workingListSize, std::vector<RentalItem> workingList, RentalItem item) {
+	if (workingListSize > 0) {
+		bool idsAreDifferent = workingList[indexOfItemInList].GetID() != item.GetID();
+		while (idsAreDifferent) {
+			indexOfItemInList++;
+			if (indexOfItemInList >= workingListSize)
+				break;
+			idsAreDifferent = workingList[indexOfItemInList].GetID() != item.GetID();
+		} // while (workingList[indexOfItemToReturn].GetID() != item.GetID()) {
+	} // if(workingListSize > 0){
+	return indexOfItemInList;
+}
+
 // Setters and Getters
 std::string Customer::GetID() { return id; }
 
@@ -104,17 +117,10 @@ RentalItem Customer::RentThisItem(RentalItem& item, int copiesToRent) {
 		int indexOfItemInList = 0;
 		std::vector<RentalItem> workingList = GetListOfRentedItems();
 		int workingListSize = workingList.size();
-		if(workingListSize > 0){
-			bool idsAreSame = workingList[indexOfItemInList].GetID() != item.GetID();
-			while (idsAreSame) {
-				indexOfItemInList++;
-				if (indexOfItemInList >= workingListSize)
-					break;
-				idsAreSame = workingList[indexOfItemInList].GetID() != item.GetID();
-			} // while (workingList[indexOfItemToReturn].GetID() != item.GetID()) {
-		} // if(workingListSize > 0){
 
-		bool notAlreadyRentedBefore = (indexOfItemInList == (workingListSize));
+		indexOfItemInList = TheItemExistsAt(indexOfItemInList, workingListSize, workingList, item);
+
+		bool notAlreadyRentedBefore = (indexOfItemInList == workingListSize);
 		if (notAlreadyRentedBefore) { // put item into list
 			std::vector<RentalItem> rentedList = GetListOfRentedItems();
 			item.SetCopiesInStock(1);
@@ -125,7 +131,6 @@ RentalItem Customer::RentThisItem(RentalItem& item, int copiesToRent) {
 			workingList[indexOfItemInList].IncreaseStock(copiesToRent);
 			SetListOfRentedItems(workingList);
 		} // else { // if (notAlreadyRented) {
-
 		SetRewardPoints(GetRewardPoints() + rewardPointsSize);
 	}
 	return item;
