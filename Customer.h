@@ -23,7 +23,8 @@ private:
 	void SetID(int numberOfCustomersServiced);
 	void SetCanBePromoted(int numberOfRetruns);
 	void IncreaseRewardPoints();
-	int TheItemExistsAt(int indexOfItemInList, int workingListSize, std::vector<RentalItem> workingList, RentalItem item);
+	int TheItemExistsAt(int indexOfItemInList, int workingListSize, 
+		std::vector<RentalItem> workingList, RentalItem item);
 
 public:
 	// Constructors
@@ -61,7 +62,7 @@ public:
 	bool DecreaseRewardPoints(int pointsToSubtract);
 	bool PromoteCustomer();
 	bool RentThisWithPoints(RentalItem& item, int copiesToRent);
-	RentalItem RentThisItem(RentalItem& item, int copiesToRent =1);
+	bool RentThisItem(RentalItem& item, int copiesToRent =1);
 	RentalItem ReturnThisItem(RentalItem& item, int copiesToReturned=1);
 	std::vector<RentalItem> ItemReturnedUpdateRentedList(RentalItem& updateThisItem, int itemsReturned = 1);
 	void DisplayCustomerInfo();
