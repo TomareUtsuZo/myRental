@@ -1,6 +1,6 @@
 #include <string>
 #include <vector>
-#include "RentalItems.h"
+#include "RentalItem.h"
 
 class Customer {
 private:
@@ -9,7 +9,7 @@ private:
 	std::string address;
 	std::string phoneNumber;
 	std::string accountType;
-	std::vector<RentalItems> listOfRentedItems;
+	std::vector<RentalItem> listOfRentedItems;
 	int rewardPoints;
 	int numberOfRentalsRetruned = 0;
 	bool canBePromoted = false;
@@ -26,7 +26,7 @@ private:
 public:
 	// Constructors
 	Customer(std::string newName, std::string newAddress, std::string newPhoneNumber, 
-		std::string newAccountType, std::vector<RentalItems> newListOfRentedItems, 
+		std::string newAccountType, std::vector<RentalItem> newListOfRentedItems, 
 		int newRewardPoints, int timesRentalReturned);
 
 	// Setters and Getters
@@ -48,8 +48,8 @@ public:
 	bool SetAccountType(std::string newAccountType, std::vector<std::string> availableAccountTypes);
 
 	
-	std::vector<RentalItems> GetListOfRentedItems();
-	void SetListOfRentedItems(std::vector<RentalItems> newListOfRentedItems);
+	std::vector<RentalItem> GetListOfRentedItems();
+	void SetListOfRentedItems(std::vector<RentalItem> newListOfRentedItems);
 
 	int GetRewardPoints();
 	void SetRewardPoints(int newRewardPoints);
@@ -58,10 +58,10 @@ public:
 	void IncreaseRewardPoints(int pointsToAdd);
 	bool DecreaseRewardPoints(int pointsToSubtract);
 	bool PromoteCustomer();
-	RentalItems RentThisWithPoints(RentalItems item);
-	RentalItems RentThisItem(RentalItems item, int numberOfItems=1);
-	RentalItems ReturnThisItem(RentalItems item, int itemsReturned=1);
-	std::vector<RentalItems> ItemReturnedUpdateRentedList(RentalItems updateThisItem, int itemsReturned = 1);
+	RentalItem RentThisWithPoints(RentalItem item);
+	RentalItem RentThisItem(RentalItem item, int numberOfItems=1);
+	RentalItem ReturnThisItem(RentalItem item, int itemsReturned=1);
+	std::vector<RentalItem> ItemReturnedUpdateRentedList(RentalItem updateThisItem, int itemsReturned = 1);
 	void DisplayCustomerInfo();
 
 }; // class Customer {

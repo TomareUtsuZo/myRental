@@ -18,10 +18,10 @@
     <ClCompile Include="myRental.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RentalItems.cpp">
+    <ClCompile Include="RentalItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Videos.cpp">
+    <ClCompile Include="Video.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Customer.cpp">
@@ -32,10 +32,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RentalItems.h">
+    <ClInclude Include="RentalItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Videos.h">
+    <ClInclude Include="Video.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Customer.h">

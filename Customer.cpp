@@ -1,4 +1,4 @@
-#include "RentalItems.h"
+#include "RentalItem.h"
 #include <fmt/format.h>	
 #include <string>
 #include <iostream>
@@ -6,7 +6,7 @@
 
 // Constructors
 Customer::Customer(std::string newName, std::string newAddress, std::string newPhoneNumber,
-	std::string newAccountType, std::vector<RentalItems> newListOfRentedItems,
+	std::string newAccountType, std::vector<RentalItem> newListOfRentedItems,
 	int newRewardPoints, int numberOfRentalsRetruned) : name(newName), address(newAddress), phoneNumber(newPhoneNumber),
 	accountType(newAccountType), listOfRentedItems(newListOfRentedItems), rewardPoints(newRewardPoints) {
 	SetID(s_numberOfCustomersServiced);
@@ -55,8 +55,8 @@ bool Customer::SetAccountType(std::string newAccountType, std::vector<std::strin
 	return thisIsPassed;
 }
 
-std::vector<RentalItems> Customer::GetListOfRentedItems() { return listOfRentedItems; }
-void Customer::SetListOfRentedItems(std::vector<RentalItems> newListOfRentedItems) { listOfRentedItems = newListOfRentedItems; }
+std::vector<RentalItem> Customer::GetListOfRentedItems() { return listOfRentedItems; }
+void Customer::SetListOfRentedItems(std::vector<RentalItem> newListOfRentedItems) { listOfRentedItems = newListOfRentedItems; }
 
 int Customer::GetRewardPoints() { return rewardPoints; }
 void Customer::SetRewardPoints(int newRewardPoints) { rewardPoints = newRewardPoints; }
@@ -85,7 +85,7 @@ bool Customer::PromoteCustomer() {
 	} // else if (canBePromoted == true && numberOfRentalsRetruned > 1) {
 }
 
-RentalItems Customer::RentThisWithPoints(RentalItems item) {
+RentalItem Customer::RentThisWithPoints(RentalItem item) {
 	bool hadEnoughPoints = DecreaseRewardPoints(rewardPointCost);
 	bool itemIsInStock = item.GetCopiesInStock() > 0;
 	if (hadEnoughPoints && itemIsInStock)
@@ -96,11 +96,11 @@ RentalItems Customer::RentThisWithPoints(RentalItems item) {
 } // bool Customer::RentThisWithPoints(std::string item) {
 
 
-RentalItems Customer::RentThisItem(RentalItems item, int numberOfItems) {
+RentalItem Customer::RentThisItem(RentalItem item, int numberOfItems) {
 	bool itemIsInStock = item.GetCopiesInStock() > 0;
 	if (itemIsInStock) {
 		int indexOfItemInList = 0;
-		std::vector<RentalItems> workingList = GetListOfRentedItems();
+		std::vector<RentalItem> workingList = GetListOfRentedItems();
 		int workingListSize = workingList.size();
 		if(workingListSize > 0){
 			bool idsAreSame = workingList[indexOfItemInList].GetID() != item.GetID();
@@ -114,7 +114,7 @@ RentalItems Customer::RentThisItem(RentalItems item, int numberOfItems) {
 
 		bool notAlreadyRentedBefore = (indexOfItemInList == (workingListSize));
 		if (notAlreadyRentedBefore) { // put item into list
-			std::vector<RentalItems> rentedList = GetListOfRentedItems();
+			std::vector<RentalItem> rentedList = GetListOfRentedItems();
 			item.SetCopiesInStock(1);
 			rentedList.push_back(item);
 			SetListOfRentedItems(rentedList);
@@ -129,18 +129,18 @@ RentalItems Customer::RentThisItem(RentalItems item, int numberOfItems) {
 	return item;
 }
 
-RentalItems Customer::ReturnThisItem(RentalItems item, int itemsReturned) {
-	std::vector<RentalItems> updatededRentedList = ItemReturnedUpdateRentedList(item);
+RentalItem Customer::ReturnThisItem(RentalItem item, int itemsReturned) {
+	std::vector<RentalItem> updatededRentedList = ItemReturnedUpdateRentedList(item);
 	SetListOfRentedItems(updatededRentedList);
 	item.ReturnToStock();
 	return item;
 }
 
-std::vector<RentalItems> Customer::ItemReturnedUpdateRentedList(RentalItems updateThisItem, int itemsReturned) {
+std::vector<RentalItem> Customer::ItemReturnedUpdateRentedList(RentalItem updateThisItem, int itemsReturned) {
 	int indexOfItemToReturn = 0;
 	bool customerWillReturnAllCopies = updateThisItem.GetCopiesInStock() > itemsReturned;
-	std::vector<RentalItems> workingList = GetListOfRentedItems();
-	std::vector<RentalItems> listToReturn;
+	std::vector<RentalItem> workingList = GetListOfRentedItems();
+	std::vector<RentalItem> listToReturn;
 	while (workingList[indexOfItemToReturn].GetID() != updateThisItem.GetID()) {
 		indexOfItemToReturn++;
 	} // while (workingList[index] != removeThisItem) {
@@ -157,7 +157,7 @@ std::vector<RentalItems> Customer::ItemReturnedUpdateRentedList(RentalItems upda
 }
 
 void Customer::DisplayCustomerInfo() {
-	std::vector<RentalItems> itemsRented = GetListOfRentedItems();
+	std::vector<RentalItem> itemsRented = GetListOfRentedItems();
 	std::cout << fmt::format("\nID\t\t\t{}\n", GetID());
 	std::cout << fmt::format("Name\t\t\t{}\n", GetName());
 	std::cout << fmt::format("Address\t\t\t{}\n", GetAddress());

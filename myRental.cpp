@@ -2,25 +2,25 @@
 //
 
 #include <iostream>
-#include "RentalItems.h"
+#include "RentalItem.h"
 #include "Shop.h"
 #include "Customer.h"
-#include "Videos.h"
+#include "Video.h"
 
-int RentalItems::s_numberOfItemsAdded{ 0 }; // start counting number of items created
+int RentalItem::s_numberOfItemsAdded{ 0 }; // start counting number of items created
 int Customer::s_numberOfCustomersServiced{ 0 }; // start counting number of customers serviced
 
 
 
 int main()
 {
-    std::vector<RentalItems> stockList;
-    stockList.push_back(Videos ("a movie", "DVD", "two day rental", 1999, 1, 2.99, "Comedy"));
-    stockList.push_back(RentalItems ("a game", "Game", "one week loan", 1999, 2, 4.99));
-    stockList.push_back(RentalItems ("a record", "Record", "two day loan", 1999, 1, 2.99));
-    stockList.push_back(Videos ("another movie", "DVD", "one week loan", 1999, 2, 3.99, "Drama"));
+    std::vector<RentalItem> stockList;
+    stockList.push_back(Video ("a movie", "DVD", "two day rental", 1999, 1, 2.99, "Comedy"));
+    stockList.push_back(RentalItem ("a game", "Game", "one week loan", 1999, 2, 4.99));
+    stockList.push_back(RentalItem ("a record", "Record", "two day loan", 1999, 1, 2.99));
+    stockList.push_back(Video ("another movie", "DVD", "one week loan", 1999, 2, 3.99, "Drama"));
     
-    std::vector<RentalItems> customerStockList;
+    std::vector<RentalItem> customerStockList;
     std::vector<Customer> customerList;
     customerList.push_back(Customer("Carl", "200 Duong D5", "0903702342", "Guest", customerStockList, 900, 0));
     
@@ -36,7 +36,7 @@ int main()
     stockList[1].DisplayItemInfo();
 
     customerList[0].RentThisItem(stockList[1]);
-    stockList[1].RentFromStock(1);
+    stockList[1].DecreaseStock(1);
 
     std::cout << "\nThis is what is in store stock (should be 1)\n";
     stockList[1].DisplayItemInfo();
@@ -46,7 +46,7 @@ int main()
         customerList[0].GetListOfRentedItems()[i].DisplayItemInfo();
         
     customerList[0].RentThisItem(stockList[1]);
-    stockList[1].RentFromStock(1);
+    stockList[1].DecreaseStock(1);
 
     std::cout << "\nThis is what is in store stock (Should be 0)\n";
     stockList[1].DisplayItemInfo();
@@ -56,7 +56,7 @@ int main()
         customerList[0].GetListOfRentedItems()[i].DisplayItemInfo();
 
     customerList[0].ReturnThisItem(stockList[1]);
-    stockList[1].ReturnToStock();
+    stockList[1].IncreaseStock(1);
     std::cout << "\nStore Stock after first return, should be 1\n";
     stockList[1].DisplayItemInfo();
 
@@ -65,7 +65,7 @@ int main()
         customerList[0].GetListOfRentedItems()[i];
 
     customerList[0].ReturnThisItem(stockList[1]);
-    stockList[1].ReturnToStock();
+    stockList[1].IncreaseStock(1);
     std::cout << "\nStore Stock after first return, should be 2\n";
     stockList[1].DisplayItemInfo();
 

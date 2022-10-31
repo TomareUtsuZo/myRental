@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
 
-class RentalItems {
+class RentalItem {
 private:
 	std::string id;
 	std::string title;
@@ -21,7 +21,7 @@ private:
 
 public:
 	// Constructors
-	RentalItems(std::string newTitle, std::string newRentalType, 
+	RentalItem(std::string newTitle, std::string newRentalType, 
 		std::string newLoanType, int newYearPublished,
 		int initialCopiesInStock, double newRentalFee);
 
@@ -50,10 +50,6 @@ public:
 	void IncreaseStock(int numberOfNewCopies);
 
 	bool DecreaseStock(int numberOfRemovedCopies);
-
-	bool RentFromStock(int copiesRented=1);
-
-	void ReturnToStock(int copiesReturned=1);
 
 	void DisplayItemInfo();
 

@@ -1,10 +1,10 @@
 #pragma once
-#include "RentalItems.h"
+#include "RentalItem.h"
 #include <string>
 #include <vector>
 
-class Videos : 
-    public RentalItems
+class Video : 
+    public RentalItem
 {
 private:
 	std::string genre;
@@ -15,7 +15,7 @@ private:
 
 public:
 	// Constructors
-	Videos(std::string newTitle,
+	Video(std::string newTitle,
 		std::string newRentalType, std::string newLoanType, int newYearPublished,
 		int initialCopiesInStock, double newRentalFee, std::string newGenre);
 
