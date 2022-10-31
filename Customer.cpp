@@ -77,13 +77,13 @@ bool Customer::DecreaseRewardPoints(int pointsToSubtract) {
 
 bool Customer::PromoteCustomer() {
 	bool customerWasPromoted = false;
-	if (GetCanBePromoted() == true && numberOfRentalsRetruned > 2) {
+	if (GetCanBePromoted() == true && numberOfRentalsRetruned > 2 && GetAccountType() == "Regular") {
 		SetAccountType("VIP", availableAccountTypes);
-		SetCanBePromoted(false);
+		SetCanBePromoted(numberOfRentalsRetruned);
 	} // if (canBePromoted == true) {
 	else if (GetCanBePromoted() == true && numberOfRentalsRetruned > 1) {
 		SetAccountType("Regular", availableAccountTypes);
-		SetCanBePromoted(false);
+		SetCanBePromoted(numberOfRentalsRetruned);
 	} // else if (canBePromoted == true && numberOfRentalsRetruned > 1) {
 	return customerWasPromoted;
 }
