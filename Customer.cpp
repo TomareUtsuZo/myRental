@@ -88,14 +88,13 @@ bool Customer::PromoteCustomer() {
 	return customerWasPromoted;
 }
 
-RentalItem Customer::RentThisWithPoints(RentalItem& item, int copiesToRent) {
+bool Customer::RentThisWithPoints(RentalItem& item, int copiesToRent) {
 	bool hadEnoughPoints = DecreaseRewardPoints(rewardPointCost);
 	bool itemIsInStock = item.GetCopiesInStock() - copiesToRent >= 0;
-	if (hadEnoughPoints && itemIsInStock)
-		item = RentThisItem(item, copiesToRent);
-	else if (hadEnoughPoints && !itemIsInStock)
-		DecreaseRewardPoints(rewardPointCost - rewardPointsSize);
-	return item;
+	bool thisCanBeDone = hadEnoughPoints && itemIsInStock;
+	if (thisCanBeDone)
+		RentThisItem(item, copiesToRent);
+	return thisCanBeDone;
 } // bool Customer::RentThisWithPoints(std::string item) {
 
 
