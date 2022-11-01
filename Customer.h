@@ -25,6 +25,8 @@ private:
 	void IncreaseRewardPoints();
 	int TheItemExistsAt(int indexOfItemInList, int workingListSize, 
 		std::vector<RentalItem> workingList, RentalItem item);
+	std::vector<RentalItem> UpdatedListToReturn(int indexOfItemToReturn, int copiesToReturn,
+		std::vector<RentalItem>workingList, RentalItem updateThisItem);
 
 public:
 	// Constructors

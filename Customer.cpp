@@ -50,7 +50,7 @@ int Customer::TheItemExistsAt(int indexOfItemInList, int workingListSize,
 	return indexOfItemInList;
 }
 
-std::vector<RentalItem> UpdatedListToReturn(int indexOfItemToReturn, int copiesToReturn, 
+std::vector<RentalItem> Customer::UpdatedListToReturn(int indexOfItemToReturn, int copiesToReturn, 
 	std::vector<RentalItem>workingList, RentalItem updateThisItem) {
 	int oneIfCustomerWillNotReturnAllCopies = updateThisItem.GetCopiesInStock() > copiesToReturn;
 	std::vector<RentalItem> listToReturn;
