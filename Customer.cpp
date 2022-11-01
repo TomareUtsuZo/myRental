@@ -50,6 +50,21 @@ int Customer::TheItemExistsAt(int indexOfItemInList, int workingListSize,
 	return indexOfItemInList;
 }
 
+std::vector<RentalItem> UpdatedListToReturn(int indexOfItemToReturn, int copiesToReturn, 
+	std::vector<RentalItem>workingList, RentalItem updateThisItem) {
+	int oneIfCustomerWillNotReturnAllCopies = updateThisItem.GetCopiesInStock() > copiesToReturn;
+	std::vector<RentalItem> listToReturn;
+	for (int i = 0; i < (workingList.size() - oneIfCustomerWillNotReturnAllCopies); i++) {
+		if (i == indexOfItemToReturn) {
+			if (!oneIfCustomerWillNotReturnAllCopies)
+				updateThisItem.DecreaseStock(copiesToReturn);
+			else
+				continue;
+		} // if (i == indexOfItemToReturn) {
+		listToReturn.push_back(workingList[i]);
+	} // for (int i = 0; i < (workingList.size() - 1); i++)) {
+}
+
 // Setters and Getters
 std::string Customer::GetID() { return id; }
 
@@ -151,22 +166,12 @@ RentalItem Customer::ReturnThisItem(RentalItem item, int copiesToRent) {
 std::vector<RentalItem> Customer::ItemReturnedUpdateRentedList(RentalItem updateThisItem, 
 	int copiesToReturn) {
 	int indexOfItemToReturn = 0;
-	bool customerWillNotReturnAllCopies = updateThisItem.GetCopiesInStock() > copiesToReturn;
 	std::vector<RentalItem> workingList = GetListOfRentedItems();
-	std::vector<RentalItem> listToReturn;
 	while (workingList[indexOfItemToReturn].GetID() != updateThisItem.GetID()) {
 		indexOfItemToReturn++;
 	} // while (workingList[index] != removeThisItem) {
-	for (int i = 0; i < (workingList.size() - customerWillNotReturnAllCopies); i++) {
-		if (i == indexOfItemToReturn) {
-			if (!customerWillNotReturnAllCopies)
-				updateThisItem.DecreaseStock(copiesToReturn);
-			else
-				continue;
-		} // if (i == indexOfItemToReturn) {
-		listToReturn.push_back(workingList[i]);
-	} // for (int i = 0; i < (workingList.size() - 1); i++)) {
-	return listToReturn;
+	
+	return UpdatedListToReturn(indexOfItemToReturn, copiesToReturn, workingList, updateThisItem);
 }
 
 void Customer::DisplayCustomerInfo() {
