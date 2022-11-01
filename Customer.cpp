@@ -157,7 +157,7 @@ bool Customer::RentThisItem(RentalItem item, int copiesToRent) {
 }
 
 RentalItem Customer::ReturnThisItem(RentalItem item, int copiesToRent) {
-	std::vector<RentalItem> updatededRentedList = ItemReturnedUpdateRentedList(item);
+	std::vector<RentalItem> updatededRentedList = ItemReturnedUpdateRentedList(item, copiesToRent);
 	SetListOfRentedItems(updatededRentedList);
 	item.DecreaseStock();
 	return item;

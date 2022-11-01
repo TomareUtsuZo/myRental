@@ -5,6 +5,7 @@
 
 
 // Constructors
+RentalItem::RentalItem() {}
 RentalItem::RentalItem(std::string newTitle, std::string newRentalType, 
 	std::string newLoanType, int newYearPublished, int initialCopiesInStock, 
 	double newRentalFee) : title(newTitle), rentalType(newRentalType), 	
@@ -16,7 +17,7 @@ RentalItem::RentalItem(std::string newTitle, std::string newRentalType,
 
 // Private Setters and Getters
 void RentalItem::SetIsAvailableForRent() {
-	if (GetCopiesInStock() < 0) {
+	if (GetCopiesInStock() > 0) {
 		isAvailableForRent = true;
 	} // if (isAvailableForRent < 0) {
 	else { //if (isAvailableForRent < 0) {

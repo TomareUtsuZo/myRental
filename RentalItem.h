@@ -22,6 +22,7 @@ private:
 
 public:
 	// Constructors
+	RentalItem();
 	RentalItem(std::string newTitle, std::string newRentalType, 
 		std::string newLoanType, int newYearPublished,
 		int initialCopiesInStock, double newRentalFee);
