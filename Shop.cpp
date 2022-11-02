@@ -17,6 +17,10 @@ int Shop::IndexOfRentalItem(std::string itemID) {
 			indexOfRentalItem = i;
 			break;
 		} // if (stockList[i].GetID() == itemID) {
+		else if (stockList[i].GetTitle() == itemID) {
+			indexOfRentalItem = i;
+			break;
+		} // else if (stockList[i].GetTitle() == itemID) {
 	} // for(int i = 0; i < stockList.size(); i++) {
 	return indexOfRentalItem;
 } // int IndexOfRentalItem(std::string itemID) {
@@ -28,7 +32,12 @@ int Shop::IndexOfCustomer(std::string customerID) {
 			indexOfCustomer = i;
 			break;
 		} // if (customerList[i].GetID() == customerID) {
+		else if (customerList[i].GetName() == customerID) {
+			indexOfCustomer = i;
+			break;
+		} // else if (customerList[i].GetName() == customerID) {
 	} // for (int i = 0; i < customerList.size(); i++) {
+	return indexOfCustomer;
 } // int Shop::IndexOfCustomer(std::string customerID) {
 
 // Public Setters and Getters
