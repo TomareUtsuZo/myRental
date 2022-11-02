@@ -1,6 +1,7 @@
 #include "Shop.h"
 #include <vector>
 #include <iostream>
+#include <fmt/format.h>
 
 
 // Constructor
@@ -53,16 +54,28 @@ bool Shop::CustomerRentsItem(std::string customerID, std::string itemID, int num
 		if (enoughCopiesInStock) {
 			stockList[indexOfRentalItem].DecreaseStock(numberOfItemsToRent);
 			bool customerHasEnoughPoints = customerList[indexOfCustomer].GetRewardPoints() >= 100;
-			if (rentWithPoints && customerHasEnoughPoints) {
-				customerList[indexOfCustomer].RentThisWithPoints(itemToRent, numberOfItemsToRent);
-				rentedSucessfully = true;
+			if (rentWithPoints) {
+				if (customerHasEnoughPoints) {
+					customerList[indexOfCustomer].RentThisWithPoints(itemToRent, numberOfItemsToRent);
+					rentedSucessfully = true;
+				} // if(customerHasEnoughPoints) {
+				else // if(customerHasEnoughPoints) {
+					std::cout << fmt::format("Customer does not have enough points for that.");
 			} // if (rentWithPoints) {
 			else { // if (rentWithPoints) {
 				customerList[indexOfCustomer].RentThisItem(itemToRent, numberOfItemsToRent);
 				rentedSucessfully = true;
 			} // else { // if (rentWithPoints) {
 		} // if (enoughCopiesInStock) {
-	}
+		else //if (enoughCopiesInStock) {
+			std::cout << fmt::format("There are not enough copies in stock to rent that many.");
+	} // if (itemPartOfStockSytem && customerInSystem) 
+	else { // if (itemPartOfStockSytem && customerInSystem) 
+		if (!itemPartOfStockSytem)
+			std::cout << fmt::format("There is no {} in stock.", itemID);
+		if (!customerInSystem)
+			std::cout << fmt::format("There is no {} in the sytem.", customerID);
+	} // else { // if (itemPartOfStockSytem && customerInSystem) 
 	return rentedSucessfully;
 } // bool Shop::RentItemFromStock(std::string customerID, std::string itemID) {
 
