@@ -34,10 +34,10 @@ public:
 	std::vector<Customer> GetCustomerList();
 
 	// Public Functions
-	bool RentItemFromStock(std::string customerID, std::string itemID, int numberOfItemsToRent,
+	bool CustomerRentsItem(std::string customerID, std::string itemID, int numberOfItemsToRent,
 		bool rentWithPoints);
 	
-
+	bool CustomerReturnsItem(std::string customerID, std::string itemID, int numberOfItemsToRent);
 
 }; // class MyRentalFunctions
 

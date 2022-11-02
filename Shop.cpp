@@ -38,7 +38,7 @@ void Shop::SetCustomerList(std::vector<Customer> newCustomerList) { customerList
 std::vector<Customer> Shop::GetCustomerList() { return customerList; }
 
 // Public Functions
-bool Shop::RentItemFromStock(std::string customerID, std::string itemID, int numberOfItemsToRent,
+bool Shop::CustomerRentsItem(std::string customerID, std::string itemID, int numberOfItemsToRent,
 	bool rentWithPoints) {
 	bool rentedSucessfully = false;
 	RentalItem itemToRent = RentalItem();
@@ -52,7 +52,8 @@ bool Shop::RentItemFromStock(std::string customerID, std::string itemID, int num
 		bool enoughCopiesInStock = itemToRent.GetCopiesInStock() >= numberOfItemsToRent;
 		if (enoughCopiesInStock) {
 			stockList[indexOfRentalItem].DecreaseStock(numberOfItemsToRent);
-			if (rentWithPoints) {
+			bool customerHasEnoughPoints = customerList[indexOfCustomer].GetRewardPoints() >= 100;
+			if (rentWithPoints && customerHasEnoughPoints) {
 				customerList[indexOfCustomer].RentThisWithPoints(itemToRent, numberOfItemsToRent);
 				rentedSucessfully = true;
 			} // if (rentWithPoints) {
@@ -64,3 +65,7 @@ bool Shop::RentItemFromStock(std::string customerID, std::string itemID, int num
 	}
 	return rentedSucessfully;
 } // bool Shop::RentItemFromStock(std::string customerID, std::string itemID) {
+
+bool Shop::CustomerReturnsItem(std::string customerID, std::string itemID, int numberOfItemsToRent) {
+
+} // bool Shop::CustomerReturnsItem(std::string customerID, std::string itemID, int numberOfItemsToRent) {
