@@ -62,7 +62,9 @@ bool Shop::CustomerRentsItem(std::string customerID, std::string itemID, int num
 		bool enoughCopiesInStock = itemToRent.GetCopiesInStock() >= numberOfItemsToRent;
 		if (enoughCopiesInStock) {
 			stockList[indexOfRentalItem].DecreaseStock(numberOfItemsToRent);
-			bool customerHasEnoughPoints = customerList[indexOfCustomer].GetRewardPoints() >= 100;
+			bool customerHasEnoughPoints = 
+				customerList[indexOfCustomer].GetRewardPoints() >= 
+				customerList[indexOfCustomer].GetRewardPointCost();
 			if (rentWithPoints) {
 				if (customerHasEnoughPoints) {
 					customerList[indexOfCustomer].RentThisWithPoints(itemToRent, numberOfItemsToRent);

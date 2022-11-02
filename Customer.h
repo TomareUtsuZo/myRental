@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "RentalItem.h"
+#include "Shop.h"
 
 class Customer {
 private:
@@ -12,12 +13,12 @@ private:
 	std::string accountType;
 	std::vector<RentalItem> listOfRentedItems;
 	int rewardPoints;
+	int rewardPointCost = 100;
+	int rewardPointsSize = 10;
 	int numberOfRentalsRetruned = 0;
 	bool canBePromoted = false;
 	static int s_numberOfCustomersServiced;
 	std::vector<std::string> availableAccountTypes = { "Guest", "Regular", "VIP" };
-	int rewardPointCost = 100;
-	int rewardPointsSize = 10;
 
 	// Internal Methods
 	void SetID(int numberOfCustomersServiced);
@@ -58,6 +59,8 @@ public:
 
 	int GetRewardPoints();
 	void SetRewardPoints(int newRewardPoints);
+
+	int GetRewardPointCost();
 
 	// Public Interfaces
 	void IncreaseRewardPoints(int pointsToAdd);

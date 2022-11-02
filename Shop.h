@@ -16,6 +16,7 @@ private:/*
 	std::vector<RentalItem> stockList;
 	std::vector<Customer> customerList;
 
+
 	// internal methods
 	int IndexOfRentalItem(std::string itemID);
 	int IndexOfCustomer(std::string customerID);

@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include "Customer.h"
+#include "Shop.h"
 
 // Constructors
 Customer::Customer(std::string newName, std::string newAddress, std::string newPhoneNumber,
@@ -35,6 +36,8 @@ void Customer::IncreaseRewardPoints(int pointsToAdd) {
 	int newRewardPointsValue = GetRewardPoints() + pointsToAdd;
 	SetRewardPoints(newRewardPointsValue);
 }
+
+int Customer::GetRewardPointCost() { return rewardPointCost; }
 
 int Customer::TheItemExistsAt(int indexOfItemInList, int workingListSize, 
 	std::vector<RentalItem> workingList, RentalItem item) {
