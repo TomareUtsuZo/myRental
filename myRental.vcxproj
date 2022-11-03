@@ -136,15 +136,11 @@
     <ClCompile Include="myRental.cpp" />
     <ClCompile Include="Shop.cpp" />
     <ClCompile Include="RentalItem.cpp" />
-    <ClCompile Include="Video.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Customer.h" />
-    <ClInclude Include="Functions.h" />
     <ClInclude Include="Shop.h" />
-    <ClInclude Include="ProjFunctions.h" />
     <ClInclude Include="RentalItem.h" />
-    <ClInclude Include="Video.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

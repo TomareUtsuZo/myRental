@@ -14,63 +14,12 @@ int Customer::s_numberOfCustomersServiced{ 0 }; // start counting number of cust
 int main()
 {
     std::vector<RentalItem> stockList;
-    stockList.push_back(Video ("a movie", "DVD", "two day rental", 1999, 1, 2.99, "Comedy"));
-    stockList.push_back(RentalItem ("a game", "Game", "one week loan", 1999, 2, 4.99));
-    stockList.push_back(RentalItem ("a record", "Record", "two day loan", 1999, 1, 2.99));
-    stockList.push_back(Video ("another movie", "DVD", "one week loan", 1999, 2, 3.99, "Drama"));
     
     std::vector<RentalItem> customerStockList;
     std::vector<Customer> customerList;
     customerList.push_back(Customer("Carl", "200 Duong D5", "0903702342", "Guest", customerStockList, 900, 0));
     
 
-    /*for (int i = 0; i < customerList.size(); i++)
-        customerList[i].DisplayCustomerInfo();*/
-
-    std::cout << "\nList before renting stuffs (Should be empty.)\n";
-    for (int i = 0; i < customerList[0].GetListOfRentedItems().size(); i++)
-        customerList[0].GetListOfRentedItems()[i].DisplayItemInfo();
-
-    std::cout << "\nThis is what is in store stock (should be 2)\n";
-    stockList[1].DisplayItemInfo();
-
-    customerList[0].RentThisItem(stockList[1]);
-    stockList[1].DecreaseStock();
-
-    std::cout << "\nThis is what is in store stock (should be 1)\n";
-    stockList[1].DisplayItemInfo();
-
-    std::cout << "\nFirst Game Rented, should be 1 copy\n";
-    for (int i = 0; i < customerList[0].GetListOfRentedItems().size(); i++)
-        customerList[0].GetListOfRentedItems()[i].DisplayItemInfo();
-        
-    customerList[0].RentThisItem(stockList[1]);
-    stockList[1].DecreaseStock();
-
-    std::cout << "\nThis is what is in store stock (Should be 0)\n";
-    stockList[1].DisplayItemInfo();
-
-    std::cout << "\nSecond Game Rented There should now be 2\n";
-    for (int i = 0; i < customerList[0].GetListOfRentedItems().size(); i++)
-        customerList[0].GetListOfRentedItems()[i].DisplayItemInfo();
-
-    customerList[0].ReturnThisItem(stockList[1]);
-    stockList[1].IncreaseStock();
-    std::cout << "\nStore Stock after first return, should be 1\n";
-    stockList[1].DisplayItemInfo();
-
-    std::cout << "\nFirst Game Returned There should now be 1\n";
-    for (int i = 0; i < customerList[0].GetListOfRentedItems().size(); i++)
-        customerList[0].GetListOfRentedItems()[i];
-
-    customerList[0].ReturnThisItem(stockList[1]);
-    stockList[1].IncreaseStock();
-    std::cout << "\nStore Stock after first return, should be 2\n";
-    stockList[1].DisplayItemInfo();
-
-    std::cout << "\nFirst Game Returned There should now empty\n";
-    for (int i = 0; i < customerList[0].GetListOfRentedItems().size(); i++)
-        customerList[0].GetListOfRentedItems()[i];
    
 
         
