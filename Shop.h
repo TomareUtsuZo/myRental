@@ -40,5 +40,7 @@ public:
 	
 	bool CustomerReturnsItem(std::string customerID, std::string itemID, int numberOfItemsToReturn);
 
+	void AddNewItemToStockList();
+
 }; // class MyRentalFunctions
 

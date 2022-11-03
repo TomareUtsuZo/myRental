@@ -16,6 +16,10 @@ private:
 	std::vector<std::string> availableLoanTypes = { "two day rental", "one week rental" };
 	static int s_numberOfItemsAdded;
 
+
+	std::string genre;
+	std::vector<std::string> genres = { "Action", "Horror", "Drama", "Comedy", "None"};
+
 	// Internal Methods
 	void SetIsAvailableForRent();
 	void SetID(int numberOfItemsAdded, int yearPublished);
@@ -23,9 +27,8 @@ private:
 public:
 	// Constructors
 	RentalItem();
-	RentalItem(std::string newTitle, std::string newRentalType, 
-		std::string newLoanType, int newYearPublished,
-		int initialCopiesInStock, double newRentalFee);
+	RentalItem(std::string newTitle, std::string newRentalType, std::string newLoanType, 
+		int newYearPublished, int initialCopiesInStock, double newRentalFee, std::string newGenre="None");
 
 	// Setters and Getters
 	std::string GetID();
@@ -46,6 +49,9 @@ public:
 	void SetRentalFee(double newRentalFee);
 
 	bool GetIsAvailableForRent();
+
+	std::string GetGenre();
+	bool SetGenre(std::string newGenre);
 
 	// Public interfaces
 

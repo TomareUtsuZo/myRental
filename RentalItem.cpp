@@ -8,9 +8,9 @@
 RentalItem::RentalItem() {}
 RentalItem::RentalItem(std::string newTitle, std::string newRentalType, 
 	std::string newLoanType, int newYearPublished, int initialCopiesInStock, 
-	double newRentalFee) : title(newTitle), rentalType(newRentalType), 	
+	double newRentalFee, std::string newGenre) : title(newTitle), rentalType(newRentalType), 	
 	loanType(newLoanType), yearPublished(newYearPublished), copiesInStock(initialCopiesInStock),
-	rentalFee(newRentalFee) {
+	rentalFee(newRentalFee), genre(newGenre) {
 	SetID(s_numberOfItemsAdded++, newYearPublished);
 }
 
@@ -59,6 +59,14 @@ double RentalItem::GetRentalFee() { return rentalFee; }
 void RentalItem::SetRentalFee(double newRentalFee) { rentalFee = newRentalFee; }
 
 bool RentalItem::GetIsAvailableForRent() { return isAvailableForRent; }
+
+std::string RentalItem::GetGenre() { return genre; }
+bool RentalItem::SetGenre(std::string newGenre) {
+	bool thisIsPassed = std::find(genres.begin(), genres.end(), newGenre) != genres.end();
+	if (thisIsPassed == true)
+		genre = newGenre;
+	return thisIsPassed;
+} // bool Videos::SetGenre(std::string newGenre) {
 
 // Public interfaces
 void RentalItem::IncreaseStock(int numberOfNewCopies) {

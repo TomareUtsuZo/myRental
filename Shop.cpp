@@ -112,3 +112,7 @@ bool Shop::CustomerReturnsItem(std::string customerID, std::string itemID, int n
 	} // else { //if (itemPartOfStockSystem && customerInSystem) {
 	return returnedSucessfully;
 } // bool Shop::CustomerReturnsItem(std::string customerID, std::string itemID, int numberOfItemsToRent) {
+
+void Shop::AddNewItemToStockList() {
+
+} // void Shop::AddNewItemToStockList() {

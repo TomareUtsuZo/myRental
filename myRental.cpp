@@ -5,7 +5,6 @@
 #include "RentalItem.h"
 #include "Shop.h"
 #include "Customer.h"
-#include "Video.h"
 
 int RentalItem::s_numberOfItemsAdded{ 0 }; // start counting number of items created
 int Customer::s_numberOfCustomersServiced{ 0 }; // start counting number of customers serviced
