@@ -68,8 +68,8 @@ public:
 	bool PromoteCustomer();
 	bool RentThisWithPoints(RentalItem item, int copiesToRent);
 	bool RentThisItem(RentalItem item, int copiesToRent);
-	RentalItem ReturnThisItem(RentalItem item, int copiesToRent);
-	std::vector<RentalItem> ItemReturnedUpdateRentedList(RentalItem updateThisItem, int copiesToRent);
+	bool CustomerReturnsItem(std::string itemID, int copiesToRent);
+	int GetIndexOfItemInList(std::string itemID);
 	void DisplayCustomerInfo();
 
 }; // class Customer {

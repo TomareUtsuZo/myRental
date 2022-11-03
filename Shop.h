@@ -38,7 +38,7 @@ public:
 	bool CustomerRentsItem(std::string customerID, std::string itemID, int numberOfItemsToRent,
 		bool rentWithPoints);
 	
-	bool CustomerReturnsItem(std::string customerID, std::string itemID, int numberOfItemsToRent);
+	bool CustomerReturnsItem(std::string customerID, std::string itemID, int numberOfItemsToReturn);
 
 }; // class MyRentalFunctions
 

@@ -66,6 +66,7 @@ std::vector<RentalItem> Customer::UpdatedListToReturn(int indexOfItemToReturn, i
 		} // if (i == indexOfItemToReturn) {
 		listToReturn.push_back(workingList[i]);
 	} // for (int i = 0; i < (workingList.size() - 1); i++)) {
+	return listToReturn;
 }
 
 // Setters and Getters
@@ -159,22 +160,43 @@ bool Customer::RentThisItem(RentalItem item, int copiesToRent) {
 	return thisHasBeenRented;
 }
 
-RentalItem Customer::ReturnThisItem(RentalItem item, int copiesToRent) {
-	std::vector<RentalItem> updatededRentedList = ItemReturnedUpdateRentedList(item, copiesToRent);
-	SetListOfRentedItems(updatededRentedList);
-	item.DecreaseStock();
-	return item;
+bool Customer::CustomerReturnsItem(std::string itemID, int copiesToReturn) {
+	bool thisWasRemovedFromCustomerInventory = false;
+	int indexOfItemInCustomerList = GetIndexOfItemInList(itemID);
+	int copiesCustomerHasToReturn = GetListOfRentedItems()[indexOfItemInCustomerList].GetCopiesInStock();
+	int customerHasEnoughCopiesToReturn = copiesCustomerHasToReturn - copiesToReturn;
+	bool customerHasCopiesToReturn = (indexOfItemInCustomerList > 0) && customerHasEnoughCopiesToReturn > -1;
+	if (customerHasCopiesToReturn) {
+		bool customerReturnsAllCopies = customerHasEnoughCopiesToReturn == 0;
+		std::vector<RentalItem> updatededRentedList;
+		if (customerReturnsAllCopies) {
+			for (int i = 0; i < GetListOfRentedItems().size(); i++) {
+				if (indexOfItemInCustomerList != i) {
+					updatededRentedList.push_back(GetListOfRentedItems()[i]);
+				} // if (indexOfItemInCustomerList != i) {
+			} // for (int i = 0; i < workingList.size(); i++) {
+			thisWasRemovedFromCustomerInventory = true;
+		} // if (customerReturnsAllCopies) {
+		else { // if (customerReturnsAllCopies) {
+			listOfRentedItems[indexOfItemInCustomerList].DecreaseStock(copiesToReturn);
+			updatededRentedList = GetListOfRentedItems();
+			thisWasRemovedFromCustomerInventory = true;
+		} // else { // if (customerReturnsAllCopies) {
+		SetListOfRentedItems(updatededRentedList);
+	} // if (customerHasCopiesToReturn) {
+	return thisWasRemovedFromCustomerInventory;
 }
 
-std::vector<RentalItem> Customer::ItemReturnedUpdateRentedList(RentalItem updateThisItem, 
-	int copiesToReturn) {
-	int indexOfItemToReturn = 0;
+int Customer::GetIndexOfItemInList(std::string itemID) {
+	int indexOfItemToReturn = -1;
 	std::vector<RentalItem> workingList = GetListOfRentedItems();
-	while (workingList[indexOfItemToReturn].GetID() != updateThisItem.GetID()) {
-		indexOfItemToReturn++;
-	} // while (workingList[index] != removeThisItem) {
-	
-	return UpdatedListToReturn(indexOfItemToReturn, copiesToReturn, workingList, updateThisItem);
+	for (int i = 0; i < workingList.size(); i++) {
+		if (workingList[i].GetID() == itemID || workingList[i].GetTitle() == itemID) {
+			indexOfItemToReturn = i;
+			break;
+		} // if (workingList[i].GetID() == itemID || workingList[i].GetTitle() == itemID) {
+	} // while (workingList[index] != removeThisItem) {	
+	return indexOfItemToReturn;
 }
 
 void Customer::DisplayCustomerInfo() {
