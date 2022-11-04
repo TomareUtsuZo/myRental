@@ -11,8 +11,8 @@ Customer::Customer(std::string newName, std::string newAddress, std::string newP
 	int newRewardPoints, int numberOfRentalsRetruned) : name(newName), address(newAddress), 
 	phoneNumber(newPhoneNumber), accountType(newAccountType), listOfRentedItems(newListOfRentedItems), 
 	rewardPoints(newRewardPoints) { SetID(s_numberOfCustomersServiced);
-
 }
+Customer::Customer() {}
 
 // Internal Private Methods
 void Customer::SetID(int vadlidCustomerID) {
@@ -32,10 +32,6 @@ void Customer::SetCanBePromoted(int numberOfRetruns) {
 		canBePromoted = false;
 } // void Customer::SetCanBePromoted(int numberOfRetruns) {
 
-void Customer::IncreaseRewardPoints(int pointsToAdd) {
-	int newRewardPointsValue = GetRewardPoints() + pointsToAdd;
-	SetRewardPoints(newRewardPointsValue);
-}
 
 int Customer::GetRewardPointCost() { return rewardPointCost; }
 

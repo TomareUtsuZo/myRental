@@ -23,7 +23,6 @@ private:
 	// Internal Methods
 	void SetID(int numberOfCustomersServiced);
 	void SetCanBePromoted(int numberOfRetruns);
-	void IncreaseRewardPoints();
 	int TheItemExistsAt(int indexOfItemInList, int workingListSize, 
 		std::vector<RentalItem> workingList, RentalItem item);
 	std::vector<RentalItem> UpdatedListToReturn(int indexOfItemToReturn, int copiesToReturn,
@@ -34,6 +33,8 @@ public:
 	Customer(std::string newName, std::string newAddress, std::string newPhoneNumber, 
 		std::string newAccountType, std::vector<RentalItem> newListOfRentedItems, 
 		int newRewardPoints, int timesRentalReturned);
+
+	Customer();
 
 	// Setters and Getters
 	std::string GetID();

@@ -9,7 +9,7 @@ private:
 	std::string rentalType;
 	std::string loanType;
 	int copiesInStock;
-	int yearPublished;
+	std::string yearPublished;
 	double rentalFee;
 	bool isAvailableForRent;
 	std::vector<std::string> availableRentalTypes = { "Record", "DVD", "Game"};
@@ -18,7 +18,7 @@ private:
 
 
 	std::string genre;
-	std::vector<std::string> genres = { "Action", "Horror", "Drama", "Comedy", "None"};
+	std::vector<std::string> availableGenres = { "Action", "Horror", "Drama", "Comedy", "None"};
 
 	// Internal Methods
 	void SetIsAvailableForRent();
@@ -28,7 +28,8 @@ public:
 	// Constructors
 	RentalItem();
 	RentalItem(std::string newTitle, std::string newRentalType, std::string newLoanType, 
-		int newYearPublished, int initialCopiesInStock, double newRentalFee, std::string newGenre="None");
+		std::string newYearPublished, int initialCopiesInStock, double newRentalFee, 
+		std::string newGenre="None");
 
 	// Setters and Getters
 	std::string GetID();
@@ -36,11 +37,16 @@ public:
 	std::string GetTitle();
 	void SetTitle(std::string newTitle);
 
+	std::string GetYearPublished();
+	bool SetYearPublished(std::string yearPublishedInput);
+
 	std::string GetRentalType();
 	bool SetRentalType(std::string newRentalType);
+	std::vector<std::string> GetAvailableRentalTypes();
 
 	std::string GetLoanType();
 	bool SetLoanType(std::string newLoanType);
+	std::vector<std::string> GetAvailableLoanTypes();
 
 	int GetCopiesInStock();
 	void SetCopiesInStock(int newCopiesInStock);
@@ -52,6 +58,7 @@ public:
 
 	std::string GetGenre();
 	bool SetGenre(std::string newGenre);
+	std::vector<std::string> GetAvailableGenres();
 
 	// Public interfaces
 

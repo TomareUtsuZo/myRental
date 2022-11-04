@@ -1,10 +1,7 @@
 #pragma once 
 #include <iostream>
 #include "RentalItem.h"
-#include "Shop.h"
 #include "Customer.h"
-#include "Video.h"
-
 
 class Shop
 {
@@ -20,27 +17,28 @@ private:/*
 	// internal methods
 	int IndexOfRentalItem(std::string itemID);
 	int IndexOfCustomer(std::string customerID);
+	bool CustomerRentsItem(std::string customerID, std::string itemID, int numberOfItemsToRent,
+		bool rentWithPoints);
+	bool CustomerReturnsItem(std::string customerID, std::string itemID, int numberOfItemsToReturn);
 
 
 public:
 	// Constructor
+	template<class T>
 	Shop(/*std::string newShopID, std::string newShopName, std::string newShopAddress,*/
-		std::vector<RentalItem> newStockList, std::vector<Customer> newCustomerList);
+		std::vector<T> newStockList, std::vector<T> newCustomerList);
 
 	// Public Setters and Getters
 	void SetStockList(std::vector<RentalItem> newStockList);
 	std::vector<RentalItem> GetStockList();
 
-	void SetCustomerList(std::vector<Customer> newCustomerList);
-	std::vector<Customer> GetCustomerList();
+	template<class T>
+	void SetCustomerList(std::vector<T> newCustomerList);
+	template<class T>
+	std::vector<T> GetCustomerList();
 
 	// Public Functions
-	bool CustomerRentsItem(std::string customerID, std::string itemID, int numberOfItemsToRent,
-		bool rentWithPoints);
-	
-	bool CustomerReturnsItem(std::string customerID, std::string itemID, int numberOfItemsToReturn);
-
-	void AddNewItemToStockList();
+	bool AddNewItemToStockList();
 
 }; // class MyRentalFunctions
 

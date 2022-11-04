@@ -6,13 +6,13 @@
 
 // Constructors
 RentalItem::RentalItem() {}
-RentalItem::RentalItem(std::string newTitle, std::string newRentalType, 
-	std::string newLoanType, int newYearPublished, int initialCopiesInStock, 
-	double newRentalFee, std::string newGenre) : title(newTitle), rentalType(newRentalType), 	
+RentalItem::RentalItem(std::string newTitle, std::string newRentalType,
+	std::string newLoanType, std::string newYearPublished, int initialCopiesInStock,
+	double newRentalFee, std::string newGenre) : title(newTitle), rentalType(newRentalType),
 	loanType(newLoanType), yearPublished(newYearPublished), copiesInStock(initialCopiesInStock),
 	rentalFee(newRentalFee), genre(newGenre) {
-	SetID(s_numberOfItemsAdded++, newYearPublished);
-}
+	SetID(s_numberOfItemsAdded++, stoi(newYearPublished)); }
+
 
 
 // Private Setters and Getters
@@ -43,6 +43,7 @@ bool RentalItem::SetRentalType(std::string newRentalType) {
 		rentalType = newRentalType;
 	return thisIsRentalType;
 } // bool RentalItems::SetRentalType(std::string newRentalType) {
+std::vector<std::string> RentalItem::GetAvailableRentalTypes() { return availableRentalTypes; }
 
 std::string RentalItem::GetLoanType() { return loanType; }
 bool RentalItem::SetLoanType(std::string newLoanType) { 
@@ -51,6 +52,7 @@ bool RentalItem::SetLoanType(std::string newLoanType) {
 		loanType = newLoanType; 
 	return thisIsLoanType;
 } // bool RentalItems::SetRentalType(std::string newRentalType) {
+std::vector<std::string> RentalItem::GetAvailableLoanTypes() { return availableLoanTypes; }
 
 int RentalItem::GetCopiesInStock() { return copiesInStock; }
 void RentalItem::SetCopiesInStock(int newCopiesInStock) { copiesInStock = newCopiesInStock; }
@@ -62,11 +64,28 @@ bool RentalItem::GetIsAvailableForRent() { return isAvailableForRent; }
 
 std::string RentalItem::GetGenre() { return genre; }
 bool RentalItem::SetGenre(std::string newGenre) {
-	bool thisIsPassed = std::find(genres.begin(), genres.end(), newGenre) != genres.end();
+	bool thisIsPassed = std::find(availableGenres.begin(), availableGenres.end(), newGenre) != availableGenres.end();
 	if (thisIsPassed == true)
 		genre = newGenre;
 	return thisIsPassed;
 } // bool Videos::SetGenre(std::string newGenre) {
+std::vector<std::string> RentalItem::GetAvailableGenres() { return availableGenres;  }
+
+std::string RentalItem::GetYearPublished() { return yearPublished; }
+bool RentalItem::SetYearPublished(std::string yearPublishedInput) {
+	bool yearPublishedWasSet = false;
+	try {
+		if (stoi(yearPublishedInput) > 1882) {
+			yearPublished = yearPublishedInput;
+			yearPublishedWasSet = true;
+		} // if (stoi(yearPublishedInput) > 1882) {
+		throw "Year not correct.";
+	} // try {
+	catch (std::string error){
+		std::cout << error;
+	}
+	return yearPublishedWasSet;
+}
 
 // Public interfaces
 void RentalItem::IncreaseStock(int numberOfNewCopies) {
