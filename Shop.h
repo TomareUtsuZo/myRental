@@ -3,6 +3,7 @@
 #include "RentalItem.h"
 #include "Customer.h"
 
+
 class Shop
 {
 private:/*
@@ -24,18 +25,14 @@ private:/*
 
 public:
 	// Constructor
-	template<class T>
-	Shop(/*std::string newShopID, std::string newShopName, std::string newShopAddress,*/
-		std::vector<T> newStockList, std::vector<T> newCustomerList);
+	Shop(std::vector<RentalItem> newStockList, std::vector<Customer> newCustomerList);
 
 	// Public Setters and Getters
 	void SetStockList(std::vector<RentalItem> newStockList);
 	std::vector<RentalItem> GetStockList();
 
-	template<class T>
-	void SetCustomerList(std::vector<T> newCustomerList);
-	template<class T>
-	std::vector<T> GetCustomerList();
+	void SetCustomerList(std::vector<Customer> newCustomerList);
+	std::vector<Customer> GetCustomerList();
 
 	// Public Functions
 	bool AddNewItemToStockList();

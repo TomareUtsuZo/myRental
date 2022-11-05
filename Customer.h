@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include "RentalItem.h"
-#include "Shop.h"
 
 class Customer {
 private:

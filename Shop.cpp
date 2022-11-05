@@ -8,9 +8,7 @@
 
 
 // Constructor
-template<class T>
-Shop::Shop(/*std::string newShopID, std::string newShopName, std::string newShopAddress,*/
-	std::vector<T> newStockList, std::vector<T> newCustomerList) :
+Shop::Shop(std::vector<RentalItem> newStockList, std::vector<Customer> newCustomerList) :
 	stockList(newStockList), customerList(newCustomerList) {}
 
 // Private Methods
@@ -113,10 +111,8 @@ bool Shop::CustomerReturnsItem(std::string customerID, std::string itemID, int n
 void Shop::SetStockList(std::vector<RentalItem> newStockList) { stockList = newStockList; }
 std::vector<RentalItem> Shop::GetStockList() { return stockList; }
 
-template<class T>
-void Shop::SetCustomerList(std::vector<T> newCustomerList) { customerList = newCustomerList; }
-template<class T>
-std::vector<T> Shop::GetCustomerList() { return customerList; }
+void Shop::SetCustomerList(std::vector<Customer> newCustomerList) { customerList = newCustomerList; }
+std::vector<Customer> Shop::GetCustomerList() { return customerList; }
 
 // Internal Utilities
 bool SetYearPublished(bool yearPublishedSet, RentalItem workingRentalItem, std::string& inputYearPublished) {
