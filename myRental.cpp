@@ -20,7 +20,7 @@ int main()
     customerList.push_back(Customer("Carl", "200 Duong D5", "0903702342", "Guest", customerStockList, 900, 0));
     
     Shop shopOne = Shop(stockList, customerList);
-
+    shopOne.AddNewItemToStockList();
    
 
         

@@ -79,10 +79,11 @@ bool RentalItem::SetYearPublished(std::string yearPublishedInput) {
 			yearPublished = yearPublishedInput;
 			yearPublishedWasSet = true;
 		} // if (stoi(yearPublishedInput) > 1882) {
-		throw "Year not correct.";
+		else
+			throw yearPublishedInput;
 	} // try {
 	catch (std::string error){
-		std::cout << error;
+		std::cout << error << " is an incorect year.\n";
 	}
 	return yearPublishedWasSet;
 }
