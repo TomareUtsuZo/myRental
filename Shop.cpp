@@ -42,12 +42,12 @@ bool Shop::CustomerRentsItem(std::string customerID, std::string itemID, int num
 	bool rentWithPoints) {
 	bool rentedSucessfully = false;
 	RentalItem itemToRent = RentalItem();
-	bool enoughCopiesInStock = false;
 	int indexOfRentalItem = IndexOfRentalItem(itemID);
 	int indexOfCustomer = IndexOfCustomer(customerID);
 	bool itemPartOfStockSystem = indexOfRentalItem > -1;
 	bool customerInSystem = indexOfCustomer > -1;
 	if (itemPartOfStockSystem && customerInSystem) {
+		bool enoughCopiesInStock = false;
 		itemToRent = stockList[indexOfRentalItem];
 		bool enoughCopiesInStock = itemToRent.GetCopiesInStock() >= numberOfItemsToRent;
 		if (enoughCopiesInStock) {
@@ -72,9 +72,9 @@ bool Shop::CustomerRentsItem(std::string customerID, std::string itemID, int num
 			std::cout << fmt::format("There are not enough copies in stock to rent that many.");
 	} // if (itemPartOfStockSytem && customerInSystem) 
 	else { // if (itemPartOfStockSytem && customerInSystem) 
-		if (!itemPartOfStockSystem)
+		if (itemPartOfStockSystem == false)
 			std::cout << fmt::format("There is no {} in stock.", itemID);
-		if (!customerInSystem)
+		if (customerInSystem == false)
 			std::cout << fmt::format("There is no {} in the sytem.", customerID);
 	} // else { // if (itemPartOfStockSytem && customerInSystem) 
 	return rentedSucessfully;
@@ -83,12 +83,12 @@ bool Shop::CustomerRentsItem(std::string customerID, std::string itemID, int num
 bool Shop::CustomerReturnsItem(std::string customerID, std::string itemID, int numberOfItemsToReturn) {
 	bool returnedSucessfully = false;
 	RentalItem itemToReturn = RentalItem();
-	bool enoughCopiesToReturn = false;
 	int indexOfRentalItem = IndexOfRentalItem(itemID);
 	int indexOfCustomer = IndexOfCustomer(customerID);
 	bool itemPartOfStockSystem = indexOfRentalItem > -1;
 	bool customerInSystem = indexOfCustomer > -1;
 	if (itemPartOfStockSystem && customerInSystem) {
+		bool enoughCopiesToReturn = false;
 		enoughCopiesToReturn = customerList[indexOfCustomer].CustomerReturnsItem(customerID,
 			numberOfItemsToReturn);
 		if (enoughCopiesToReturn) {
@@ -99,9 +99,9 @@ bool Shop::CustomerReturnsItem(std::string customerID, std::string itemID, int n
 			std::cout << "Customer's return was not correct. Please check.";
 	} // if (itemPartOfStockSystem && customerInSystem) {
 	else { //if (itemPartOfStockSystem && customerInSystem) {
-		if (!itemPartOfStockSystem)
+		if (itemPartOfStockSystem == false)
 			std::cout << "Item was not part of stock system. Did you correctly input the ID/Title?";
-		else if (!customerInSystem)
+		if (customerInSystem == false)
 			std::cout << "Customer is not in system. Did you correctly input thier ID/Name?";
 	} // else { //if (itemPartOfStockSystem && customerInSystem) {
 	return returnedSucessfully;
