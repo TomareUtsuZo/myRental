@@ -47,9 +47,8 @@ bool Shop::CustomerRentsItem(std::string customerID, std::string itemID, int num
 	bool itemPartOfStockSystem = indexOfRentalItem > -1;
 	bool customerInSystem = indexOfCustomer > -1;
 	if (itemPartOfStockSystem && customerInSystem) {
-		bool enoughCopiesInStock = false;
-		itemToRent = stockList[indexOfRentalItem];
 		bool enoughCopiesInStock = itemToRent.GetCopiesInStock() >= numberOfItemsToRent;
+		itemToRent = stockList[indexOfRentalItem];
 		if (enoughCopiesInStock) {
 			stockList[indexOfRentalItem].DecreaseStock(numberOfItemsToRent);
 			bool customerHasEnoughPoints =
