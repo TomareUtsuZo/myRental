@@ -181,13 +181,13 @@ bool SetRentalFee(bool rentalFeeSet, RentalItem workingRentalItem, double& input
 		std::cout << "What will the rental fee be? (x.xx format expected)\n";
 		std::cin >> userInput;
 		try {
-			std::stringstream(userInput) >> userInputDouble;
+			userInputDouble = std::stof(userInput);
 			workingRentalItem.SetRentalFee(userInputDouble);
 			rentalFeeSet = true;
 			inputRentalFee = userInputDouble;
 		}
-		catch (int error) {
-			std::cout << "That wasn't a dollar and cent input.";
+		catch (const std::exception& e) {
+			std::cout << "Invalid input: make it fit the x.xx format";
 		}
 	} // while (!rentalFeeSet) {
 	return rentalFeeSet;
