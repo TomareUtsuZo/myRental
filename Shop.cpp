@@ -146,7 +146,7 @@ bool SetCopiesInStock(bool copiesInStockSet, RentalItem workingRentalItem, int& 
 
 bool SetGenreType(bool genreTypeSet, RentalItem workingRentalItem, std::string& inputGenreType) {
 	while (genreTypeSet == false) {
-		std::cout << "What Loan Type is this? (Capitalziation matters.)\n";
+		std::cout << "What Genre Type is this? (Capitalziation matters.)\n";
 		for (int i = 0; i < workingRentalItem.GetAvailableGenres().size(); i++)
 			std::cout << workingRentalItem.GetAvailableGenres()[i] << " ";
 		std::cout << std::endl;
@@ -159,7 +159,7 @@ bool SetGenreType(bool genreTypeSet, RentalItem workingRentalItem, std::string& 
 
 bool SetRentalType(bool rentalTypeSet, RentalItem workingRentalItem, std::string& inputRentalType,
 	std::string& inputGenre) {
-	while (rentalTypeSet = false) {
+	while (rentalTypeSet == false) {
 		std::cout << "What Rental Type is this? (Capitalization matters.)\n";
 		for (int i = 0; i < workingRentalItem.GetAvailableRentalTypes().size(); i++)
 			std::cout << workingRentalItem.GetAvailableRentalTypes()[i] << ", ";
@@ -194,7 +194,8 @@ bool SetRentalFee(bool rentalFeeSet, RentalItem workingRentalItem, double& input
 }
 
 bool SetLoanType(bool loanTypeSet, RentalItem workingRentalItem, std::string& inputLoanType) {
-	while (!loanTypeSet) {
+	inputLoanType = "";
+	while (loanTypeSet == false) {
 		std::cout << "What Loan Type is this? (Capitalziation matters.)\n";
 		for (int i = 0; i < workingRentalItem.GetAvailableLoanTypes().size(); i++)
 			std::cout << workingRentalItem.GetAvailableLoanTypes()[i] << ", ";
