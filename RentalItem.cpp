@@ -1,6 +1,7 @@
 #include "RentalItem.h"
 #include <fmt/format.h>	
 #include <string>
+#include <sstream>
 #include <iostream>
 
 
@@ -75,7 +76,9 @@ std::string RentalItem::GetYearPublished() { return yearPublished; }
 bool RentalItem::SetYearPublished(std::string yearPublishedInput) {
 	bool yearPublishedWasSet = false;
 	try {
-		if (stoi(yearPublishedInput) > 1882) {
+		int makeAnInt;
+		std::stringstream(yearPublishedInput) >> makeAnInt;
+		if (makeAnInt > 1882) {
 			yearPublished = yearPublishedInput;
 			yearPublishedWasSet = true;
 		} // if (stoi(yearPublishedInput) > 1882) {

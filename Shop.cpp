@@ -132,7 +132,7 @@ bool SetCopiesInStock(bool copiesInStockSet, RentalItem workingRentalItem, int& 
 		int userInputInt = 0;
 		while (userInputInt == 0) {
 			std::cout << "How many copies will you initially put out for rent? (Whole number only, please.)\n";
-			std::cin >> userInputInt;
+			std::cin >> userInput;
 			std::stringstream(userInput) >> userInputInt;
 			if (userInputInt != 0) {
 				workingRentalItem.SetCopiesInStock(userInputInt);
