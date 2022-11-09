@@ -156,9 +156,10 @@ bool SetLoanTypeLocal(bool loanTypeSet, RentalItem workingRentalItem, std::strin
 	return loanTypeSet;
 }
 
-std::string ManualCreateID(std::string yearPublished) {
+std::string ManualCreateIDRentalItem(std::string yearPublished) {
 	std::string newID = "";
 	std::cout << "What new ID do you want to set? (Ixxx) \n";
+	std::cout << "Or leave empty to auto generate ID";
 	while (newID == "") {
 		std::cin >> newID;
 		int testForInt = 1;
@@ -217,6 +218,66 @@ int IndexOfCustomer(std::string customerID, std::vector<Customer> workingVector)
 		} // else if (customerList[i].GetName() == customerID) {
 	} // for (int i = 0; i < customerList.size(); i++) {
 	return indexOfCustomer;
+}
+
+bool AutomatedCreateCustomerID(std::vector<Customer> workingCustomerList, std::string& workingCustomerID) {
+	bool idCreatedSucessfully = false;
+	for (int i = 0; i < 1000; i++) {
+		bool notInList = true;
+		std::string testableID;
+		for (int index = 0; index < workingCustomerList.size(); index++) {
+			testableID = fmt::format("C{{:0>3}}", i);
+			if (workingCustomerList[index].GetID() == testableID) {
+				notInList = false;
+				break;
+			} // if (workingCustomerlist[index].GetID() == testableID) {
+		} // for (int index = 0; index < workingCustomerlist.size(); index++) {
+		if (notInList) {
+			workingCustomerID = testableID;
+			idCreatedSucessfully = true;
+			break;
+		}
+	} // for (int i = 0; i < 1000; i++) {
+	return idCreatedSucessfully;
+}
+
+bool ManualCreateIDCustomer(std::vector<Customer> workingCustomerList, std::string& idToCreate) {
+	bool idCreatedSucessfully = false;
+	std::string inputID = "-000";
+	std::string outputID;
+	std::cout << "Enter a three digit number not already in use by another customer,";
+	std::cout << "or leave empty to auto generate ID.";
+	while (inputID == "-000") {
+		std::cin.ignore(INT_MAX, '\n');
+		std::getline(std::cin, inputID);
+		if (inputID == "") {
+			AutomatedCreateCustomerID(workingCustomerList, outputID);
+		} // if (inputID == "") {
+		else if( inputID.size() == 3) {
+			try {
+				std::stoi(inputID);
+				for (int index = 0; index < workingCustomerList.size(); index++) {
+					bool notInList = true;
+					std::string testableID = fmt::format("C{{:0>3}}", inputID);
+					if(workingCustomerList[index].GetID() == testableID) {
+						notInList = false;
+						inputID = "-000";
+						break;
+					} // if (workingCustomerlist[index].GetID() == testableID) {
+					if(notInList) {
+						outputID = testableID;
+						idCreatedSucessfully = true;
+					} // if(notInList) {
+				} // for (int index = 0; index < workingCustomerlist.size(); index++) {
+			} // try {
+			catch (const std::exception& e) {
+				std::cout << "Invalid input: make it fit the HTO format.";
+				inputID = "-000";
+			} // catch (const std::exception& e) {
+		}
+		idToCreate = outputID;
+	}
+	return idCreatedSucessfully;
 }
 
 bool CustomerRentsItem(std::string customerID, std::string itemID, int numberOfItemsToRent,
@@ -356,7 +417,7 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 			userModificationInput = GetUserInputInt(1, 6);
 		switch (userModificationInput) {
 		case(1):
-			stockList[indexOfItem].SetIdManual(ManualCreateID(stockList[indexOfItem].GetYearPublished()));
+			stockList[indexOfItem].SetIdManual(ManualCreateIDRentalItem(stockList[indexOfItem].GetYearPublished()));
 			modificationComplete = true;
 			break;
 		case(2):
@@ -479,11 +540,36 @@ bool Shop::ModifyCustomerInfo(std::string customerIdOrTitle) {
 
 		std::cout << "What did you want to change?\n1. Modify ID\n2. Modify Name\n3. Modify Address\n";
 		std::cout << "4. Modify Phone Nubmer\n5. Modify AccountType\n6. Modify Reward Points\n";
-		std::cout << "7. Modify Account Type\n8. Modify Rentals Returned\n";
-		userModificationInput = GetUserInputInt(1, 8);
+		std::cout << "7. Modify Account Type\n8. Modify Rentals Returned\n9. Modify ID\n";
+		userModificationInput = GetUserInputInt(1, 9);
 		switch (userModificationInput) {
 		case(1):
-
+			customerInfoModified = ManualCreateIDCustomer(customerList, idToModify);
+			break;
+		case(2):
+			std::cout << "What is the name of this customer?\n";
+			std::cin.ignore(INT_MAX, '\n');
+			std::getline(std::cin, nameToModify);
+			customerInfoModified = true;
+			break;
+		case(3):
+			std::cout << "What is the address of this customer?\n";
+			std::cin.ignore(INT_MAX, '\n');
+			std::getline(std::cin, addressToModify);
+			customerInfoModified = true;
+			break;
+		case(4):
+			std::cout << "What is the phone number of this customer?\n";
+			std::cin.ignore(INT_MAX, '\n');
+			std::getline(std::cin, phoneNumberToModify);
+			customerInfoModified = true;
+			break;
+		case(5):
+			std::cout << "What account type of this customer?\n";
+			std::cin.ignore(INT_MAX, '\n');
+			std::getline(std::cin, accountTypeToModify);
+			customerInfoModified = true;
+			break;
 		}
 	}
 
