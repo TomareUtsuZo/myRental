@@ -31,7 +31,7 @@ std::string RentalItem::GetID() { return id; }
 void RentalItem::SetID(int numberOfItemsAdded, int yearPublished) {
 	// This is going to need to be revisited later, how does it account
 	// for ID's loaded, or out of sequence?
-	id = fmt::format("I{:0>3}{}", numberOfItemsAdded, yearPublished);
+	id = fmt::format("I{:0>3}-{}", numberOfItemsAdded, yearPublished);
 } // std::string RentalItems::SetID(int numberOfItemsAdded) {
 void RentalItem::SetIdManual(std::string newID) { id = newID; }
 

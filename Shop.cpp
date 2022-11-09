@@ -227,7 +227,7 @@ int GetUserInputInt(int minInput, int maxInput) {
 	return userInputInt;
 } // int GetUserInputInt(int minInput, int maxInput) {
 
-std::string ManualCreateID() {
+std::string ManualCreateID(std::string yearPublished) {
 	std::string newID = "";
 	std::cout << "What new ID do you want to set? (Ixxx) \n";
 	while (newID == "") {
@@ -256,7 +256,7 @@ std::string ManualCreateID() {
 		else
 			newID = "";		
 	}
-	return newID;
+	return newID + "-" + yearPublished;
 }
 
 // Public Functions
@@ -329,7 +329,7 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 			userModificationInput = GetUserInputInt(1, 6);
 		switch (userModificationInput) {
 		case(1):
-			stockList[indexOfItem].SetIdManual(ManualCreateID());
+			stockList[indexOfItem].SetIdManual(ManualCreateID(stockList[indexOfItem].GetYearPublished()));
 			modificationComplete = true;
 			break;
 		case(2):
@@ -375,6 +375,7 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 		std::cout << "No such Item in the Stock System. Maybe a different Id or Title?";
 		return modificationComplete;
 	} // else { // if (indexOfItem > -1) {
-
 	return modificationComplete;
 }
+
+// bool Shop::
