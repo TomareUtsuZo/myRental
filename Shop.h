@@ -17,6 +17,7 @@ private:/*
 
 	// internal methods
 	int IndexOfRentalItem(std::string itemID);
+	int IndexOfRentalItem(std::string itemID, std::vector<RentalItem> workingVector);
 	int IndexOfCustomer(std::string customerID);
 	bool CustomerRentsItem(std::string customerID, std::string itemID, int numberOfItemsToRent,
 		bool rentWithPoints);
@@ -38,6 +39,8 @@ public:
 	bool AddNewItemToStockList();
 
 	bool ModifyItemInStock(std::string itemIdOrTitle);
+
+	bool DeleteExistingItem(std::string itemIdOrTitle);
 
 }; // class MyRentalFunctions
 

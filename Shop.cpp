@@ -23,6 +23,18 @@ int Shop::IndexOfRentalItem(std::string itemID) {
 	return indexOfRentalItem;
 } // int IndexOfRentalItem(std::string itemID) {
 
+
+int Shop::IndexOfRentalItem(std::string itemID, std::vector<RentalItem> workingVector) {
+	int indexOfRentalItem = -1;
+	for (int i = 0; i < workingVector.size(); i++) {
+		if (workingVector[i].GetID() == itemID || workingVector[i].GetTitle() == itemID) {
+			indexOfRentalItem = i;
+			break;
+		} // if (stockList[i].GetID() == itemID) {
+	} // for(int i = 0; i < stockList.size(); i++) {
+	return indexOfRentalItem;
+}
+
 int Shop::IndexOfCustomer(std::string customerID) {
 	int indexOfCustomer = -1;
 	for (int i = 0; i < customerList.size(); i++) {
@@ -378,4 +390,29 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 	return modificationComplete;
 }
 
-// bool Shop::
+bool Shop::DeleteExistingItem(std::string itemIdOrTitle) {
+	bool itemDeletedSuccessfully = false;
+	int indexOfItem = IndexOfRentalItem(itemIdOrTitle);
+	std::vector<RentalItem> workingStockList;
+
+	if (indexOfItem > -1) {
+		std::vector<RentalItem> updatededRentedList;
+			for (int i = 0; i < workingStockList.size(); i++) {
+				if (indexOfItem != i) {
+					updatededRentedList.push_back(workingStockList[i]);
+				} // if (indexOfItem != i) {
+			} // for (int i = 0; i < workingStockList.size(); i++) {
+			indexOfItem = IndexOfRentalItem(itemIdOrTitle, updatededRentedList);
+			if (indexOfItem == -1) {
+				itemDeletedSuccessfully = true;
+				std::cout << fmt::format("Successfully removed {} from stock.", itemIdOrTitle);
+				SetStockList(updatededRentedList);
+			}
+	} // if (indexOfItem > -1) {
+	else { // if (indexOfItem > -1) {
+		std::cout << "That item was not found in the inventory. Maybe you mistyped the name or ID?";
+	} // else { // if (indexOfItem > -1) {
+
+
+	return itemDeletedSuccessfully;
+}
