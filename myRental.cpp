@@ -25,7 +25,7 @@ int main()
     workingList.push_back(workingItem);
     shopOne.SetStockList(workingList);
     shopOne.GetStockList()[0].DisplayItemInfo();
-    shopOne.ModifyItemInStock("Movie");
+    std::cout << shopOne.ModifyItemInStock("Movie");
 
     shopOne.GetStockList()[0].DisplayItemInfo();
    

@@ -114,7 +114,7 @@ void Shop::SetCustomerList(std::vector<Customer> newCustomerList) { customerList
 std::vector<Customer> Shop::GetCustomerList() { return customerList; }
 
 // Internal Utilities
-bool SetYearPublished(bool yearPublishedSet, RentalItem workingRentalItem, std::string& inputYearPublished) {
+bool SetYearPublishedLocal(bool yearPublishedSet, RentalItem workingRentalItem, std::string& inputYearPublished) {
 	while (!yearPublishedSet) {
 		std::string userInput;
 		std::cout << "\nWhat year was this title published? \n";
@@ -126,7 +126,7 @@ bool SetYearPublished(bool yearPublishedSet, RentalItem workingRentalItem, std::
 	return yearPublishedSet;
 }
 
-bool SetCopiesInStock(bool copiesInStockSet, RentalItem workingRentalItem, int& inputCopiesInStock) {
+bool SetCopiesInStockLocal(bool copiesInStockSet, RentalItem workingRentalItem, int& inputCopiesInStock) {
 	while (copiesInStockSet == false) {
 		std::string userInput;
 		int userInputInt = 0;
@@ -144,7 +144,7 @@ bool SetCopiesInStock(bool copiesInStockSet, RentalItem workingRentalItem, int& 
 	return copiesInStockSet;
 }
 
-bool SetGenreType(bool genreTypeSet, RentalItem workingRentalItem, std::string& inputGenreType) {
+bool SetGenreTypeLocal(bool genreTypeSet, RentalItem workingRentalItem, std::string& inputGenreType) {
 	while (genreTypeSet == false) {
 		std::cout << "What Genre Type is this? (Capitalziation matters.)\n";
 		for (int i = 0; i < workingRentalItem.GetAvailableGenres().size(); i++)
@@ -156,7 +156,7 @@ bool SetGenreType(bool genreTypeSet, RentalItem workingRentalItem, std::string& 
 	return genreTypeSet;
 }
 
-bool SetRentalType(bool rentalTypeSet, RentalItem workingRentalItem, std::string& inputRentalType,
+bool SetRentalTypeLocal(bool rentalTypeSet, RentalItem workingRentalItem, std::string& inputRentalType,
 	std::string& inputGenre) {
 	while (rentalTypeSet == false) {
 		std::cout << "What Rental Type is this? (Capitalization matters.)\n";
@@ -166,14 +166,14 @@ bool SetRentalType(bool rentalTypeSet, RentalItem workingRentalItem, std::string
 		std::getline(std::cin, inputRentalType);
 		if (inputRentalType == "DVD") {
 			bool genreTypeSet = false;
-			genreTypeSet = SetGenreType(genreTypeSet, workingRentalItem, inputGenre);
+			genreTypeSet = SetGenreTypeLocal(genreTypeSet, workingRentalItem, inputGenre);
 		}
 		rentalTypeSet = workingRentalItem.SetRentalType(inputRentalType);
 	} // while (!rentalTypeIncorrect) {
 	return rentalTypeSet;
 }
 
-bool SetRentalFee(bool rentalFeeSet, RentalItem workingRentalItem, double& inputRentalFee) {
+bool SetRentalFeeLocal(bool rentalFeeSet, RentalItem workingRentalItem, double& inputRentalFee) {
 	while (rentalFeeSet == false) {
 		std::string userInput;
 		double userInputDouble;
@@ -192,7 +192,7 @@ bool SetRentalFee(bool rentalFeeSet, RentalItem workingRentalItem, double& input
 	return rentalFeeSet;
 }
 
-bool SetLoanType(bool loanTypeSet, RentalItem workingRentalItem, std::string& inputLoanType) {
+bool SetLoanTypeLocal(bool loanTypeSet, RentalItem workingRentalItem, std::string& inputLoanType) {
 	inputLoanType = "";
 	while (loanTypeSet == false) {
 		std::cout << "What Loan Type is this? (Capitalziation matters.)\n";
@@ -277,23 +277,23 @@ bool Shop::AddNewItemToStockList() {
 	std::getline(std::cin, inputTitle);
 
 	bool rentalTypeSet = false;
-	SetRentalType(rentalTypeSet, workingRentalItem, inputRentalType, inputGenre);
+	SetRentalTypeLocal(rentalTypeSet, workingRentalItem, inputRentalType, inputGenre);
 
 	bool loanTypeSet = false;
-	loanTypeSet = SetLoanType(loanTypeSet, workingRentalItem, inputLoanType);
+	loanTypeSet = SetLoanTypeLocal(loanTypeSet, workingRentalItem, inputLoanType);
 
 	bool copiesInStockSet = false;
-	copiesInStockSet = SetCopiesInStock(copiesInStockSet, workingRentalItem, inputCopiesInStock);
+	copiesInStockSet = SetCopiesInStockLocal(copiesInStockSet, workingRentalItem, inputCopiesInStock);
 
 	bool yearPublishedSet = false;
-	yearPublishedSet = SetYearPublished(yearPublishedSet, workingRentalItem, inputYearPublished);
+	yearPublishedSet = SetYearPublishedLocal(yearPublishedSet, workingRentalItem, inputYearPublished);
 
 	bool rentalFeeSet = false;
-	rentalFeeSet = SetRentalFee(rentalFeeSet, workingRentalItem, inputRentalFee);
+	rentalFeeSet = SetRentalFeeLocal(rentalFeeSet, workingRentalItem, inputRentalFee);
 
 	if (inputLoanType == "DVD") {
 		bool genreTypeSet = false;
-		genreTypeSet = SetGenreType(genreTypeSet, workingRentalItem, inputGenre);
+		genreTypeSet = SetGenreTypeLocal(genreTypeSet, workingRentalItem, inputGenre);
 	}
 	else {
 		if (rentalTypeSet, loanTypeSet, copiesInStockSet, yearPublishedSet, rentalFeeSet) {
@@ -309,6 +309,12 @@ bool Shop::AddNewItemToStockList() {
 
 bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 	bool modificationComplete = false;
+	std::string inputTitle = "";
+	std::string inputRentalType;
+	std::string inputGenreType;
+	std::string inputLoanType;
+	std::string inputYearPublished;
+	double inputRentalFee;
 	int indexOfItem = IndexOfRentalItem(itemIdOrTitle);
 	if (indexOfItem > -1) {
 		int userModificationInput = 0;
@@ -326,10 +332,44 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 			stockList[indexOfItem].SetIdManual(ManualCreateID());
 			modificationComplete = true;
 			break;
+		case(2):
+			std::cout << "What is the title of this new rental item?\n";
+			std::cin.ignore(INT_MAX, '\n');
+			std::getline(std::cin, inputTitle);
+			stockList[indexOfItem].SetTitle(inputTitle);
+			modificationComplete = true;
+			break;
+		case(3):
+			modificationComplete = SetRentalTypeLocal(modificationComplete, workingItem, 
+				inputRentalType, inputGenreType);
+			if (modificationComplete) {
+				stockList[indexOfItem].SetRentalType(inputRentalType);
+				stockList[indexOfItem].SetGenre(inputGenreType);
+			}
+			break;
+		case(4):
+			modificationComplete = SetLoanTypeLocal(modificationComplete, workingItem,
+				inputLoanType);
+			if (modificationComplete)
+				stockList[indexOfItem].SetLoanType(inputLoanType);
+			break;
+		case(5):
+			modificationComplete = SetYearPublishedLocal(modificationComplete, workingItem,
+				inputYearPublished);
+			if(modificationComplete)
+				stockList[indexOfItem].SetYearPublished(inputYearPublished);
+			break;
+		case(6):
+			modificationComplete = SetRentalFeeLocal(modificationComplete, workingItem, inputRentalFee);
+			if (modificationComplete)
+				stockList[indexOfItem].SetRentalFee(inputRentalFee);
+			break;
+		case(7):
+			modificationComplete = SetGenreTypeLocal(modificationComplete, workingItem, inputGenreType);
+			if (modificationComplete)
+				stockList[indexOfItem].SetGenre(inputGenreType);
+			break;
 		}
-
-
-
 	}
 	else { // if (indexOfItem > -1) {
 		std::cout << "No such Item in the Stock System. Maybe a different Id or Title?";

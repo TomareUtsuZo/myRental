@@ -110,6 +110,7 @@ bool RentalItem::DecreaseStock(int numberOfRemovedCopies) {
 void RentalItem::DisplayItemInfo() {
 	std::cout << fmt::format("\nID\t\t\t{}\n", GetID());
 	std::cout << fmt::format("Title\t\t\t{}\n", GetTitle());
+	std::cout << fmt::format("Year Published\t\t{}\n", GetYearPublished());
 	std::cout << fmt::format("Rental Type:\t\t{}\n", GetRentalType());
 	std::cout << fmt::format("Loan Type\t\t{}\n", GetLoanType());
 	std::cout << fmt::format("Copies in stock\t\t{}\n", GetCopiesInStock());
