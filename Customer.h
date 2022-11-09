@@ -12,9 +12,9 @@ private:
 	std::string accountType;
 	std::vector<RentalItem> listOfRentedItems;
 	int rewardPoints;
+	int numberOfRentalsReturned = 0;
 	int rewardPointCost = 100;
 	int rewardPointsSize = 10;
-	int numberOfRentalsRetruned = 0;
 	bool canBePromoted = false;
 	static int s_numberOfCustomersServiced;
 	std::vector<std::string> availableAccountTypes = { "Guest", "Regular", "VIP" };

@@ -108,13 +108,13 @@ bool Customer::DecreaseRewardPoints(int pointsToSubtract) {
 
 bool Customer::PromoteCustomer() {
 	bool customerWasPromoted = false;
-	if (GetCanBePromoted() == true && numberOfRentalsRetruned > 2 && GetAccountType() == "Regular") {
+	if (GetCanBePromoted() == true && numberOfRentalsReturned > 2 && GetAccountType() == "Regular") {
 		SetAccountType("VIP", availableAccountTypes);
-		SetCanBePromoted(numberOfRentalsRetruned);
+		SetCanBePromoted(numberOfRentalsReturned);
 	} // if (canBePromoted == true) {
-	else if (GetCanBePromoted() == true && numberOfRentalsRetruned > 1) {
+	else if (GetCanBePromoted() == true && numberOfRentalsReturned > 1) {
 		SetAccountType("Regular", availableAccountTypes);
-		SetCanBePromoted(numberOfRentalsRetruned);
+		SetCanBePromoted(numberOfRentalsReturned);
 	} // else if (canBePromoted == true && numberOfRentalsRetruned > 1) {
 	return customerWasPromoted;
 }
@@ -127,7 +127,6 @@ bool Customer::RentThisWithPoints(RentalItem item, int copiesToRent) {
 		RentThisItem(item, copiesToRent);
 	return thisCanBeDone;
 } // bool Customer::RentThisWithPoints(std::string item) {
-
 
 bool Customer::RentThisItem(RentalItem item, int copiesToRent) {
 	bool thisHasBeenRented = false;
