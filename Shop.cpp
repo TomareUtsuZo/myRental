@@ -156,7 +156,6 @@ bool SetGenreType(bool genreTypeSet, RentalItem workingRentalItem, std::string& 
 	return genreTypeSet;
 }
 
-
 bool SetRentalType(bool rentalTypeSet, RentalItem workingRentalItem, std::string& inputRentalType,
 	std::string& inputGenre) {
 	while (rentalTypeSet == false) {
@@ -204,6 +203,60 @@ bool SetLoanType(bool loanTypeSet, RentalItem workingRentalItem, std::string& in
 		loanTypeSet = workingRentalItem.SetLoanType(inputLoanType);
 	} // while (loanTypeIncorrect) {
 	return loanTypeSet;
+}
+
+int GetUserInputInt(int minInput, int maxInput) {
+	int userInputInt = -1;
+	std::string userInput = "";
+	while (userInput == "") {
+		std::cin >> userInput;
+		try {
+			userInputInt = std::stoi(userInput);
+			if (!((userInputInt >= minInput) && (userInputInt <= maxInput))) {
+				std::cout << "Invalid input: Choose a number that is associated with the modification you want to make\n";
+				userInput = "";
+				userInputInt = -1;
+			}
+		}
+		catch (const std::exception& e) {
+			std::cout << "Invalid input: Choose a number that is associated with the modification you want to make.\n";
+			userInput = "";
+			userInputInt = -1;
+		}
+	}
+	return userInputInt;
+} // int GetUserInputInt(int minInput, int maxInput) {
+
+std::string ManualCreateID() {
+	std::string newID = "";
+	std::cout << "What new ID do you want to set? (Ixxx) \n";
+	while (newID == "") {
+		std::cin >> newID;
+		int testForInt = 1;
+		bool iFirst = newID[0] == 'I';
+		bool isThreeDigitInt = false;
+		if (iFirst && newID.size() == 4) {
+			std::string workingID = newID;
+			workingID.erase(0, 1);
+			try {
+				int digitsString = std::stoi(workingID);
+				isThreeDigitInt = true;
+			}
+			catch (const std::exception& e) {
+				std::cout << "Invalid input: Must conform to IXXX format.\n";
+			}
+		}
+		else{
+			std::cout << "This requires an IXXX format.";
+		}
+		
+		if (isThreeDigitInt == true) {
+			break;			
+		}
+		else
+			newID = "";		
+	}
+	return newID;
 }
 
 // Public Functions
@@ -254,3 +307,34 @@ bool Shop::AddNewItemToStockList() {
 	return newItemSucessfullyAdded;
 } // void Shop::AddNewItemToStockList() {
 
+bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
+	bool modificationComplete = false;
+	int indexOfItem = IndexOfRentalItem(itemIdOrTitle);
+	if (indexOfItem > -1) {
+		int userModificationInput = 0;
+		RentalItem workingItem = stockList[indexOfItem];
+		std::cout << "What did you want to change?\n1. The ID\n2. The Title\n3. The Rental Type\n";
+		std::cout << "4. The Loan Type\n5. The Year Published \n6. The Rental Fee\n";
+		if (stockList[indexOfItem].GetRentalType() == "DVD"){
+			std::cout << "7. The Genre\n";
+			userModificationInput = GetUserInputInt(1, 7);
+		}
+		else
+			userModificationInput = GetUserInputInt(1, 6);
+		switch (userModificationInput) {
+		case(1):
+			stockList[indexOfItem].SetIdManual(ManualCreateID());
+			modificationComplete = true;
+			break;
+		}
+
+
+
+	}
+	else { // if (indexOfItem > -1) {
+		std::cout << "No such Item in the Stock System. Maybe a different Id or Title?";
+		return modificationComplete;
+	} // else { // if (indexOfItem > -1) {
+
+	return modificationComplete;
+}

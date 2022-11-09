@@ -33,6 +33,7 @@ void RentalItem::SetID(int numberOfItemsAdded, int yearPublished) {
 	// for ID's loaded, or out of sequence?
 	id = fmt::format("I{:0>3}{}", numberOfItemsAdded, yearPublished);
 } // std::string RentalItems::SetID(int numberOfItemsAdded) {
+void RentalItem::SetIdManual(std::string newID) { id = newID; }
 
 std::string RentalItem::GetTitle() { return title; }
 void RentalItem::SetTitle(std::string newTitle) { title = newTitle; }

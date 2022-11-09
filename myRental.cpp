@@ -20,7 +20,14 @@ int main()
     customerList.push_back(Customer("Carl", "200 Duong D5", "0903702342", "Guest", customerStockList, 900, 0));
     
     Shop shopOne = Shop(stockList, customerList);
-    shopOne.AddNewItemToStockList();
+    RentalItem workingItem = RentalItem("Movie", "DVD", "two day rental", "2000", 13, 0.99, "Action");
+    std::vector<RentalItem> workingList = shopOne.GetStockList();
+    workingList.push_back(workingItem);
+    shopOne.SetStockList(workingList);
+    shopOne.GetStockList()[0].DisplayItemInfo();
+    shopOne.ModifyItemInStock("Movie");
+
+    shopOne.GetStockList()[0].DisplayItemInfo();
    
 
         

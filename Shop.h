@@ -37,5 +37,7 @@ public:
 	// Public Functions
 	bool AddNewItemToStockList();
 
+	bool ModifyItemInStock(std::string itemIdOrTitle);
+
 }; // class MyRentalFunctions
 

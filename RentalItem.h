@@ -33,6 +33,7 @@ public:
 
 	// Setters and Getters
 	std::string GetID();
+	void SetIdManual(std::string newID);
 
 	std::string GetTitle();
 	void SetTitle(std::string newTitle);
