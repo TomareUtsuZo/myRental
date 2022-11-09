@@ -17,17 +17,22 @@ int main()
     
     std::vector<RentalItem> customerStockList;
     std::vector<Customer> customerList;
-    customerList.push_back(Customer("Carl", "200 Duong D5", "0903702342", "Guest", customerStockList, 900, 0));
+    customerList.push_back(Customer("Carl", "200 Duong D5", "0903702342", "Guest", 
+        customerStockList, 900, 0));
     
     Shop shopOne = Shop(stockList, customerList);
-    RentalItem workingItem = RentalItem("Movie", "DVD", "two day rental", "2000", 13, 0.99, "Action");
-    std::vector<RentalItem> workingList = shopOne.GetStockList();
-    workingList.push_back(workingItem);
+    std::vector<RentalItem> workingList = {
+        RentalItem("Movie", "DVD", "two day rental", "2000", 13, 0.99, "Action"),
+        RentalItem("A Movie", "DVD", "two day rental", "1999", 3, 1.99, "Drama"),
+        RentalItem("Great Game", "Game", "two day rental", "2020", 1, 3.00)
+    };
     shopOne.SetStockList(workingList);
-    shopOne.GetStockList()[0].DisplayItemInfo();
+    shopOne.GetStockList()[2].DisplayItemInfo();
     // std::cout << shopOne.ModifyItemInStock("Movie");
-    std::cout << shopOne.DeleteExistingItem("Movie");
-    shopOne.GetStockList()[0].DisplayItemInfo();
+    std::cout << shopOne.DeleteExistingItem("I001-1999");
+    std::cout << shopOne.GetStockList().size();
+    for(int i = 0; i < shopOne.GetStockList().size(); i++)
+        shopOne.GetStockList()[i].DisplayItemInfo();
    
 
         

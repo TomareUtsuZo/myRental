@@ -393,26 +393,26 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 bool Shop::DeleteExistingItem(std::string itemIdOrTitle) {
 	bool itemDeletedSuccessfully = false;
 	int indexOfItem = IndexOfRentalItem(itemIdOrTitle);
-	std::vector<RentalItem> workingStockList;
 
 	if (indexOfItem > -1) {
 		std::vector<RentalItem> updatededRentedList;
-			for (int i = 0; i < workingStockList.size(); i++) {
+			for (int i = 0; i < stockList.size(); i++) {
 				if (indexOfItem != i) {
-					updatededRentedList.push_back(workingStockList[i]);
+					updatededRentedList.push_back(stockList[i]);
 				} // if (indexOfItem != i) {
 			} // for (int i = 0; i < workingStockList.size(); i++) {
+
 			indexOfItem = IndexOfRentalItem(itemIdOrTitle, updatededRentedList);
 			if (indexOfItem == -1) {
 				itemDeletedSuccessfully = true;
 				std::cout << fmt::format("Successfully removed {} from stock.", itemIdOrTitle);
 				SetStockList(updatededRentedList);
+
 			}
 	} // if (indexOfItem > -1) {
 	else { // if (indexOfItem > -1) {
 		std::cout << "That item was not found in the inventory. Maybe you mistyped the name or ID?";
+
 	} // else { // if (indexOfItem > -1) {
-
-
 	return itemDeletedSuccessfully;
 }
