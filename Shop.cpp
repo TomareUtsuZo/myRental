@@ -42,6 +42,41 @@ int GetUserInputInt(int minInput, int maxInput) {
 	return userInputInt;
 } // int GetUserInputInt(int minInput, int maxInput) {
 
+bool ModiyFromOptionsLocal(bool xTypeSet, std::string& itemToModify,
+	std::vector<std::string> listOfPossibleInputs, std::string inputRequestSting) {
+	while (xTypeSet == false) {
+		itemToModify = "";
+		std::cout << inputRequestSting;
+		for (int i = 0; i < listOfPossibleInputs.size(); i++)
+			std::cout << listOfPossibleInputs[i] << ", ";
+		std::cout << std::endl;
+		std::getline(std::cin, itemToModify);
+		for (int i = 0; i < listOfPossibleInputs.size(); i++) {
+			if (itemToModify == listOfPossibleInputs[i]) {
+				xTypeSet = true;
+				break;
+			}
+		}
+	} // while (loanTypeIncorrect) {
+	return xTypeSet;
+}
+
+bool InputBasicIntHandlerLocal(int& inputToPass, bool jobsDone=false,
+	std::string requestForInput = "Enter a whole in the proper range.\n",
+	int minRange=-2147483647, int maxRange=2147483647) {
+	inputToPass = minRange - 1;
+	while (inputToPass < minRange) {
+		std::cout << requestForInput;
+		try {
+			std::cin >> inputToPass;
+			jobsDone = true;
+		}
+		catch (const std::exception& e) {
+			inputToPass = minRange - 1;
+		}
+	} // while (numberOfRentalsReturnedToModify < 0) {
+	return jobsDone;
+}
 // Stock Related Utilities
 int Shop::IndexOfRentalItem(std::string itemID) {
 	int indexOfRentalItem = -1;
@@ -280,7 +315,7 @@ bool ManualCreateIDCustomer(std::vector<Customer> workingCustomerList, std::stri
 	return idCreatedSucessfully;
 }
 
-bool CustomerRentsItem(std::string customerID, std::string itemID, int numberOfItemsToRent,
+bool Shop::CustomerRentsItem(std::string customerID, std::string itemID, int numberOfItemsToRent,
 	bool rentWithPoints) {
 	bool rentedSucessfully = false;
 	RentalItem itemToRent = RentalItem();
@@ -321,7 +356,7 @@ bool CustomerRentsItem(std::string customerID, std::string itemID, int numberOfI
 	return rentedSucessfully;
 } // bool Shop::RentItemFromStock(std::string customerID, std::string itemID) {
 
-bool CustomerReturnsItem(std::string customerID, std::string itemID, int numberOfItemsToReturn) {
+bool Shop::CustomerReturnsItem(std::string customerID, std::string itemID, int numberOfItemsToReturn) {
 	bool returnedSucessfully = false;
 	RentalItem itemToReturn = RentalItem();
 	int indexOfRentalItem = IndexOfRentalItem(itemID);
@@ -347,6 +382,21 @@ bool CustomerReturnsItem(std::string customerID, std::string itemID, int numberO
 	} // else { //if (itemPartOfStockSystem && customerInSystem) {
 	return returnedSucessfully;
 } // bool Shop::CustomerReturnsItem(std::string customerID, std::string itemID, int numberOfItemsToRent) {
+
+bool ModifyCustomerTypeLocal(bool customerTypeSet, Customer workingCustomerObject,
+	std::string& accountTypeToModify) {
+	while (customerTypeSet == false) {
+		accountTypeToModify = "";
+		std::cout << "What Account Type is this? (Capitalziation matters.)\n";
+		for (int i = 0; i < workingCustomerObject.GetAvailableAccountTypes().size(); i++)
+			std::cout << workingCustomerObject.GetAvailableAccountTypes()[i] << ", ";
+		std::cout << std::endl;
+		std::getline(std::cin, accountTypeToModify);
+		customerTypeSet = workingCustomerObject.SetAccountType(accountTypeToModify, 
+			workingCustomerObject.GetAvailableAccountTypes());
+	} // while (loanTypeIncorrect) {
+	return customerTypeSet;
+}
 
 // Public Functions
 // Menu Items 1
@@ -493,6 +543,21 @@ bool Shop::DeleteExistingItem(std::string itemIdOrTitle) {
 	return itemDeletedSuccessfully;
 }
 
+bool ModifyCustomersAccountType(Customer workingCustomerObject, std::string& accountTypeToAdd) {
+	bool accountTypeSet = false;
+	std::string inputAccountType = "";
+	while (accountTypeSet == false) {
+		std::cout << "What Loan Type is this? (Capitalziation matters.)\n";
+		for (int i = 0; i < workingCustomerObject.GetAvailableAccountTypes().size(); i++)
+			std::cout << workingCustomerObject.GetAvailableAccountTypes()[i] << ", ";
+		std::cout << std::endl;
+		std::getline(std::cin, accountTypeToAdd);
+		accountTypeSet = workingCustomerObject.SetAccountType(accountTypeToAdd, 
+			workingCustomerObject.GetAvailableAccountTypes());
+	} // while (loanTypeIncorrect) {
+	return accountTypeSet;
+}
+
 // Menu Items 2
 bool Shop::AddNewCustomer() {
 	bool newCustomerAdded = false;
@@ -537,10 +602,11 @@ bool Shop::ModifyCustomerInfo(std::string customerIdOrTitle) {
 	if (indexOfCutomer > -1) {
 		int userModificationInput = 0;
 		Customer workingCustomerObject = customerList[indexOfCutomer];
+		workingCustomerObject.DisplayCustomerInfo();
 
 		std::cout << "What did you want to change?\n1. Modify ID\n2. Modify Name\n3. Modify Address\n";
 		std::cout << "4. Modify Phone Nubmer\n5. Modify AccountType\n6. Modify Reward Points\n";
-		std::cout << "7. Modify Account Type\n8. Modify Rentals Returned\n9. Modify ID\n";
+		std::cout << "7. Modify Account Type\n8. Modify Rentals Returned\n";
 		userModificationInput = GetUserInputInt(1, 9);
 		switch (userModificationInput) {
 		case(1):
@@ -565,13 +631,28 @@ bool Shop::ModifyCustomerInfo(std::string customerIdOrTitle) {
 			customerInfoModified = true;
 			break;
 		case(5):
-			std::cout << "What account type of this customer?\n";
-			std::cin.ignore(INT_MAX, '\n');
-			std::getline(std::cin, accountTypeToModify);
-			customerInfoModified = true;
+			customerInfoModified = ModifyCustomersAccountType(workingCustomerObject, accountTypeToModify);
+			break;
+		case(6):
+			customerInfoModified = InputBasicIntHandlerLocal(rewardPointsToModify, customerInfoModified,
+				"How many points should the customer have? (Zero or more)", 0);
+			if (customerInfoModified)
+				customerList[indexOfCutomer].SetRewardPoints(rewardPointsToModify);
+			break;
+		case(7):
+			customerInfoModified = ModiyFromOptionsLocal(customerInfoModified, accountTypeToModify,
+				workingCustomerObject.GetAvailableAccountTypes(), "What Account Type should be set?\n");
+			if (customerInfoModified)
+				customerList[indexOfCutomer].SetAccountType(accountTypeToModify, 
+					workingCustomerObject.GetAvailableAccountTypes());
+			break;
+		case(8):
+			customerInfoModified = InputBasicIntHandlerLocal(numberOfRentalsReturnedToModify,
+				customerInfoModified, "How many rentals has this customer returned?\n", 0);
+			if(customerInfoModified)
+				customerList[indexOfCutomer].SetNumberOfRentalsReturned(numberOfRentalsReturnedToModify);
 			break;
 		}
 	}
-
 	return customerInfoModified;
 }

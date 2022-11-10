@@ -30,7 +30,8 @@ int main()
     // std::cout << shopOne.ModifyItemInStock("Movie");
     //std::cout << shopOne.DeleteExistingItem("I001-1999") << std::endl;
 
-    shopOne.AddNewCustomer();
+
+    shopOne.ModifyCustomerInfo("Carl");
     for(int i = 0; i < shopOne.GetCustomerList().size(); i++)
         shopOne.GetCustomerList()[i].DisplayCustomerInfo();
    

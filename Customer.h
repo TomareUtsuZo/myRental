@@ -40,6 +40,7 @@ public:
 
 
 	bool GetCanBePromoted();
+	void SetNumberOfRentalsReturned(int newNumberOfRentalsReturned);
 
 	std::string GetName();
 	void SetName(std::string newName);
@@ -52,8 +53,8 @@ public:
 
 	std::string GetAccountType();
 	bool SetAccountType(std::string newAccountType, std::vector<std::string> availableAccountTypes);
+	std::vector<std::string> GetAvailableAccountTypes();
 
-	
 	std::vector<RentalItem> GetListOfRentedItems();
 	void SetListOfRentedItems(std::vector<RentalItem> newListOfRentedItems);
 

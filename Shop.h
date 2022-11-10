@@ -20,6 +20,9 @@ private:/*
 	int IndexOfRentalItem(std::string itemID, std::vector<RentalItem> workingVector);
 	int IndexOfCustomer(std::string customerID);
 	int IndexOfCustomer(std::string customerID, std::vector<Customer> workingVector);
+	bool CustomerRentsItem(std::string customerID, std::string itemID, int numberOfItemsToRent,
+		bool rentWithPoints);
+	bool CustomerReturnsItem(std::string customerID, std::string itemID, int numberOfItemsToReturn);
 
 
 public:

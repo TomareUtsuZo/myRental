@@ -87,6 +87,10 @@ bool Customer::SetAccountType(std::string newAccountType, std::vector<std::strin
 		accountType = newAccountType;
 	return isAccountType;
 }
+std::vector<std::string> Customer::GetAvailableAccountTypes() { return availableAccountTypes; }
+
+void Customer::SetNumberOfRentalsReturned(int newNumberOfRentalsReturned) {
+	numberOfRentalsReturned = newNumberOfRentalsReturned; }
 
 std::vector<RentalItem> Customer::GetListOfRentedItems() { return listOfRentedItems; }
 void Customer::SetListOfRentedItems(std::vector<RentalItem> newListOfRentedItems) { 
@@ -203,6 +207,7 @@ void Customer::DisplayCustomerInfo() {
 	std::cout << fmt::format("Account Type\t\t{}\n", GetAccountType());
 	std::cout << fmt::format("Can be promoted\t\t{}\n", GetCanBePromoted());
 	std::cout << fmt::format("Reward points Accrued\t{}\n", GetRewardPoints());
+	std::cout << fmt::format("Rentals Returned\t{}\n", numberOfRentalsReturned);
 	for (int i = 0; i < itemsRented.size(); i++) {
 		itemsRented[i].DisplayItemInfo();
 	} // for (int i = 0; i < GetListOfRentedItems().size(); i++) {
