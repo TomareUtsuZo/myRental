@@ -178,7 +178,7 @@ bool SetRentalFeeLocal(bool rentalFeeSet, RentalItem workingRentalItem, double& 
 	} // while (!rentalFeeSet) {
 	return rentalFeeSet;
 }
-
+/*
 bool SetLoanTypeLocal(bool loanTypeSet, RentalItem workingRentalItem, std::string& inputLoanType) {
 	inputLoanType = "";
 	while (loanTypeSet == false) {
@@ -191,7 +191,7 @@ bool SetLoanTypeLocal(bool loanTypeSet, RentalItem workingRentalItem, std::strin
 	} // while (loanTypeIncorrect) {
 	return loanTypeSet;
 }
-
+*/
 std::string ManualCreateIDRentalItem(std::string yearPublished) {
 	std::string newID = "";
 	std::cout << "What new ID do you want to set? (Ixxx) \n";
@@ -422,7 +422,8 @@ bool Shop::AddNewItemToStockList() {
 	SetRentalTypeLocal(rentalTypeSet, workingRentalItem, inputRentalType, inputGenre);
 
 	bool loanTypeSet = false;
-	loanTypeSet = SetLoanTypeLocal(loanTypeSet, workingRentalItem, inputLoanType);
+	loanTypeSet = ModiyFromOptionsLocal(loanTypeSet, inputLoanType,
+		workingRentalItem.GetAvailableLoanTypes(), "What Loan Type is this? (Capitalziation matters.)\n");
 
 	bool copiesInStockSet = false;
 	copiesInStockSet = SetCopiesInStockLocal(copiesInStockSet, workingRentalItem, inputCopiesInStock);
