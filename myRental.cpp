@@ -27,11 +27,11 @@ int main()
         RentalItem("Great Game", "Game", "two day rental", "2020", 1, 3.00)
     };
     shopOne.SetStockList(workingList);
-    // std::cout << shopOne.ModifyItemInStock("Movie");
+    std::cout << shopOne.ModifyItemInStock("Movie");
     //std::cout << shopOne.DeleteExistingItem("I001-1999") << std::endl;
 
 
-    shopOne.ModifyCustomerInfo("Carl");
+    //shopOne.ModifyCustomerInfo("Carl");
     for(int i = 0; i < shopOne.GetCustomerList().size(); i++)
         shopOne.GetCustomerList()[i].DisplayCustomerInfo();
    

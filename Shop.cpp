@@ -50,6 +50,7 @@ bool ModiyFromOptionsLocal(bool xTypeSet, std::string& itemToModify,
 		for (int i = 0; i < listOfPossibleInputs.size(); i++)
 			std::cout << listOfPossibleInputs[i] << ", ";
 		std::cout << std::endl;
+		std::cin.ignore(INT_MAX, '\n');
 		std::getline(std::cin, itemToModify);
 		for (int i = 0; i < listOfPossibleInputs.size(); i++) {
 			if (itemToModify == listOfPossibleInputs[i]) {
@@ -489,8 +490,8 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 			}
 			break;
 		case(4):
-			modificationComplete = SetLoanTypeLocal(modificationComplete, workingItem,
-				inputLoanType);
+			modificationComplete = ModiyFromOptionsLocal(modificationComplete, inputLoanType,
+				workingItem.GetAvailableLoanTypes(), "What Loan Type is this? (Capitalziation matters.)\n");
 			if (modificationComplete)
 				stockList[indexOfItem].SetLoanType(inputLoanType);
 			break;
@@ -546,20 +547,6 @@ bool Shop::DeleteExistingItem(std::string itemIdOrTitle) {
 	return itemDeletedSuccessfully;
 }
 
-bool ModifyCustomersAccountType(Customer workingCustomerObject, std::string& accountTypeToAdd) {
-	bool accountTypeSet = false;
-	std::string inputAccountType = "";
-	while (accountTypeSet == false) {
-		std::cout << "What Loan Type is this? (Capitalziation matters.)\n";
-		for (int i = 0; i < workingCustomerObject.GetAvailableAccountTypes().size(); i++)
-			std::cout << workingCustomerObject.GetAvailableAccountTypes()[i] << ", ";
-		std::cout << std::endl;
-		std::getline(std::cin, accountTypeToAdd);
-		accountTypeSet = workingCustomerObject.SetAccountType(accountTypeToAdd, 
-			workingCustomerObject.GetAvailableAccountTypes());
-	} // while (loanTypeIncorrect) {
-	return accountTypeSet;
-}
 
 // Menu Items 2
 bool Shop::AddNewCustomer() {
