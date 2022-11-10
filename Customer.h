@@ -37,6 +37,7 @@ public:
 
 	// Setters and Getters
 	std::string GetID();
+	void SetID(std::string newID);
 
 
 	bool GetCanBePromoted();

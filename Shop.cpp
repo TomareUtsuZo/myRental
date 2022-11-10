@@ -261,7 +261,7 @@ bool AutomatedCreateCustomerID(std::vector<Customer> workingCustomerList, std::s
 		bool notInList = true;
 		std::string testableID;
 		for (int index = 0; index < workingCustomerList.size(); index++) {
-			testableID = fmt::format("C{{:0>3}}", i);
+			testableID = fmt::format("C{:0>3}", i);
 			if (workingCustomerList[index].GetID() == testableID) {
 				notInList = false;
 				break;
@@ -280,38 +280,41 @@ bool ManualCreateIDCustomer(std::vector<Customer> workingCustomerList, std::stri
 	bool idCreatedSucessfully = false;
 	std::string inputID = "-000";
 	std::string outputID;
-	std::cout << "Enter a three digit number not already in use by another customer,";
-	std::cout << "or leave empty to auto generate ID.";
 	while (inputID == "-000") {
+		std::cout << "Enter a three digit number not already in use by another customer,";
+		std::cout << "or leave empty to auto generate ID.\n";
 		std::cin.ignore(INT_MAX, '\n');
-		std::getline(std::cin, inputID);
+		std::cin >> inputID;
 		if (inputID == "") {
 			AutomatedCreateCustomerID(workingCustomerList, outputID);
 		} // if (inputID == "") {
-		else if( inputID.size() == 3) {
+		else if (inputID.size() == 3) {
+			bool notInList = true;
 			try {
 				std::stoi(inputID);
+				std::string testableID;
 				for (int index = 0; index < workingCustomerList.size(); index++) {
-					bool notInList = true;
-					std::string testableID = fmt::format("C{{:0>3}}", inputID);
-					if(workingCustomerList[index].GetID() == testableID) {
+					testableID = fmt::format("C{}", inputID);
+					if (workingCustomerList[index].GetID() == testableID) {
 						notInList = false;
 						inputID = "-000";
 						break;
 					} // if (workingCustomerlist[index].GetID() == testableID) {
-					if(notInList) {
-						outputID = testableID;
-						idCreatedSucessfully = true;
-					} // if(notInList) {
 				} // for (int index = 0; index < workingCustomerlist.size(); index++) {
+				if (notInList) {
+					outputID = testableID;
+					idCreatedSucessfully = true;
+				} // if(notInList) {
 			} // try {
 			catch (const std::exception& e) {
 				std::cout << "Invalid input: make it fit the HTO format.";
 				inputID = "-000";
 			} // catch (const std::exception& e) {
 		}
-		idToCreate = outputID;
+		else
+			inputID = "-000";
 	}
+	idToCreate = outputID;
 	return idCreatedSucessfully;
 }
 
@@ -606,32 +609,40 @@ bool Shop::ModifyCustomerInfo(std::string customerIdOrTitle) {
 
 		std::cout << "What did you want to change?\n1. Modify ID\n2. Modify Name\n3. Modify Address\n";
 		std::cout << "4. Modify Phone Nubmer\n5. Modify AccountType\n6. Modify Reward Points\n";
-		std::cout << "7. Modify Account Type\n8. Modify Rentals Returned\n";
+		std::cout << "7. Modify Rentals Returned\n";
 		userModificationInput = GetUserInputInt(1, 9);
 		switch (userModificationInput) {
 		case(1):
 			customerInfoModified = ManualCreateIDCustomer(customerList, idToModify);
+			customerList[indexOfCutomer].SetID(idToModify);
 			break;
 		case(2):
 			std::cout << "What is the name of this customer?\n";
 			std::cin.ignore(INT_MAX, '\n');
 			std::getline(std::cin, nameToModify);
 			customerInfoModified = true;
+			customerList[indexOfCutomer].SetName(nameToModify);
 			break;
 		case(3):
 			std::cout << "What is the address of this customer?\n";
 			std::cin.ignore(INT_MAX, '\n');
 			std::getline(std::cin, addressToModify);
 			customerInfoModified = true;
+			customerList[indexOfCutomer].SetAddress(addressToModify);
 			break;
 		case(4):
 			std::cout << "What is the phone number of this customer?\n";
 			std::cin.ignore(INT_MAX, '\n');
 			std::getline(std::cin, phoneNumberToModify);
 			customerInfoModified = true;
+			customerList[indexOfCutomer].SetPhoneNumber(phoneNumberToModify);
 			break;
 		case(5):
-			customerInfoModified = ModifyCustomersAccountType(workingCustomerObject, accountTypeToModify);
+			customerInfoModified = ModiyFromOptionsLocal(customerInfoModified, accountTypeToModify,
+				workingCustomerObject.GetAvailableAccountTypes(), "What Account Type should be set?\n");
+			if (customerInfoModified)
+				customerList[indexOfCutomer].SetAccountType(accountTypeToModify,
+					workingCustomerObject.GetAvailableAccountTypes());
 			break;
 		case(6):
 			customerInfoModified = InputBasicIntHandlerLocal(rewardPointsToModify, customerInfoModified,
@@ -640,13 +651,6 @@ bool Shop::ModifyCustomerInfo(std::string customerIdOrTitle) {
 				customerList[indexOfCutomer].SetRewardPoints(rewardPointsToModify);
 			break;
 		case(7):
-			customerInfoModified = ModiyFromOptionsLocal(customerInfoModified, accountTypeToModify,
-				workingCustomerObject.GetAvailableAccountTypes(), "What Account Type should be set?\n");
-			if (customerInfoModified)
-				customerList[indexOfCutomer].SetAccountType(accountTypeToModify, 
-					workingCustomerObject.GetAvailableAccountTypes());
-			break;
-		case(8):
 			customerInfoModified = InputBasicIntHandlerLocal(numberOfRentalsReturnedToModify,
 				customerInfoModified, "How many rentals has this customer returned?\n", 0);
 			if(customerInfoModified)

@@ -67,6 +67,7 @@ std::vector<RentalItem> Customer::UpdatedListToReturn(int indexOfItemToReturn, i
 
 // Setters and Getters
 std::string Customer::GetID() { return id; }
+void Customer::SetID(std::string newID) { id = newID; }
 
 bool Customer::GetCanBePromoted() { return canBePromoted; }
 
