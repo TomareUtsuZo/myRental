@@ -647,7 +647,7 @@ bool Shop::PromoteExistingCustomer(std::string customerIdOrTitle) {
 } // bool Shop::PromoteExistingCustomer(std::string customerIdOrTitle) {
 
 // Menu Item 4
-bool Shop::RentItem(std::string customerIdOrName, std::string itemIdOrTitle) {
+bool Shop::RentItemToCustomer(std::string customerIdOrName, std::string itemIdOrTitle) {
 	bool itemRentedSuccessfully = false;
 	int indexOfCustomer = GetIndexOfCustomer(customerIdOrName);
 	int indexOfRentalItem = GetIndexOfRentalItem(itemIdOrTitle);
@@ -663,7 +663,7 @@ bool Shop::RentItem(std::string customerIdOrName, std::string itemIdOrTitle) {
 	
 	customerRentedItemSuccessfully = customerList[indexOfRentalItem].RentThisItem(
 	stockList[indexOfRentalItem], inputNumberOfCopiesToRent);
-	}
+	} // while (customerRentedItemSuccessfully == false){
 	if (customerRentedItemSuccessfully) {
 		itemRemovedFromStockSuccessfully = stockList[indexOfRentalItem].DecreaseStock(
 			inputNumberOfCopiesToRent);
@@ -676,3 +676,46 @@ bool Shop::RentItem(std::string customerIdOrName, std::string itemIdOrTitle) {
 		copiesToRentInputSuccessfully);
 	return itemRentedSuccessfully;
 } // bool Shop::RentItem(std::string customerIdOrName, std::string itemIdOrTitle) {
+
+// Menu Item 5 Return Item
+bool Shop::ReturnItemFromCustomer(std::string customerIdOrName, std::string itemIdOrTitle) {
+	bool itemReturnedSuccessfully = false;
+	int indexOfCustomer = GetIndexOfCustomer(customerIdOrName);
+	int indexOfRentalItem = GetIndexOfRentalItem(itemIdOrTitle);
+	int inputNumberOfCopiesToReturn;
+	bool copiesToReturnInputSuccessfully = false;
+	bool itemAddedToStockSuccessfully = false;
+	bool customerReturnedItemSuccessfully = false;
+	stockList[indexOfRentalItem].DisplayItemInfo();
+	while (customerReturnedItemSuccessfully == false) {
+		copiesToReturnInputSuccessfully = InputBasicIntHandlerLocal(inputNumberOfCopiesToReturn,
+			copiesToReturnInputSuccessfully, "How many copies did you want to return?\n", 1); // consider doing logic to keep roof correct
+
+		customerReturnedItemSuccessfully = customerList[indexOfRentalItem].CustomerReturnsItem(
+			itemIdOrTitle, inputNumberOfCopiesToReturn);
+		std::cout << "customerReturnedItemSuccessfully" << customerReturnedItemSuccessfully << std::endl;
+	} // while (customerReturnedItemSuccessfully == false) {
+	if (customerReturnedItemSuccessfully) {
+		itemAddedToStockSuccessfully = stockList[indexOfRentalItem].IncreaseStock(
+			inputNumberOfCopiesToReturn);
+		if (itemAddedToStockSuccessfully == false) { // fix it if it's broke. I know it's not, but ...
+			customerList[indexOfRentalItem].RentThisItem(stockList[indexOfRentalItem], 
+				inputNumberOfCopiesToReturn);
+		} // if (itemRemovedFromStockSuccessfully == false) {
+	} // if (itemAddedToStockSuccessfully == false) {
+	itemReturnedSuccessfully = (copiesToReturnInputSuccessfully && itemAddedToStockSuccessfully &&
+		customerReturnedItemSuccessfully);
+	return itemReturnedSuccessfully;
+} // bool Shop::ReturnItemFromCustomer(std::string customerIdOrName, std::string itemIdOrTitle) {
+
+// Menu Item 7 Display all out of stock Items
+void Shop::DisplayOutOfStockItems() {
+	for (int i = 0; i < stockList.size(); i++) {
+
+	} // for (int i = 0; i < stockList.size(); i++) {
+} // void Shop::DisplayOutOfStockItems() {
+
+// Menu 9 Display customers by group
+void DisplayCustomersByStatus() {
+
+}

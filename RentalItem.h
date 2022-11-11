@@ -63,7 +63,7 @@ public:
 
 	// Public interfaces
 
-	void IncreaseStock(int numberOfNewCopies=1);
+	bool IncreaseStock(int numberOfNewCopies=1);
 
 	bool DecreaseStock(int numberOfRemovedCopies=1);
 

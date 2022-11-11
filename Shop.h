@@ -47,6 +47,12 @@ public:
 	// Menu 3 Promote Existing Customer
 	bool PromoteExistingCustomer(std::string customerIdOrTitle);
 	// Menu 4 Rent Item
-	bool RentItem(std::string customerIdOrName, std::string itemIdOrTitle);
+	bool RentItemToCustomer(std::string customerIdOrName, std::string itemIdOrTitle);
+	// Menu 5 Return Item
+	bool ReturnItemFromCustomer(std::string customerIdOrName, std::string itemIdOrTitle);
+	// Menu 7 Display out of stock items
+	void DisplayOutOfStockItems();
+	// Menu 9 Display customers by group
+	void DisplayCustomersByStatus();
 }; // class MyRentalFunctions
 

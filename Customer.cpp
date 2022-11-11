@@ -171,7 +171,7 @@ bool Customer::CustomerReturnsItem(std::string itemID, int copiesToReturn) {
 	int indexOfItemInCustomerList = GetIndexOfItemInList(itemID);
 	int copiesCustomerHasToReturn = GetListOfRentedItems()[indexOfItemInCustomerList].GetCopiesInStock();
 	int customerHasEnoughCopiesToReturn = copiesCustomerHasToReturn - copiesToReturn;
-	bool customerHasCopiesToReturn = (indexOfItemInCustomerList > 0) && customerHasEnoughCopiesToReturn > -1;
+	bool customerHasCopiesToReturn = (indexOfItemInCustomerList > -1) && customerHasEnoughCopiesToReturn > -1;
 	if (customerHasCopiesToReturn) {
 		bool customerReturnsAllCopies = customerHasEnoughCopiesToReturn == 0;
 		std::vector<RentalItem> updatededRentedList;

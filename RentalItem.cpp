@@ -93,8 +93,9 @@ bool RentalItem::SetYearPublished(std::string yearPublishedInput) {
 }
 
 // Public interfaces
-void RentalItem::IncreaseStock(int numberOfNewCopies) {
+bool RentalItem::IncreaseStock(int numberOfNewCopies) {
 	SetCopiesInStock(GetCopiesInStock() + numberOfNewCopies);
+	return true;
 } // void RentalItems::IncreaseStock(int numberOfNewCopies) {
 
 bool RentalItem::DecreaseStock(int numberOfRemovedCopies) {
