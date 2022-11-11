@@ -34,8 +34,9 @@ void Customer::SetCanBePromoted(int numberOfRetruns) {
 
 int Customer::GetRewardPointCost() { return rewardPointCost; }
 
-int Customer::TheItemExistsAt(int indexOfItemInList, int workingListSize, 
-	std::vector<RentalItem> workingList, RentalItem item) {
+int Customer::TheItemExistsAt(int workingListSize, std::vector<RentalItem> workingList, 
+	RentalItem item) {
+	int indexOfItemInList = 0;
 	if (workingListSize > 0) {
 		bool idsAreDifferent = workingList[indexOfItemInList].GetID() != item.GetID();
 		while (idsAreDifferent) {
@@ -137,27 +138,30 @@ bool Customer::RentThisWithPoints(RentalItem item, int copiesToRent) {
 
 bool Customer::RentThisItem(RentalItem item, int copiesToRent) {
 	bool thisHasBeenRented = false;
-	bool itemIsInStock = item.GetCopiesInStock() > 0;
+	bool itemIsInStock = item.GetCopiesInStock() >= copiesToRent;
 	if (itemIsInStock) {
 		int indexOfItemInList = 0;
 		std::vector<RentalItem> workingList = GetListOfRentedItems();
 		int workingListSize = workingList.size();
 
-		indexOfItemInList = TheItemExistsAt(indexOfItemInList, workingListSize, workingList, item);
+		indexOfItemInList = TheItemExistsAt(workingListSize, workingList, item);
 
 		bool notAlreadyRentedBefore = (indexOfItemInList == workingListSize);
+
 		if (notAlreadyRentedBefore) { // put item into list
 			std::vector<RentalItem> rentedList = GetListOfRentedItems();
-			item.SetCopiesInStock(1);
+			item.SetCopiesInStock(copiesToRent);
 			rentedList.push_back(item);
 			SetListOfRentedItems(rentedList);
+			thisHasBeenRented = true;
+			SetRewardPoints(GetRewardPoints() + rewardPointsSize);
 		} // if (notAlreadyRented) {
 		else { // if (notAlreadyRented) { // update number of items rented 
 			workingList[indexOfItemInList].IncreaseStock(copiesToRent);
 			SetListOfRentedItems(workingList);
+			thisHasBeenRented = true;
+			SetRewardPoints(GetRewardPoints() + rewardPointsSize);
 		} // else { // if (notAlreadyRented) {
-		SetRewardPoints(GetRewardPoints() + rewardPointsSize);
-		thisHasBeenRented = true;
 	}
 	return thisHasBeenRented;
 }

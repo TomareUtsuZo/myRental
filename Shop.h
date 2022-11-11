@@ -16,8 +16,8 @@ private:/*
 
 
 	// internal methods
-	int IndexOfRentalItem(std::string itemID);
-	int IndexOfRentalItem(std::string itemID, std::vector<RentalItem> workingVector);
+	int GetIndexOfRentalItem(std::string itemID);
+	int GetIndexOfRentalItem(std::string itemID, std::vector<RentalItem> workingVector);
 	int GetIndexOfCustomer(std::string customerID);
 	int GetIndexOfCustomer(std::string customerID, std::vector<Customer> workingVector);
 	bool CustomerRentsItem(std::string customerID, std::string itemID, int numberOfItemsToRent,
@@ -46,5 +46,7 @@ public:
 	bool ModifyCustomerInfo(std::string customerIdOrTitle);
 	// Menu 3 Promote Existing Customer
 	bool PromoteExistingCustomer(std::string customerIdOrTitle);
+	// Menu 4 Rent Item
+	bool RentItem(std::string customerIdOrName, std::string itemIdOrTitle);
 }; // class MyRentalFunctions
 

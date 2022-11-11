@@ -34,11 +34,13 @@ int main()
     for (int i = 0; i < shopOne.GetCustomerList().size(); i++)
         shopOne.GetCustomerList()[i].DisplayCustomerInfo();
     // shopOne.ModifyCustomerInfo("Carl");
-    shopOne.PromoteExistingCustomer("Carl");
-    shopOne.PromoteExistingCustomer("Carl");
+    // shopOne.PromoteExistingCustomer("Carl");
+    // shopOne.PromoteExistingCustomer("Carl");
+    shopOne.RentItem("Carl", "Movie");
     for(int i = 0; i < shopOne.GetCustomerList().size(); i++)
         shopOne.GetCustomerList()[i].DisplayCustomerInfo();
-   
+    for (int i = 0; i < shopOne.GetStockList().size(); i++)
+        shopOne.GetStockList()[i].DisplayItemInfo();
 
         
     

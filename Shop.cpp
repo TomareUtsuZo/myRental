@@ -81,7 +81,7 @@ bool InputBasicIntHandlerLocal(int& inputToPass, bool jobsDone=false,
 
 
 // Stock Related Utilities
-int Shop::IndexOfRentalItem(std::string itemID) {
+int Shop::GetIndexOfRentalItem(std::string itemID) {
 	int indexOfRentalItem = -1;
 	for (int i = 0; i < stockList.size(); i++) {
 		if (stockList[i].GetID() == itemID || stockList[i].GetTitle() == itemID) {
@@ -92,7 +92,7 @@ int Shop::IndexOfRentalItem(std::string itemID) {
 	return indexOfRentalItem;
 } // int IndexOfRentalItem(std::string itemID) {
 
-int Shop::IndexOfRentalItem(std::string itemID, std::vector<RentalItem> workingVector) {
+int Shop::GetIndexOfRentalItem(std::string itemID, std::vector<RentalItem> workingVector) {
 	int indexOfRentalItem = -1;
 	for (int i = 0; i < workingVector.size(); i++) {
 		if (workingVector[i].GetID() == itemID || workingVector[i].GetTitle() == itemID) {
@@ -245,7 +245,7 @@ int Shop::GetIndexOfCustomer(std::string customerID, std::vector<Customer> worki
 	return indexOfCustomer;
 }
 
-bool AutomatedCreateCustomerID(std::vector<Customer> workingCustomerList, std::string& workingCustomerID) {
+bool AutomatedCreateCustomerIDLocal(std::vector<Customer> workingCustomerList, std::string& workingCustomerID) {
 	bool idCreatedSucessfully = false;
 	for (int i = 0; i < 1000; i++) {
 		bool notInList = true;
@@ -266,7 +266,7 @@ bool AutomatedCreateCustomerID(std::vector<Customer> workingCustomerList, std::s
 	return idCreatedSucessfully;
 }
 
-bool ManualCreateIDCustomer(std::vector<Customer> workingCustomerList, std::string& idToCreate) {
+bool ManualCreateIDCustomerLocal(std::vector<Customer> workingCustomerList, std::string& idToCreate) {
 	bool idCreatedSucessfully = false;
 	std::string inputID = "-000";
 	std::string outputID;
@@ -276,7 +276,7 @@ bool ManualCreateIDCustomer(std::vector<Customer> workingCustomerList, std::stri
 		std::cin.ignore(INT_MAX, '\n');
 		std::cin >> inputID;
 		if (inputID == "") {
-			AutomatedCreateCustomerID(workingCustomerList, outputID);
+			AutomatedCreateCustomerIDLocal(workingCustomerList, outputID);
 		} // if (inputID == "") {
 		else if (inputID.size() == 3) {
 			bool notInList = true;
@@ -312,7 +312,7 @@ bool Shop::CustomerRentsItem(std::string customerID, std::string itemID, int num
 	bool rentWithPoints) {
 	bool rentedSucessfully = false;
 	RentalItem itemToRent = RentalItem();
-	int indexOfRentalItem = IndexOfRentalItem(itemID);
+	int indexOfRentalItem = GetIndexOfRentalItem(itemID);
 	int indexOfCustomer = GetIndexOfCustomer(customerID);
 	bool itemPartOfStockSystem = indexOfRentalItem > -1;
 	bool customerInSystem = indexOfCustomer > -1;
@@ -352,7 +352,7 @@ bool Shop::CustomerRentsItem(std::string customerID, std::string itemID, int num
 bool Shop::CustomerReturnsItem(std::string customerID, std::string itemID, int numberOfItemsToReturn) {
 	bool returnedSucessfully = false;
 	RentalItem itemToReturn = RentalItem();
-	int indexOfRentalItem = IndexOfRentalItem(itemID);
+	int indexOfRentalItem = GetIndexOfRentalItem(itemID);
 	int indexOfCustomer = GetIndexOfCustomer(customerID);
 	bool itemPartOfStockSystem = indexOfRentalItem > -1;
 	bool customerInSystem = indexOfCustomer > -1;
@@ -447,7 +447,7 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 	std::string inputLoanType;
 	std::string inputYearPublished;
 	double inputRentalFee;
-	int indexOfItem = IndexOfRentalItem(itemIdOrTitle);
+	int indexOfItem = GetIndexOfRentalItem(itemIdOrTitle);
 	if (indexOfItem > -1) {
 		int userModificationInput = 0;
 		RentalItem workingItem = stockList[indexOfItem];
@@ -512,7 +512,7 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 
 bool Shop::DeleteExistingItem(std::string itemIdOrTitle) {
 	bool itemDeletedSuccessfully = false;
-	int indexOfItem = IndexOfRentalItem(itemIdOrTitle);
+	int indexOfItem = GetIndexOfRentalItem(itemIdOrTitle);
 
 	if (indexOfItem > -1) {
 		std::vector<RentalItem> updatededRentedList;
@@ -522,7 +522,7 @@ bool Shop::DeleteExistingItem(std::string itemIdOrTitle) {
 				} // if (indexOfItem != i) {
 			} // for (int i = 0; i < workingStockList.size(); i++) {
 
-			indexOfItem = IndexOfRentalItem(itemIdOrTitle, updatededRentedList);
+			indexOfItem = GetIndexOfRentalItem(itemIdOrTitle, updatededRentedList);
 			if (indexOfItem == -1) {
 				itemDeletedSuccessfully = true;
 				std::cout << fmt::format("Successfully removed {} from stock.\n", itemIdOrTitle);
@@ -590,7 +590,7 @@ bool Shop::ModifyCustomerInfo(std::string customerIdOrTitle) {
 		userModificationInput = GetUserInputInt(1, 9);
 		switch (userModificationInput) {
 		case(1):
-			customerInfoModified = ManualCreateIDCustomer(customerList, idToModify);
+			customerInfoModified = ManualCreateIDCustomerLocal(customerList, idToModify);
 			customerList[indexOfCutomer].SetID(idToModify);
 			break;
 		case(2):
@@ -644,4 +644,35 @@ bool Shop::PromoteExistingCustomer(std::string customerIdOrTitle) {
 	int indexOfCustomer = GetIndexOfCustomer(customerIdOrTitle);
 	customerPromoted = customerList[indexOfCustomer].PromoteCustomer();
 	return customerPromoted;
-}
+} // bool Shop::PromoteExistingCustomer(std::string customerIdOrTitle) {
+
+// Menu Item 4
+bool Shop::RentItem(std::string customerIdOrName, std::string itemIdOrTitle) {
+	bool itemRentedSuccessfully = false;
+	int indexOfCustomer = GetIndexOfCustomer(customerIdOrName);
+	int indexOfRentalItem = GetIndexOfRentalItem(itemIdOrTitle);
+	int inputNumberOfCopiesToRent;
+	bool copiesToRentInputSuccessfully = false;
+	bool itemRemovedFromStockSuccessfully = false;
+	bool customerRentedItemSuccessfully = false;
+	stockList[indexOfRentalItem].DisplayItemInfo();	
+	while (customerRentedItemSuccessfully == false){
+		copiesToRentInputSuccessfully = InputBasicIntHandlerLocal(inputNumberOfCopiesToRent,
+			copiesToRentInputSuccessfully, "How many copies did you want to rent?\n", 1,
+			stockList[indexOfRentalItem].GetCopiesInStock());
+	
+	customerRentedItemSuccessfully = customerList[indexOfRentalItem].RentThisItem(
+	stockList[indexOfRentalItem], inputNumberOfCopiesToRent);
+	}
+	if (customerRentedItemSuccessfully) {
+		itemRemovedFromStockSuccessfully = stockList[indexOfRentalItem].DecreaseStock(
+			inputNumberOfCopiesToRent);
+		if (itemRemovedFromStockSuccessfully == false) { // fix it if it's broke. I know it's not, but ...
+			customerList[indexOfRentalItem].CustomerReturnsItem(itemIdOrTitle, inputNumberOfCopiesToRent);
+		} // if (itemRemovedFromStockSuccessfully == false) {
+	} // if (customerRentedItemSuccessfully) 
+	
+	itemRentedSuccessfully = (itemRemovedFromStockSuccessfully && customerRentedItemSuccessfully &&
+		copiesToRentInputSuccessfully);
+	return itemRentedSuccessfully;
+} // bool Shop::RentItem(std::string customerIdOrName, std::string itemIdOrTitle) {
