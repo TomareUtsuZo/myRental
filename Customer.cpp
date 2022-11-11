@@ -8,9 +8,9 @@
 // Constructors
 Customer::Customer(std::string newName, std::string newAddress, std::string newPhoneNumber,
 	std::string newAccountType, std::vector<RentalItem> newListOfRentedItems,
-	int newRewardPoints, int numberOfRentalsRetruned) : name(newName), address(newAddress), 
+	int newRewardPoints, int timesRentalReturned) : name(newName), address(newAddress),
 	phoneNumber(newPhoneNumber), accountType(newAccountType), listOfRentedItems(newListOfRentedItems), 
-	rewardPoints(newRewardPoints) { SetID(s_numberOfCustomersServiced);
+	rewardPoints(newRewardPoints), numberOfRentalsReturned(timesRentalReturned) { SetID(s_numberOfCustomersServiced);
 }
 Customer::Customer() {}
 
@@ -31,7 +31,6 @@ void Customer::SetCanBePromoted(int numberOfRetruns) {
 	else
 		canBePromoted = false;
 } // void Customer::SetCanBePromoted(int numberOfRetruns) {
-
 
 int Customer::GetRewardPointCost() { return rewardPointCost; }
 
@@ -113,13 +112,16 @@ bool Customer::DecreaseRewardPoints(int pointsToSubtract) {
 
 bool Customer::PromoteCustomer() {
 	bool customerWasPromoted = false;
+	SetCanBePromoted(numberOfRentalsReturned);
 	if (GetCanBePromoted() == true && numberOfRentalsReturned > 2 && GetAccountType() == "Regular") {
 		SetAccountType("VIP", availableAccountTypes);
 		SetCanBePromoted(numberOfRentalsReturned);
+		customerWasPromoted = true;
 	} // if (canBePromoted == true) {
 	else if (GetCanBePromoted() == true && numberOfRentalsReturned > 1) {
 		SetAccountType("Regular", availableAccountTypes);
 		SetCanBePromoted(numberOfRentalsReturned);
+		customerWasPromoted = true;
 	} // else if (canBePromoted == true && numberOfRentalsRetruned > 1) {
 	return customerWasPromoted;
 }
@@ -201,6 +203,7 @@ int Customer::GetIndexOfItemInList(std::string itemID) {
 
 void Customer::DisplayCustomerInfo() {
 	std::vector<RentalItem> itemsRented = GetListOfRentedItems();
+	SetCanBePromoted(numberOfRentalsReturned);
 	std::cout << fmt::format("\nID\t\t\t{}\n", GetID());
 	std::cout << fmt::format("Name\t\t\t{}\n", GetName());
 	std::cout << fmt::format("Address\t\t\t{}\n", GetAddress());

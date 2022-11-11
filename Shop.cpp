@@ -78,6 +78,8 @@ bool InputBasicIntHandlerLocal(int& inputToPass, bool jobsDone=false,
 	} // while (numberOfRentalsReturnedToModify < 0) {
 	return jobsDone;
 }
+
+
 // Stock Related Utilities
 int Shop::IndexOfRentalItem(std::string itemID) {
 	int indexOfRentalItem = -1;
@@ -178,20 +180,7 @@ bool SetRentalFeeLocal(bool rentalFeeSet, RentalItem workingRentalItem, double& 
 	} // while (!rentalFeeSet) {
 	return rentalFeeSet;
 }
-/*
-bool SetLoanTypeLocal(bool loanTypeSet, RentalItem workingRentalItem, std::string& inputLoanType) {
-	inputLoanType = "";
-	while (loanTypeSet == false) {
-		std::cout << "What Loan Type is this? (Capitalziation matters.)\n";
-		for (int i = 0; i < workingRentalItem.GetAvailableLoanTypes().size(); i++)
-			std::cout << workingRentalItem.GetAvailableLoanTypes()[i] << ", ";
-		std::cout << std::endl;
-		std::getline(std::cin, inputLoanType);
-		loanTypeSet = workingRentalItem.SetLoanType(inputLoanType);
-	} // while (loanTypeIncorrect) {
-	return loanTypeSet;
-}
-*/
+
 std::string ManualCreateIDRentalItem(std::string yearPublished) {
 	std::string newID = "";
 	std::cout << "What new ID do you want to set? (Ixxx) \n";
@@ -226,7 +215,7 @@ std::string ManualCreateIDRentalItem(std::string yearPublished) {
 }
 
 // Customer Related Utilites
-int Shop::IndexOfCustomer(std::string customerID) {
+int Shop::GetIndexOfCustomer(std::string customerID) {
 	int indexOfCustomer = -1;
 	for (int i = 0; i < customerList.size(); i++) {
 		if (customerList[i].GetID() == customerID) {
@@ -241,7 +230,7 @@ int Shop::IndexOfCustomer(std::string customerID) {
 	return indexOfCustomer;
 } // int Shop::IndexOfCustomer(std::string customerID) {
 
-int IndexOfCustomer(std::string customerID, std::vector<Customer> workingVector) {
+int Shop::GetIndexOfCustomer(std::string customerID, std::vector<Customer> workingVector) {
 	int indexOfCustomer = -1;
 	for (int i = 0; i < workingVector.size(); i++) {
 		if (workingVector[i].GetID() == customerID) {
@@ -324,7 +313,7 @@ bool Shop::CustomerRentsItem(std::string customerID, std::string itemID, int num
 	bool rentedSucessfully = false;
 	RentalItem itemToRent = RentalItem();
 	int indexOfRentalItem = IndexOfRentalItem(itemID);
-	int indexOfCustomer = IndexOfCustomer(customerID);
+	int indexOfCustomer = GetIndexOfCustomer(customerID);
 	bool itemPartOfStockSystem = indexOfRentalItem > -1;
 	bool customerInSystem = indexOfCustomer > -1;
 	if (itemPartOfStockSystem && customerInSystem) {
@@ -364,7 +353,7 @@ bool Shop::CustomerReturnsItem(std::string customerID, std::string itemID, int n
 	bool returnedSucessfully = false;
 	RentalItem itemToReturn = RentalItem();
 	int indexOfRentalItem = IndexOfRentalItem(itemID);
-	int indexOfCustomer = IndexOfCustomer(customerID);
+	int indexOfCustomer = GetIndexOfCustomer(customerID);
 	bool itemPartOfStockSystem = indexOfRentalItem > -1;
 	bool customerInSystem = indexOfCustomer > -1;
 	if (itemPartOfStockSystem && customerInSystem) {
@@ -589,7 +578,7 @@ bool Shop::ModifyCustomerInfo(std::string customerIdOrTitle) {
 	std::vector<RentalItem> listOfRentedItemsToModify;
 	int rewardPointsToModify = 0;
 	int numberOfRentalsReturnedToModify = 0;
-	int indexOfCutomer = IndexOfCustomer(customerIdOrTitle);
+	int indexOfCutomer = GetIndexOfCustomer(customerIdOrTitle);
 	if (indexOfCutomer > -1) {
 		int userModificationInput = 0;
 		Customer workingCustomerObject = customerList[indexOfCutomer];
@@ -647,4 +636,12 @@ bool Shop::ModifyCustomerInfo(std::string customerIdOrTitle) {
 		}
 	}
 	return customerInfoModified;
+}
+
+// Menu Item 3
+bool Shop::PromoteExistingCustomer(std::string customerIdOrTitle) {
+	bool customerPromoted = false;
+	int indexOfCustomer = GetIndexOfCustomer(customerIdOrTitle);
+	customerPromoted = customerList[indexOfCustomer].PromoteCustomer();
+	return customerPromoted;
 }

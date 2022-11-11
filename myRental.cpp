@@ -18,7 +18,7 @@ int main()
     std::vector<RentalItem> customerStockList;
     std::vector<Customer> customerList;
     customerList.push_back(Customer("Carl", "200 Duong D5", "0903702342", "Guest", 
-        customerStockList, 900, 0));
+        customerStockList, 900, 3));
     
     Shop shopOne = Shop(stockList, customerList);
     std::vector<RentalItem> workingList = {
@@ -27,11 +27,15 @@ int main()
         RentalItem("Great Game", "Game", "two day rental", "2020", 1, 3.00)
     };
     shopOne.SetStockList(workingList);
-    std::cout << shopOne.ModifyItemInStock("Movie");
+    //std::cout << shopOne.ModifyItemInStock("Movie");
     //std::cout << shopOne.DeleteExistingItem("I001-1999") << std::endl;
 
 
-    //shopOne.ModifyCustomerInfo("Carl");
+    for (int i = 0; i < shopOne.GetCustomerList().size(); i++)
+        shopOne.GetCustomerList()[i].DisplayCustomerInfo();
+    // shopOne.ModifyCustomerInfo("Carl");
+    shopOne.PromoteExistingCustomer("Carl");
+    shopOne.PromoteExistingCustomer("Carl");
     for(int i = 0; i < shopOne.GetCustomerList().size(); i++)
         shopOne.GetCustomerList()[i].DisplayCustomerInfo();
    
