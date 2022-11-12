@@ -90,6 +90,7 @@ bool Customer::SetAccountType(std::string newAccountType, std::vector<std::strin
 }
 std::vector<std::string> Customer::GetAvailableAccountTypes() { return availableAccountTypes; }
 
+int Customer::GetNumberOfRentalsReturned() { return numberOfRentalsReturned; }
 void Customer::SetNumberOfRentalsReturned(int newNumberOfRentalsReturned) {
 	numberOfRentalsReturned = newNumberOfRentalsReturned; }
 

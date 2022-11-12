@@ -50,7 +50,6 @@ bool ModiyFromOptionsLocal(bool xTypeSet, std::string& itemToModify,
 		for (int i = 0; i < listOfPossibleInputs.size(); i++)
 			std::cout << listOfPossibleInputs[i] << ", ";
 		std::cout << std::endl;
-		std::cin.ignore(INT_MAX, '\n');
 		std::getline(std::cin, itemToModify);
 		for (int i = 0; i < listOfPossibleInputs.size(); i++) {
 			if (itemToModify == listOfPossibleInputs[i]) {
@@ -59,6 +58,8 @@ bool ModiyFromOptionsLocal(bool xTypeSet, std::string& itemToModify,
 			}
 		}
 	} // while (loanTypeIncorrect) {
+
+	// std::cin.ignore(INT_MAX, '\n');
 	return xTypeSet;
 }
 
@@ -70,6 +71,7 @@ bool InputBasicIntHandlerLocal(int& inputToPass, bool jobsDone=false,
 		std::cout << requestForInput;
 		try {
 			std::cin >> inputToPass;
+			std::cin.ignore(INT_MAX, '\n');
 			jobsDone = true;
 		}
 		catch (const std::exception& e) {
@@ -472,6 +474,8 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 			modificationComplete = true;
 			break;
 		case(3):
+
+			std::cin.ignore(INT_MAX, '\n');
 			modificationComplete = SetRentalTypeLocal(modificationComplete, workingItem, 
 				inputRentalType, inputGenreType);
 			if (modificationComplete) {
@@ -615,6 +619,7 @@ bool Shop::ModifyCustomerInfo(std::string customerIdOrTitle) {
 			customerList[indexOfCutomer].SetPhoneNumber(phoneNumberToModify);
 			break;
 		case(5):
+			std::cin.ignore(INT_MAX, '\n');
 			customerInfoModified = ModiyFromOptionsLocal(customerInfoModified, accountTypeToModify,
 				workingCustomerObject.GetAvailableAccountTypes(), "What Account Type should be set?\n");
 			if (customerInfoModified)
@@ -646,7 +651,7 @@ bool Shop::PromoteExistingCustomer(std::string customerIdOrTitle) {
 	return customerPromoted;
 } // bool Shop::PromoteExistingCustomer(std::string customerIdOrTitle) {
 
-// Menu Item 4
+// Menu Item 4 Rent Item To Customer
 bool Shop::RentItemToCustomer(std::string customerIdOrName, std::string itemIdOrTitle) {
 	bool itemRentedSuccessfully = false;
 	int indexOfCustomer = GetIndexOfCustomer(customerIdOrName);
@@ -698,8 +703,10 @@ bool Shop::ReturnItemFromCustomer(std::string customerIdOrName, std::string item
 	if (customerReturnedItemSuccessfully) {
 		itemAddedToStockSuccessfully = stockList[indexOfRentalItem].IncreaseStock(
 			inputNumberOfCopiesToReturn);
+		int updatedRentalsReturned = customerList[indexOfCustomer].GetNumberOfRentalsReturned() + inputNumberOfCopiesToReturn;
+		customerList[indexOfCustomer].SetNumberOfRentalsReturned(updatedRentalsReturned);
 		if (itemAddedToStockSuccessfully == false) { // fix it if it's broke. I know it's not, but ...
-			customerList[indexOfRentalItem].RentThisItem(stockList[indexOfRentalItem], 
+			customerList[indexOfCustomer].RentThisItem(stockList[indexOfRentalItem],
 				inputNumberOfCopiesToReturn);
 		} // if (itemRemovedFromStockSuccessfully == false) {
 	} // if (itemAddedToStockSuccessfully == false) {
@@ -717,6 +724,13 @@ void Shop::DisplayOutOfStockItems() {
 } // void Shop::DisplayOutOfStockItems() {
 
 // Menu 9 Display customers by group
-void DisplayCustomersByStatus() {
-
-}
+void Shop::DisplayCustomersByStatus() {
+	bool userInputCorrect = false;
+	std::string userInput;
+	userInputCorrect = ModiyFromOptionsLocal(userInputCorrect, userInput, 
+		customerList[0].GetAvailableAccountTypes(), "Which type of custoemrs did you want to see?\n");
+	for (int i = 0; i < customerList.size(); i++) {
+		if (customerList[i].GetAccountType() == userInput)
+			customerList[i].DisplayCustomerInfo();
+	} // for (int i = 0; i < customerList.max_size(); i++) {
+} // void Shop::DisplayCustomersByStatus() {

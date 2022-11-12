@@ -41,6 +41,7 @@ public:
 
 	bool GetCanBePromoted();
 	void SetNumberOfRentalsReturned(int newNumberOfRentalsReturned);
+	int GetNumberOfRentalsReturned();
 
 	std::string GetName();
 	void SetName(std::string newName);

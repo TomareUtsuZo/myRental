@@ -17,7 +17,11 @@ int main()
     
     std::vector<RentalItem> customerStockList;
     std::vector<Customer> customerList;
-    customerList.push_back(Customer("Carl", "200 Duong D5", "0903702342", "Guest", 
+    customerList.push_back(Customer("Carl", "200 Duong D5", "0903702342", "Guest",
+        customerStockList, 900, 0));
+    customerList.push_back(Customer("Huong", "611/4c Dien Bien Phu", "0903702342", "VIP",
+        customerStockList, 900, 3));
+    customerList.push_back(Customer("Talen", "214/1a Nguyen Trai", "0903702342", "VIP", 
         customerStockList, 900, 3));
     
     Shop shopOne = Shop(stockList, customerList);
@@ -29,23 +33,27 @@ int main()
         RentalItem("Great Game III", "Game", "two day rental", "2020", 0, 3.00)
     };
     shopOne.SetStockList(workingList);
-    //std::cout << shopOne.ModifyItemInStock("Movie");
-    //std::cout << shopOne.DeleteExistingItem("I001-1999") << std::endl;
+    std::cout << shopOne.ModifyItemInStock("Movie");
+    std::cout << shopOne.DeleteExistingItem("I001-1999") << std::endl;
 
 
     for (int i = 0; i < shopOne.GetCustomerList().size(); i++)
         shopOne.GetCustomerList()[i].DisplayCustomerInfo();
-    // shopOne.ModifyCustomerInfo("Carl");
-    // shopOne.PromoteExistingCustomer("Carl");
-    // shopOne.PromoteExistingCustomer("Carl");
+    shopOne.ModifyCustomerInfo("Carl");
+    shopOne.PromoteExistingCustomer("Carl");
+    shopOne.PromoteExistingCustomer("Carl");
     shopOne.RentItemToCustomer("Carl", "Movie");
     shopOne.DisplayOutOfStockItems();
     shopOne.ReturnItemFromCustomer("Carl", "Movie");
-    for(int i = 0; i < shopOne.GetCustomerList().size(); i++)
+    shopOne.GetCustomerList()[0].DisplayCustomerInfo();
+    
+
+     for(int i = 0; i < shopOne.GetCustomerList().size(); i++)
         shopOne.GetCustomerList()[i].DisplayCustomerInfo();
     for (int i = 0; i < shopOne.GetStockList().size(); i++)
         shopOne.GetStockList()[i].DisplayItemInfo();
-
+        
+    shopOne.DisplayCustomersByStatus();
         
     
 }
