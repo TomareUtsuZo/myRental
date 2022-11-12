@@ -711,7 +711,8 @@ bool Shop::ReturnItemFromCustomer(std::string customerIdOrName, std::string item
 // Menu Item 7 Display all out of stock Items
 void Shop::DisplayOutOfStockItems() {
 	for (int i = 0; i < stockList.size(); i++) {
-
+		if (stockList[i].GetCopiesInStock() == false) 
+			stockList[i].DisplayItemInfo();
 	} // for (int i = 0; i < stockList.size(); i++) {
 } // void Shop::DisplayOutOfStockItems() {
 

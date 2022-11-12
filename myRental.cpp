@@ -24,7 +24,9 @@ int main()
     std::vector<RentalItem> workingList = {
         RentalItem("Movie", "DVD", "two day rental", "2000", 13, 0.99, "Action"),
         RentalItem("A Movie", "DVD", "two day rental", "1999", 3, 1.99, "Drama"),
-        RentalItem("Great Game", "Game", "two day rental", "2020", 1, 3.00)
+        RentalItem("Great Game", "Game", "two day rental", "2020", 1, 3.00),
+        RentalItem("Great Game II", "Game", "two day rental", "2020", 0, 3.00),
+        RentalItem("Great Game III", "Game", "two day rental", "2020", 0, 3.00)
     };
     shopOne.SetStockList(workingList);
     //std::cout << shopOne.ModifyItemInStock("Movie");
@@ -37,6 +39,7 @@ int main()
     // shopOne.PromoteExistingCustomer("Carl");
     // shopOne.PromoteExistingCustomer("Carl");
     shopOne.RentItemToCustomer("Carl", "Movie");
+    shopOne.DisplayOutOfStockItems();
     shopOne.ReturnItemFromCustomer("Carl", "Movie");
     for(int i = 0; i < shopOne.GetCustomerList().size(); i++)
         shopOne.GetCustomerList()[i].DisplayCustomerInfo();
