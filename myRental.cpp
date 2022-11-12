@@ -33,28 +33,11 @@ int main()
         RentalItem("Great Game III", "Game", "two day rental", "2020", 0, 3.00)
     };
     shopOne.SetStockList(workingList);
-    std::cout << shopOne.ModifyItemInStock("Movie");
-    std::cout << shopOne.DeleteExistingItem("I001-1999") << std::endl;
-
-
-    for (int i = 0; i < shopOne.GetCustomerList().size(); i++)
-        shopOne.GetCustomerList()[i].DisplayCustomerInfo();
-    shopOne.ModifyCustomerInfo("Carl");
-    shopOne.PromoteExistingCustomer("Carl");
-    shopOne.PromoteExistingCustomer("Carl");
-    shopOne.RentItemToCustomer("Carl", "Movie");
-    shopOne.DisplayOutOfStockItems();
-    shopOne.ReturnItemFromCustomer("Carl", "Movie");
-    shopOne.GetCustomerList()[0].DisplayCustomerInfo();
-    
-
+    shopOne.FrontFacingMenu();
      for(int i = 0; i < shopOne.GetCustomerList().size(); i++)
         shopOne.GetCustomerList()[i].DisplayCustomerInfo();
     for (int i = 0; i < shopOne.GetStockList().size(); i++)
         shopOne.GetStockList()[i].DisplayItemInfo();
-        
-    shopOne.DisplayCustomersByStatus();
-        
     
 }
 

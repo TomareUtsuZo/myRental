@@ -20,6 +20,12 @@ void Shop::SetCustomerList(std::vector<Customer> newCustomerList) { customerList
 std::vector<Customer> Shop::GetCustomerList() { return customerList; }
 
 // Internal Utilities
+void DisplaySetVectorOfStrings(std::vector<std::string> vectorToDisplay) {
+	for (int i = 0; i < vectorToDisplay.size(); i++) {
+		std::cout << vectorToDisplay[i];
+	}
+} // void DisplaySetVectorOfStrings(std::vector<std::string> vectorToDisplay) {
+
 int GetUserInputInt(int minInput, int maxInput) {
 	int userInputInt = -1;
 	std::string userInput = "";
@@ -404,13 +410,15 @@ bool Shop::AddNewItemToStockList() {
 	std::string inputYearPublished;
 	double inputRentalFee;
 	std::string inputGenre;
-	RentalItem workingRentalItem = RentalItem();
-
+	RentalItem workingRentalItem;
+	
+	std::cout << "Press Enter to Continure.\n";
+	std::cin.ignore(INT_MAX, '\n');
 	std::cout << "What is the title of this new rental item?\n";
 	std::getline(std::cin, inputTitle);
 
 	bool rentalTypeSet = false;
-	SetRentalTypeLocal(rentalTypeSet, workingRentalItem, inputRentalType, inputGenre);
+	rentalTypeSet = SetRentalTypeLocal(rentalTypeSet, workingRentalItem, inputRentalType, inputGenre);
 
 	bool loanTypeSet = false;
 	loanTypeSet = ModiyFromOptionsLocal(loanTypeSet, inputLoanType,
@@ -425,19 +433,19 @@ bool Shop::AddNewItemToStockList() {
 	bool rentalFeeSet = false;
 	rentalFeeSet = SetRentalFeeLocal(rentalFeeSet, workingRentalItem, inputRentalFee);
 
-	if (inputLoanType == "DVD") {
+/*	if (inputLoanType == "DVD") {
 		bool genreTypeSet = false;
 		genreTypeSet = SetGenreTypeLocal(genreTypeSet, workingRentalItem, inputGenre);
-	}
-	else {
-		if (rentalTypeSet && loanTypeSet && copiesInStockSet && yearPublishedSet && rentalFeeSet) {
-			workingRentalItem = RentalItem(inputTitle, inputRentalType, inputLoanType, inputYearPublished,
-				inputCopiesInStock, inputRentalFee);
-		}
-	}
-
+	}*/
+	newItemSucessfullyAdded = (rentalTypeSet && loanTypeSet && 
+		copiesInStockSet && yearPublishedSet && rentalFeeSet);
+		if (newItemSucessfullyAdded) {
+		workingRentalItem = RentalItem(inputTitle, inputRentalType, inputLoanType, inputYearPublished,
+			inputCopiesInStock, inputRentalFee);
+	} // if (newItemSucessfullyAdded) {
 
 	stockList.push_back(workingRentalItem);
+	stockList.back().DisplayItemInfo();
 	return newItemSucessfullyAdded;
 } // void Shop::AddNewItemToStockList() {
 
@@ -734,3 +742,87 @@ void Shop::DisplayCustomersByStatus() {
 			customerList[i].DisplayCustomerInfo();
 	} // for (int i = 0; i < customerList.max_size(); i++) {
 } // void Shop::DisplayCustomersByStatus() {
+
+
+// Front Facing Menu
+void Shop::FrontFacingMenu() {
+	bool userDone = false;
+	std::string userInput = "-1";
+	std::string dummyInput;
+	int userModificationInput;
+	std::vector<std::string> subMenuOptions;
+	std::vector<std::string> menuItems = { 
+		"1.  Add, Update, or Delete an Item\n",
+		"2.  Add or Update a Customer\n",
+		"3.  Promote an existing Customer\n",
+		"4.  Rent an item\n",
+		"5.  Return an item\n",
+		"6.  Display all items\n",
+		"7.  Display all items\n",
+		"8.  Display all customers\n",
+		"9.  Display group of customers\n",
+		"10. Search items or customers\n"
+	}; // std::vector<std::string> menuItems = {
+	std::cout << "Welcome to Genie's video store!\nEnter an option below.\n";
+	DisplaySetVectorOfStrings(menuItems);
+	std::cout << "Or type E for Exit.\n";
+	std::getline(std::cin, userInput);
+	std::cin.sync();
+	while (userDone == false) {
+		if (userInput == "E" || userInput == "e") {
+			userDone = true;
+		} // if (userInput == "E" || userInput == "e") {
+		try {
+			bool gotDone = false;
+			switch (stoi(userInput)) {
+			case(1):
+				subMenuOptions = {
+					"\n1. Add Item\n",
+					"2. Modify Item\n",
+					"3. Delete Item\n",
+					"4. Exit\n"
+				};
+				DisplaySetVectorOfStrings(subMenuOptions);
+				userModificationInput = GetUserInputInt(1, subMenuOptions.size());
+				switch (userModificationInput) {
+				case(1):
+					while(gotDone == false) {
+						gotDone = AddNewItemToStockList();
+					}
+					break;
+				case(2):
+					std::string itemToModify;
+					while(gotDone == false) {
+						std::cout << "\nWhat is the Items ID or Title?\n";
+						std::getline(std::cin, itemToModify);
+						gotDone = ModifyItemInStock(itemToModify);
+					}
+					break;
+				} // switch (userModificationInput) {
+
+				break;
+			case(2):
+				break;
+			case(3):
+				break;
+			case(4):
+				break;
+			case(5):
+				break;
+			case(6):
+				break;
+			case(7):
+				break;
+			case(8):
+				break;
+			case(9):
+				break;
+			case(10):
+				break;
+			}
+		}
+		catch (const std::exception& e) {
+			std::cout << "\nInput an integer from 1 to 10 or an e\n";
+		}
+	} // while (userDone == false) {
+} // void Shop::FrontFacingMenu() {

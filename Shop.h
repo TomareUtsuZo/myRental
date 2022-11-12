@@ -36,6 +36,9 @@ public:
 	void SetCustomerList(std::vector<Customer> newCustomerList);
 	std::vector<Customer> GetCustomerList();
 
+
+	void FrontFacingMenu();
+
 	// Public Functions
 	// Menu 1 Options 
 	bool AddNewItemToStockList();
@@ -54,5 +57,6 @@ public:
 	void DisplayOutOfStockItems();
 	// Menu 9 Display customers by group
 	void DisplayCustomersByStatus();
+
 }; // class MyRentalFunctions
 
