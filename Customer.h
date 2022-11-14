@@ -17,6 +17,7 @@ private:
 	int rewardPointsSize = 10;
 	bool canBePromoted = false;
 	static int s_numberOfCustomersServiced;
+	static std::vector<int> s_usedCustomerIDs;
 	std::vector<std::string> availableAccountTypes = { "Guest", "Regular", "VIP" };
 
 	// Internal Methods

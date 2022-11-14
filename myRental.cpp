@@ -8,6 +8,7 @@
 
 int RentalItem::s_numberOfItemsAdded{ 0 }; // start counting number of items created
 int Customer::s_numberOfCustomersServiced{ 0 }; // start counting number of customers serviced
+std::vector<int> Customer::s_usedCustomerIDs{};
 
 
 

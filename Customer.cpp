@@ -15,11 +15,23 @@ Customer::Customer(std::string newName, std::string newAddress, std::string newP
 Customer::Customer() {}
 
 // Internal Private Methods
-void Customer::SetID(int& vadlidCustomerID) {
+void Customer::SetID(int& validCustomerID) {
+	bool notUsedYet = true;
+	bool idFound = false;
+	while (idFound == false) {
+		for (int i = 0; i < s_usedCustomerIDs.max_size(); i++) {
+			if (s_usedCustomerIDs[i] == validCustomerID) {
+				notUsedYet = false;
+				validCustomerID++;
+				break;
+			}
+
+		} // for (int i = 0; i < s_usedCustomerIDs.max_size(); i++) {
+	}
 	// This will need revisiting. What happens when Customer
 	// data is loaded fromt the Database?
-	id = fmt::format("C{:03}", vadlidCustomerID);
-	vadlidCustomerID++;
+	id = fmt::format("C{:03}", validCustomerID);
+	validCustomerID++;
 } // bool SetID(int numberOfCustomersServiced) {
 
 void Customer::SetCanBePromoted(int numberOfRetruns) {
