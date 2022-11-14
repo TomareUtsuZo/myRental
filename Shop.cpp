@@ -519,6 +519,7 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 		std::cout << "No such Item in the Stock System. Maybe a different Id or Title?";
 		return modificationComplete;
 	} // else { // if (indexOfItem > -1) {
+	stockList[indexOfItem].DisplayItemInfo();
 	return modificationComplete;
 }
 
@@ -562,20 +563,24 @@ bool Shop::AddNewCustomer() {
 	int numberOfRentalsRetrunedToAdd = 0;
 
 	std::cout << "What is the name of this new customer?\n";
+	std::cin.sync();
 	std::cin.ignore(INT_MAX, '\n');
 	std::getline(std::cin, nameToAdd);
 
 	std::cout << "What is the address of this new customer?\n";
-	std::cin.ignore(INT_MAX, '\n');
+	std::cin.sync();
 	std::getline(std::cin, addressToAdd);
 
 	std::cout << "What is the phone number of this new customer?\n";
-	std::cin.ignore(INT_MAX, '\n');
+	std::cin.sync();
 	std::getline(std::cin, phoneNumberToAdd);
+	std::cin.sync();
 	
 	customerList.push_back(Customer(nameToAdd, addressToAdd, phoneNumberToAdd, accountTypeToAdd, listOfRentedItemsToAdd,
 		rewardPointsToAdd, numberOfRentalsRetrunedToAdd));
 	newCustomerAdded = true; // this is likely not needed, but incase I change my mind later.
+	if(newCustomerAdded)
+		customerList[customerList.size() - 1].DisplayCustomerInfo();
 	return newCustomerAdded;
 }
 
@@ -655,7 +660,18 @@ bool Shop::ModifyCustomerInfo(std::string customerIdOrTitle) {
 bool Shop::PromoteExistingCustomer(std::string customerIdOrTitle) {
 	bool customerPromoted = false;
 	int indexOfCustomer = GetIndexOfCustomer(customerIdOrTitle);
-	customerPromoted = customerList[indexOfCustomer].PromoteCustomer();
+	if (indexOfCustomer > -1) {
+		customerPromoted = customerList[indexOfCustomer].PromoteCustomer();	
+		if (customerPromoted == false) {
+			customerPromoted = true;
+			std::cout << "\nThat customer isn't ready for promotion.\n\n\n";
+		}
+		customerList[indexOfCustomer].DisplayCustomerInfo();
+		std::cout << "\n\n\n";
+	}
+	else
+		std::cout << "That name or ID is incorrect. Do better.";
+
 	return customerPromoted;
 } // bool Shop::PromoteExistingCustomer(std::string customerIdOrTitle) {
 
@@ -699,27 +715,35 @@ bool Shop::ReturnItemFromCustomer(std::string customerIdOrName, std::string item
 	bool copiesToReturnInputSuccessfully = false;
 	bool itemAddedToStockSuccessfully = false;
 	bool customerReturnedItemSuccessfully = false;
-	stockList[indexOfRentalItem].DisplayItemInfo();
-	while (customerReturnedItemSuccessfully == false) {
-		copiesToReturnInputSuccessfully = InputBasicIntHandlerLocal(inputNumberOfCopiesToReturn,
-			copiesToReturnInputSuccessfully, "How many copies did you want to return?\n", 1); // consider doing logic to keep roof correct
+	if (indexOfCustomer > -1 && indexOfRentalItem > -1) {
+		stockList[indexOfRentalItem].DisplayItemInfo();
+		while (customerReturnedItemSuccessfully == false) {
+			copiesToReturnInputSuccessfully = InputBasicIntHandlerLocal(inputNumberOfCopiesToReturn,
+				copiesToReturnInputSuccessfully, "How many copies did you want to return?\n", 1); // consider doing logic to keep roof correct
 
-		customerReturnedItemSuccessfully = customerList[indexOfRentalItem].CustomerReturnsItem(
-			itemIdOrTitle, inputNumberOfCopiesToReturn);
-		std::cout << "customerReturnedItemSuccessfully" << customerReturnedItemSuccessfully << std::endl;
-	} // while (customerReturnedItemSuccessfully == false) {
-	if (customerReturnedItemSuccessfully) {
-		itemAddedToStockSuccessfully = stockList[indexOfRentalItem].IncreaseStock(
-			inputNumberOfCopiesToReturn);
-		int updatedRentalsReturned = customerList[indexOfCustomer].GetNumberOfRentalsReturned() + inputNumberOfCopiesToReturn;
-		customerList[indexOfCustomer].SetNumberOfRentalsReturned(updatedRentalsReturned);
-		if (itemAddedToStockSuccessfully == false) { // fix it if it's broke. I know it's not, but ...
-			customerList[indexOfCustomer].RentThisItem(stockList[indexOfRentalItem],
+			customerReturnedItemSuccessfully = customerList[indexOfRentalItem].CustomerReturnsItem(
+				itemIdOrTitle, inputNumberOfCopiesToReturn);
+			std::cout << "customerReturnedItemSuccessfully" << customerReturnedItemSuccessfully << std::endl;
+		} // while (customerReturnedItemSuccessfully == false) {
+		if (customerReturnedItemSuccessfully) {
+			itemAddedToStockSuccessfully = stockList[indexOfRentalItem].IncreaseStock(
 				inputNumberOfCopiesToReturn);
-		} // if (itemRemovedFromStockSuccessfully == false) {
-	} // if (itemAddedToStockSuccessfully == false) {
-	itemReturnedSuccessfully = (copiesToReturnInputSuccessfully && itemAddedToStockSuccessfully &&
-		customerReturnedItemSuccessfully);
+			int updatedRentalsReturned = customerList[indexOfCustomer].GetNumberOfRentalsReturned() + inputNumberOfCopiesToReturn;
+			customerList[indexOfCustomer].SetNumberOfRentalsReturned(updatedRentalsReturned);
+			if (itemAddedToStockSuccessfully == false) { // fix it if it's broke. I know it's not, but ...
+				customerList[indexOfCustomer].RentThisItem(stockList[indexOfRentalItem],
+					inputNumberOfCopiesToReturn);
+			} // if (itemRemovedFromStockSuccessfully == false) {
+		} // if (itemAddedToStockSuccessfully == false) {
+		itemReturnedSuccessfully = (copiesToReturnInputSuccessfully && itemAddedToStockSuccessfully &&
+			customerReturnedItemSuccessfully);
+	} // if (indexOfCustomer > -1 && indexOfRentalItem > -1) {
+	else {
+		if (indexOfCustomer < 0)
+			std::cout << "That didn't work becuase we don't have that customer. Do it again.";
+		else
+			std::cout << "That didn't work because they don't have that item rented. Do it again.";
+	}
 	return itemReturnedSuccessfully;
 } // bool Shop::ReturnItemFromCustomer(std::string customerIdOrName, std::string itemIdOrTitle) {
 
@@ -750,7 +774,6 @@ void Shop::FrontFacingMenu() {
 	std::string userInput = "-1";
 	std::string dummyInput;
 	int userModificationInput;
-	std::vector<std::string> subMenuOptions;
 	std::vector<std::string> menuItems = { 
 		"1.  Add, Update, or Delete an Item\n",
 		"2.  Add or Update a Customer\n",
@@ -763,66 +786,134 @@ void Shop::FrontFacingMenu() {
 		"9.  Display group of customers\n",
 		"10. Search items or customers\n"
 	}; // std::vector<std::string> menuItems = {
-	std::cout << "Welcome to Genie's video store!\nEnter an option below.\n";
-	DisplaySetVectorOfStrings(menuItems);
-	std::cout << "Or type E for Exit.\n";
-	std::getline(std::cin, userInput);
-	std::cin.sync();
-	while (userDone == false) {
-		if (userInput == "E" || userInput == "e") {
-			userDone = true;
-		} // if (userInput == "E" || userInput == "e") {
-		try {
-			bool gotDone = false;
-			switch (stoi(userInput)) {
-			case(1):
-				subMenuOptions = {
+	std::vector<std::string> subMenuOneOptions = {
 					"\n1. Add Item\n",
 					"2. Modify Item\n",
 					"3. Delete Item\n",
 					"4. Exit\n"
-				};
-				DisplaySetVectorOfStrings(subMenuOptions);
-				userModificationInput = GetUserInputInt(1, subMenuOptions.size());
-				switch (userModificationInput) {
+	};
+	std::vector<std::string> subMenuTwoOptions = {
+				"\n1. Add Customer\n",
+				"2. Modify Item\n",
+				"3. Exit\n"
+	};
+
+	while (userDone == false) {
+		std::cout << "Welcome to Genie's video store!\nEnter an option below.\n";
+		DisplaySetVectorOfStrings(menuItems);
+		std::cout << "Or type E for Exit.\n";
+		std::getline(std::cin, userInput);
+		std::cin.sync();
+		if (userInput == "E" || userInput == "e") {
+			userDone = true;
+		} // if (userInput == "E" || userInput == "e") {
+		else {
+			try {
+				bool gotDone = false;
+				std::string itemTitleOrID;
+				std::string customerNameOrID;
+				switch (stoi(userInput)) {
 				case(1):
-					while(gotDone == false) {
-						gotDone = AddNewItemToStockList();
-					}
+					DisplaySetVectorOfStrings(subMenuOneOptions);
+					userModificationInput = GetUserInputInt(1, subMenuOneOptions.size());
+					std::cin.sync();
+					switch (userModificationInput) {
+					case(1):
+						while (gotDone == false) {
+							gotDone = AddNewItemToStockList();
+						}
+						break;
+					case(2):
+						while (gotDone == false) {
+							std::cout << "\nWhat is the Items ID or Title to modify?\n";
+							std::getline(std::cin, itemTitleOrID);
+							std::cin.sync();
+							gotDone = ModifyItemInStock(itemTitleOrID);
+						} // while(gotDone == false) {
+						break;
+					case(3):
+						while (gotDone == false) {
+							std::cout << "\nWhat is the Items ID or Title to delete?\n";
+							std::getline(std::cin, itemTitleOrID);
+							std::cin.sync();
+							gotDone = DeleteExistingItem(itemTitleOrID);
+						} // while(gotDone == false) {
+						break;
+					case(4):
+						userInput = "-1";
+						userModificationInput = 0;
+						break;
+					} // switch (userModificationInput) {
 					break;
 				case(2):
-					std::string itemToModify;
-					while(gotDone == false) {
-						std::cout << "\nWhat is the Items ID or Title?\n";
-						std::getline(std::cin, itemToModify);
-						gotDone = ModifyItemInStock(itemToModify);
+					DisplaySetVectorOfStrings(subMenuTwoOptions);
+					userModificationInput = GetUserInputInt(1, subMenuTwoOptions.size());
+					std::cin.sync();
+					switch (userModificationInput) {
+					case(1):
+						while (gotDone == false) {
+							gotDone = AddNewCustomer();
+						}
+						break;
+					case(2):
+						while (gotDone == false) {
+							std::cout << "\nWhat is the customer ID or their name?\n";
+							std::getline(std::cin, customerNameOrID);
+							std::cin.sync();
+							gotDone = ModifyCustomerInfo(customerNameOrID);
+						}
+						break;
+					case(3):
+						userInput = "-1";
+						userModificationInput = 0;
+						break;
 					}
 					break;
-				} // switch (userModificationInput) {
-
-				break;
-			case(2):
-				break;
-			case(3):
-				break;
-			case(4):
-				break;
-			case(5):
-				break;
-			case(6):
-				break;
-			case(7):
-				break;
-			case(8):
-				break;
-			case(9):
-				break;
-			case(10):
-				break;
+				case(3):
+					while (gotDone == false) {
+						std::cout << "\nWhat is the customer ID or their name?\n";
+						std::getline(std::cin, customerNameOrID);
+						std::cin.sync();
+						gotDone = PromoteExistingCustomer(customerNameOrID);
+					}
+					break;
+				case(4):
+					while (gotDone == false) {
+						std::cout << "\nWhat is the customer ID or their name?\n";
+						std::getline(std::cin, customerNameOrID);
+						std::cin.sync();
+						std::cout << "\nWhat is the Rental Item ID or Title to rent?\n";
+						std::getline(std::cin, itemTitleOrID);
+						std::cin.sync();
+						gotDone = RentItemToCustomer(customerNameOrID, itemTitleOrID);
+					}
+					break;
+				case(5):
+					while (gotDone == false) {
+						std::cout << "\nWhat is the customer ID or their name?\n";
+						std::getline(std::cin, customerNameOrID);
+						std::cin.sync();
+						std::cout << "\nWhat is the Rental Item ID or Title to return?\n";
+						std::getline(std::cin, itemTitleOrID);
+						std::cin.sync();
+						gotDone = ReturnItemFromCustomer(customerNameOrID, itemTitleOrID);
+					}
+					break;
+				case(6):
+					break;
+				case(7):
+					break;
+				case(8):
+					break;
+				case(9):
+					break;
+				case(10):
+					break;
+				}
 			}
-		}
-		catch (const std::exception& e) {
-			std::cout << "\nInput an integer from 1 to 10 or an e\n";
+			catch (const std::exception& e) {
+				std::cout << "\nInput an integer from 1 to 10 or an e\n";
+			}
 		}
 	} // while (userDone == false) {
 } // void Shop::FrontFacingMenu() {
