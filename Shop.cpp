@@ -781,7 +781,7 @@ void Shop::FrontFacingMenu() {
 		"4.  Rent an item\n",
 		"5.  Return an item\n",
 		"6.  Display all items\n",
-		"7.  Display all items\n",
+		"7.  Display out-of-stock items\n",
 		"8.  Display all customers\n",
 		"9.  Display group of customers\n",
 		"10. Search items or customers\n"
@@ -807,23 +807,24 @@ void Shop::FrontFacingMenu() {
 		if (userInput == "E" || userInput == "e") {
 			userDone = true;
 		} // if (userInput == "E" || userInput == "e") {
-		else {
+		else { // if (userInput == "E" || userInput == "e") {
 			try {
 				bool gotDone = false;
 				std::string itemTitleOrID;
 				std::string customerNameOrID;
+				int index = -1;
 				switch (stoi(userInput)) {
-				case(1):
+				case(1): // 1. Add a new item, update or delete an existing item
 					DisplaySetVectorOfStrings(subMenuOneOptions);
 					userModificationInput = GetUserInputInt(1, subMenuOneOptions.size());
 					std::cin.sync();
 					switch (userModificationInput) {
-					case(1):
+					case(1): // 1. Add a new item
 						while (gotDone == false) {
 							gotDone = AddNewItemToStockList();
 						}
 						break;
-					case(2):
+					case(2): // 1. update an existing item
 						while (gotDone == false) {
 							std::cout << "\nWhat is the Items ID or Title to modify?\n";
 							std::getline(std::cin, itemTitleOrID);
@@ -831,7 +832,7 @@ void Shop::FrontFacingMenu() {
 							gotDone = ModifyItemInStock(itemTitleOrID);
 						} // while(gotDone == false) {
 						break;
-					case(3):
+					case(3): // 1. delete an existing item
 						while (gotDone == false) {
 							std::cout << "\nWhat is the Items ID or Title to delete?\n";
 							std::getline(std::cin, itemTitleOrID);
@@ -845,17 +846,17 @@ void Shop::FrontFacingMenu() {
 						break;
 					} // switch (userModificationInput) {
 					break;
-				case(2):
+				case(2): // 2. Add new customer or update an existing customer
 					DisplaySetVectorOfStrings(subMenuTwoOptions);
 					userModificationInput = GetUserInputInt(1, subMenuTwoOptions.size());
 					std::cin.sync();
 					switch (userModificationInput) {
-					case(1):
+					case(1): // 2. Add new customer
 						while (gotDone == false) {
 							gotDone = AddNewCustomer();
 						}
 						break;
-					case(2):
+					case(2): // 2. update an existing customer
 						while (gotDone == false) {
 							std::cout << "\nWhat is the customer ID or their name?\n";
 							std::getline(std::cin, customerNameOrID);
@@ -869,7 +870,7 @@ void Shop::FrontFacingMenu() {
 						break;
 					}
 					break;
-				case(3):
+				case(3): // 3. Promote an existing custome
 					while (gotDone == false) {
 						std::cout << "\nWhat is the customer ID or their name?\n";
 						std::getline(std::cin, customerNameOrID);
@@ -877,7 +878,7 @@ void Shop::FrontFacingMenu() {
 						gotDone = PromoteExistingCustomer(customerNameOrID);
 					}
 					break;
-				case(4):
+				case(4): // 4. Rent an item
 					while (gotDone == false) {
 						std::cout << "\nWhat is the customer ID or their name?\n";
 						std::getline(std::cin, customerNameOrID);
@@ -888,7 +889,7 @@ void Shop::FrontFacingMenu() {
 						gotDone = RentItemToCustomer(customerNameOrID, itemTitleOrID);
 					}
 					break;
-				case(5):
+				case(5): // 5. Return an item
 					while (gotDone == false) {
 						std::cout << "\nWhat is the customer ID or their name?\n";
 						std::getline(std::cin, customerNameOrID);
@@ -899,21 +900,62 @@ void Shop::FrontFacingMenu() {
 						gotDone = ReturnItemFromCustomer(customerNameOrID, itemTitleOrID);
 					}
 					break;
-				case(6):
+				case(6): // 6. Display all items
+					for (int i = 0; i < stockList.size(); i++) {
+						GetStockList()[i].DisplayItemInfo();
+					}
 					break;
-				case(7):
+				case(7): // 7. Display out-of-stock items
+					for (int i = 0; i < stockList.size(); i++) {
+						if(GetStockList()[i].GetCopiesInStock() == 0)
+							GetStockList()[i].DisplayItemInfo();
+					}
 					break;
-				case(8):
+				case(8): // 8. Display all customers
+					for (int i = 0; i < customerList.size(); i++) {
+						customerList[i].DisplayCustomerInfo();
+					}
 					break;
-				case(9):
+				case(9): // 9. Display group of customers
+					ModiyFromOptionsLocal(false, userInput,
+						customerList[0].GetAvailableAccountTypes(),
+						"Which customer type did you want to look at?\n");
+					for (int i = 0; i < customerList.size(); i++) {
+						if(customerList[i].GetAccountType() == userInput)
+							customerList[i].DisplayCustomerInfo();
+					}
 					break;
-				case(10):
+				case(10): // 10. Search items or customers
+					std::cout << "Type 1 to find an Item, or 2 to find a customer.\n";
+					userModificationInput = GetUserInputInt(1, 2);
+					std::cin.ignore(INT_MAX, '\n');
+					std::cin.sync();
+					if (userModificationInput == 1) {
+						std::cout << "\nWhat is the Items ID or Title you want to find?\n";
+						std::getline(std::cin, itemTitleOrID);
+						std::cin.sync();
+						index = GetIndexOfRentalItem(itemTitleOrID);
+						if (index > -1)
+							stockList[index].DisplayItemInfo();
+						else
+							std::cout << fmt::format("There is no item by the identifyer {}.\n", itemTitleOrID);
+					} // if (userModificationInput == 1) {
+					else if (userModificationInput == 2) {
+						std::cout << "\nWhat is the customer's ID or Name you want to find?\n";
+						std::getline(std::cin, customerNameOrID);
+						std::cin.sync();
+						index = GetIndexOfCustomer(customerNameOrID);
+						if (index > -1)
+							customerList[index].DisplayCustomerInfo();
+						else
+							std::cout << fmt::format("There is no customer by the identifyer {}.\n", customerNameOrID);
+					} // else if (userModificationInput == 2) {
 					break;
-				}
+				} // switch (stoi(userInput)) {
 			}
 			catch (const std::exception& e) {
 				std::cout << "\nInput an integer from 1 to 10 or an e\n";
-			}
-		}
+			} // try {
+		} // else { // if (userInput == "E" || userInput == "e") {
 	} // while (userDone == false) {
 } // void Shop::FrontFacingMenu() {
