@@ -15,10 +15,11 @@ Customer::Customer(std::string newName, std::string newAddress, std::string newP
 Customer::Customer() {}
 
 // Internal Private Methods
-void Customer::SetID(int vadlidCustomerID) {
+void Customer::SetID(int& vadlidCustomerID) {
 	// This will need revisiting. What happens when Customer
 	// data is loaded fromt the Database?
 	id = fmt::format("C{:03}", vadlidCustomerID);
+	vadlidCustomerID++;
 } // bool SetID(int numberOfCustomersServiced) {
 
 void Customer::SetCanBePromoted(int numberOfRetruns) {

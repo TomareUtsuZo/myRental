@@ -20,7 +20,7 @@ private:
 	std::vector<std::string> availableAccountTypes = { "Guest", "Regular", "VIP" };
 
 	// Internal Methods
-	void SetID(int numberOfCustomersServiced);
+	void SetID(int& numberOfCustomersServiced);
 	void SetCanBePromoted(int numberOfRetruns);
 	int TheItemExistsAt(int workingListSize, std::vector<RentalItem> workingList, RentalItem item);
 	std::vector<RentalItem> UpdatedListToReturn(int indexOfItemToReturn, int copiesToReturn,

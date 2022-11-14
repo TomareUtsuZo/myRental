@@ -20,6 +20,7 @@ void Shop::SetCustomerList(std::vector<Customer> newCustomerList) { customerList
 std::vector<Customer> Shop::GetCustomerList() { return customerList; }
 
 // Internal Utilities
+
 void DisplaySetVectorOfStrings(std::vector<std::string> vectorToDisplay) {
 	for (int i = 0; i < vectorToDisplay.size(); i++) {
 		std::cout << vectorToDisplay[i];
