@@ -5,7 +5,7 @@
 
 class Customer {
 private:
-	std::string id;
+	std::string id = "C-01";
 	std::string name;
 	std::string address;
 	std::string phoneNumber;
@@ -16,18 +16,18 @@ private:
 	int rewardPointCost = 100;
 	int rewardPointsSize = 10;
 	bool canBePromoted = false;
-	static int s_numberOfCustomersServiced;
-	static std::vector<int> s_usedCustomerIDs;
 	std::vector<std::string> availableAccountTypes = { "Guest", "Regular", "VIP" };
 
 	// Internal Methods
-	void SetID(int& numberOfCustomersServiced);
+	void SetID();
 	void SetCanBePromoted(int numberOfRetruns);
 	int TheItemExistsAt(int workingListSize, std::vector<RentalItem> workingList, RentalItem item);
 	std::vector<RentalItem> UpdatedListToReturn(int indexOfItemToReturn, int copiesToReturn,
 		std::vector<RentalItem>workingList, RentalItem updateThisItem);
 
 public:
+
+	static int s_usedCustomerIDs[1000];
 	// Constructors
 	Customer(std::string newName, std::string newAddress, std::string newPhoneNumber, 
 		std::string newAccountType, std::vector<RentalItem> newListOfRentedItems, 

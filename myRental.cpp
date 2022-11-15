@@ -7,13 +7,16 @@
 #include "Customer.h"
 
 int RentalItem::s_numberOfItemsAdded{ 0 }; // start counting number of items created
-int Customer::s_numberOfCustomersServiced{ 0 }; // start counting number of customers serviced
-std::vector<int> Customer::s_usedCustomerIDs{};
+int Customer::s_usedCustomerIDs[1000]{};
+
 
 
 
 int main()
 {
+    for (int i = 0; i < 1000; i++) {
+        Customer::s_usedCustomerIDs[i] = false;
+    }
     std::vector<RentalItem> stockList;
     
     std::vector<RentalItem> customerStockList;
