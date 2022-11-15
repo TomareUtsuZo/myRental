@@ -4,7 +4,7 @@
 
 class RentalItem {
 private:
-	std::string id;
+	std::string id = "I-10";
 	std::string title;
 	std::string rentalType;
 	std::string loanType;
@@ -14,7 +14,6 @@ private:
 	bool isAvailableForRent;
 	std::vector<std::string> availableRentalTypes = { "Record", "DVD", "Game"};
 	std::vector<std::string> availableLoanTypes = { "two day rental", "one week rental" };
-	static int s_numberOfItemsAdded;
 
 
 	std::string genre;
@@ -22,9 +21,10 @@ private:
 
 	// Internal Methods
 	void SetIsAvailableForRent();
-	void SetID(int numberOfItemsAdded, int yearPublished);
 
 public:
+
+	static int s_rentalIdUsed[1000];
 	// Constructors
 	RentalItem();
 	RentalItem(std::string newTitle, std::string newRentalType, std::string newLoanType, 
@@ -34,6 +34,8 @@ public:
 	// Setters and Getters
 	std::string GetID();
 	void SetIdManual(std::string newID);
+	void SetID(int yearPublished);
+	void SetID(int yearPublished, std::string newID = "I-10");
 
 	std::string GetTitle();
 	void SetTitle(std::string newTitle);

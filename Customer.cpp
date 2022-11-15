@@ -86,7 +86,6 @@ void Customer::SetID(std::string newID) {
 		id = fmt::format("C{:03}", newIDNumber);
 		s_usedCustomerIDs[newIDNumber] = true;
 	}
-
 }
 
 bool Customer::GetCanBePromoted() { return canBePromoted; }

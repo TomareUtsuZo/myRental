@@ -462,6 +462,7 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 	if (indexOfItem > -1) {
 		int userModificationInput = 0;
 		RentalItem workingItem = stockList[indexOfItem];
+		std::string newIDNumber;
 		std::cout << "What did you want to change?\n1. The ID\n2. The Title\n3. The Rental Type\n";
 		std::cout << "4. The Loan Type\n5. The Year Published \n6. The Rental Fee\n";
 		if (stockList[indexOfItem].GetRentalType() == "DVD"){
@@ -472,7 +473,10 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 			userModificationInput = GetUserInputInt(1, 6);
 		switch (userModificationInput) {
 		case(1):
-			stockList[indexOfItem].SetIdManual(ManualCreateIDRentalItem(stockList[indexOfItem].GetYearPublished()));
+			std::cout << newIDNumber << " What ID number did you want to do?\n";
+			std::cin >> newIDNumber;
+			
+			stockList[indexOfItem].SetID(stoi(stockList[indexOfItem].GetYearPublished()), newIDNumber);
 			modificationComplete = true;
 			break;
 		case(2):

@@ -12,7 +12,7 @@ RentalItem::RentalItem(std::string newTitle, std::string newRentalType,
 	double newRentalFee, std::string newGenre) : title(newTitle), rentalType(newRentalType),
 	loanType(newLoanType), yearPublished(newYearPublished), copiesInStock(initialCopiesInStock),
 	rentalFee(newRentalFee), genre(newGenre) {
-	SetID(s_numberOfItemsAdded++, stoi(newYearPublished)); }
+	SetID(stoi(newYearPublished)); }
 
 
 
@@ -28,12 +28,31 @@ void RentalItem::SetIsAvailableForRent() {
 
 // Public Setters and Getters
 std::string RentalItem::GetID() { return id; }
-void RentalItem::SetID(int numberOfItemsAdded, int yearPublished) {
-	// This is going to need to be revisited later, how does it account
-	// for ID's loaded, or out of sequence?
-	id = fmt::format("I{:0>3}-{}", numberOfItemsAdded, yearPublished);
+void RentalItem::SetID(int yearPublished) {
+		int validRentalID = 0;
+		while (s_rentalIdUsed[validRentalID] == true) {
+			validRentalID++;
+		}
+		if (s_rentalIdUsed[validRentalID] == false) {
+			id = fmt::format("I{:03}-{}", validRentalID, yearPublished);
+			s_rentalIdUsed[validRentalID] = true;
+			validRentalID++;
+		}
 } // std::string RentalItems::SetID(int numberOfItemsAdded) {
-void RentalItem::SetIdManual(std::string newID) { id = newID; }
+void RentalItem::SetID(int yearPublished, std::string newID) {
+	int newIDNumber = stoi(newID.substr(1, 3));
+	int oldIDNumber = stoi(id.substr(1, 3));
+	if (oldIDNumber != -10)
+		s_rentalIdUsed[oldIDNumber] = false;
+	while (s_rentalIdUsed[newIDNumber]) {
+		std::cout << newIDNumber << " is already in use. Try another xxx number.\n";
+		std::cin >> newIDNumber;
+	}
+	if (s_rentalIdUsed[newIDNumber] == false) {
+		id = fmt::format("I{:03}-{}", newIDNumber, yearPublished);
+		s_rentalIdUsed[newIDNumber] = true;
+	}
+}
 
 std::string RentalItem::GetTitle() { return title; }
 void RentalItem::SetTitle(std::string newTitle) { title = newTitle; }

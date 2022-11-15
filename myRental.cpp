@@ -6,7 +6,8 @@
 #include "Shop.h"
 #include "Customer.h"
 
-int RentalItem::s_numberOfItemsAdded{ 0 }; // start counting number of items created
+
+int RentalItem::s_rentalIdUsed[1000]{};
 int Customer::s_usedCustomerIDs[1000]{};
 
 
@@ -16,6 +17,9 @@ int main()
 {
     for (int i = 0; i < 1000; i++) {
         Customer::s_usedCustomerIDs[i] = false;
+    }
+    for (int i = 0; i < 1000; i++) {
+        RentalItem::s_rentalIdUsed[i] = false;
     }
     std::vector<RentalItem> stockList;
     
