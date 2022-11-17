@@ -549,11 +549,12 @@ bool Shop::ModifyCustomerInfo(std::string customerIdOrTitle) {
 		userModificationInput = GetUserInputInt(1, 9);
 		switch (userModificationInput) {
 		case(1):
-			std::cout << newIDNumber << " What ID number did you want to do? (XXX format)\n";
+			std::cout << newIDNumber << "What ID number did you want to do? (XXX format)\n";
 			std::cin >> newIDNumber;
+			std::cin.sync();
 
-			//customerInfoModified = ManualCreateIDCustomerLocal(customerList, idToModify);
 			customerList[indexOfCutomer].SetID(fmt::format("C{}", newIDNumber));
+			customerInfoModified = true;
 			break;
 		case(2):
 			std::cout << "What is the name of this customer?\n";
@@ -794,6 +795,7 @@ void Shop::FrontFacingMenu() {
 				case(2): // 2. Add new customer or update an existing customer
 					DisplaySetVectorOfStrings(subMenuTwoOptions);
 					userModificationInput = GetUserInputInt(1, subMenuTwoOptions.size());
+					std::cin.ignore(INT_MAX, '\n');
 					std::cin.sync();
 					switch (userModificationInput) {
 					case(1): // 2. Add new customer
