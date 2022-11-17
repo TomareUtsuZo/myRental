@@ -5,7 +5,7 @@
 
 class Customer {
 private:
-	std::string id = "C-01";
+	std::string id = "C-10";
 	std::string name;
 	std::string address;
 	std::string phoneNumber;
@@ -19,7 +19,6 @@ private:
 	std::vector<std::string> availableAccountTypes = { "Guest", "Regular", "VIP" };
 
 	// Internal Methods
-	void SetID();
 	void SetCanBePromoted(int numberOfRetruns);
 	int TheItemExistsAt(int workingListSize, std::vector<RentalItem> workingList, RentalItem item);
 	std::vector<RentalItem> UpdatedListToReturn(int indexOfItemToReturn, int copiesToReturn,
@@ -37,7 +36,7 @@ public:
 
 	// Setters and Getters
 	std::string GetID();
-	void SetID(std::string newID);
+	void SetID(std::string newID="C-10");
 
 
 	bool GetCanBePromoted();

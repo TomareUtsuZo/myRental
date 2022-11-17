@@ -15,17 +15,30 @@ Customer::Customer(std::string newName, std::string newAddress, std::string newP
 Customer::Customer() {}
 
 // Internal Private Methods
-void Customer::SetID() {
-	int validCustomerID = 0;
-	while (s_usedCustomerIDs[validCustomerID] == true) {
-		validCustomerID++;
+void Customer::SetID(std::string newID) {
+	int newIDNumber = stoi(newID.substr(1, 3));
+	int oldIDNumber = stoi(id.substr(1, 3));
+	if (newIDNumber != -10) {
+		s_usedCustomerIDs[oldIDNumber] = false;
+
+		while (s_usedCustomerIDs[newIDNumber]) {
+			std::cout << newIDNumber << " is already in use. Try another xxx number.\n";
+			std::cin >> newIDNumber;
+		}
 	}
-	if (s_usedCustomerIDs[validCustomerID] == false) {
-		id = fmt::format("C{:03}", validCustomerID);
-		s_usedCustomerIDs[validCustomerID] = true;
-		validCustomerID++;
+	else {
+		for (int i = 0; i < 1000; i++) {
+			if (s_usedCustomerIDs[i] == false) {
+				newIDNumber = i;
+				break;
+			}
+		}
 	}
-} // bool SetID(int numberOfCustomersServiced) {
+	if (s_usedCustomerIDs[newIDNumber] == false) {
+		id = fmt::format("C{:03}", newIDNumber);
+		s_usedCustomerIDs[newIDNumber] = true;
+	}
+}
 
 void Customer::SetCanBePromoted(int numberOfRetruns) {
 	if (accountType == "Regular" && numberOfRetruns > 2) {
@@ -72,7 +85,7 @@ std::vector<RentalItem> Customer::UpdatedListToReturn(int indexOfItemToReturn, i
 }
 
 // Setters and Getters
-std::string Customer::GetID() { return id; }
+std::string Customer::GetID() { return id; }/*
 void Customer::SetID(std::string newID) { 
 	int newIDNumber = stoi(newID.substr(1, 3));
 	int oldIDNumber = stoi(id.substr(1, 3));
@@ -86,7 +99,7 @@ void Customer::SetID(std::string newID) {
 		id = fmt::format("C{:03}", newIDNumber);
 		s_usedCustomerIDs[newIDNumber] = true;
 	}
-}
+}*/
 
 bool Customer::GetCanBePromoted() { return canBePromoted; }
 

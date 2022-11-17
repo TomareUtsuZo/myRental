@@ -275,47 +275,6 @@ bool AutomatedCreateCustomerIDLocal(std::vector<Customer> workingCustomerList, s
 	return idCreatedSucessfully;
 }
 
-bool ManualCreateIDCustomerLocal(std::vector<Customer> workingCustomerList, std::string& idToCreate) {
-	bool idCreatedSucessfully = false;
-	std::string inputID = "-000";
-	std::string outputID;
-	while (inputID == "-000") {
-		std::cout << "Enter a three digit number not already in use by another customer,";
-		std::cout << "or leave empty to auto generate ID.\n";
-		std::cin.ignore(INT_MAX, '\n');
-		std::cin >> inputID;
-		if (inputID == "") {
-			AutomatedCreateCustomerIDLocal(workingCustomerList, outputID);
-		} // if (inputID == "") {
-		else if (inputID.size() == 3) {
-			bool notInList = true;
-			try {
-				std::stoi(inputID);
-				std::string testableID;
-				for (int index = 0; index < workingCustomerList.size(); index++) {
-					testableID = fmt::format("C{}", inputID);
-					if (workingCustomerList[index].GetID() == testableID) {
-						notInList = false;
-						inputID = "-000";
-						break;
-					} // if (workingCustomerlist[index].GetID() == testableID) {
-				} // for (int index = 0; index < workingCustomerlist.size(); index++) {
-				if (notInList) {
-					outputID = testableID;
-					idCreatedSucessfully = true;
-				} // if(notInList) {
-			} // try {
-			catch (const std::exception& e) {
-				std::cout << "Invalid input: make it fit the HTO format.";
-				inputID = "-000";
-			} // catch (const std::exception& e) {
-		}
-		else
-			inputID = "-000";
-	}
-	idToCreate = outputID;
-	return idCreatedSucessfully;
-}
 
 bool Shop::CustomerRentsItem(std::string customerID, std::string itemID, int numberOfItemsToRent,
 	bool rentWithPoints) {
@@ -434,10 +393,6 @@ bool Shop::AddNewItemToStockList() {
 	bool rentalFeeSet = false;
 	rentalFeeSet = SetRentalFeeLocal(rentalFeeSet, workingRentalItem, inputRentalFee);
 
-/*	if (inputLoanType == "DVD") {
-		bool genreTypeSet = false;
-		genreTypeSet = SetGenreTypeLocal(genreTypeSet, workingRentalItem, inputGenre);
-	}*/
 	newItemSucessfullyAdded = (rentalTypeSet && loanTypeSet && 
 		copiesInStockSet && yearPublishedSet && rentalFeeSet);
 		if (newItemSucessfullyAdded) {
@@ -473,8 +428,10 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 			userModificationInput = GetUserInputInt(1, 6);
 		switch (userModificationInput) {
 		case(1):
-			std::cout << newIDNumber << " What ID number did you want to do? (XXX format)\n";
+			std::cout << newIDNumber << "What ID number did you want to do? (XXX format)\n";
 			std::cin >> newIDNumber;
+			std::cin.ignore(INT_MAX, '\n');
+			std::cin.sync();
 			
 			stockList[indexOfItem].SetID(stoi(stockList[indexOfItem].GetYearPublished()), 
 				fmt::format("I{}",newIDNumber));
@@ -603,6 +560,7 @@ bool Shop::ModifyCustomerInfo(std::string customerIdOrTitle) {
 	int numberOfRentalsReturnedToModify = 0;
 	int indexOfCutomer = GetIndexOfCustomer(customerIdOrTitle);
 	if (indexOfCutomer > -1) {
+		std::string newIDNumber;
 		int userModificationInput = 0;
 		Customer workingCustomerObject = customerList[indexOfCutomer];
 		workingCustomerObject.DisplayCustomerInfo();
@@ -613,8 +571,11 @@ bool Shop::ModifyCustomerInfo(std::string customerIdOrTitle) {
 		userModificationInput = GetUserInputInt(1, 9);
 		switch (userModificationInput) {
 		case(1):
-			customerInfoModified = ManualCreateIDCustomerLocal(customerList, idToModify);
-			customerList[indexOfCutomer].SetID(idToModify);
+			std::cout << newIDNumber << " What ID number did you want to do? (XXX format)\n";
+			std::cin >> newIDNumber;
+
+			//customerInfoModified = ManualCreateIDCustomerLocal(customerList, idToModify);
+			customerList[indexOfCutomer].SetID(fmt::format("C{}", newIDNumber));
 			break;
 		case(2):
 			std::cout << "What is the name of this customer?\n";
