@@ -34,7 +34,6 @@ public:
 	// Setters and Getters
 	std::string GetID();
 	void SetIdManual(std::string newID);
-	void SetID(int yearPublished);
 	void SetID(int yearPublished, std::string newID = "I-10");
 
 	std::string GetTitle();

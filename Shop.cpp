@@ -473,10 +473,11 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 			userModificationInput = GetUserInputInt(1, 6);
 		switch (userModificationInput) {
 		case(1):
-			std::cout << newIDNumber << " What ID number did you want to do?\n";
+			std::cout << newIDNumber << " What ID number did you want to do? (XXX format)\n";
 			std::cin >> newIDNumber;
 			
-			stockList[indexOfItem].SetID(stoi(stockList[indexOfItem].GetYearPublished()), newIDNumber);
+			stockList[indexOfItem].SetID(stoi(stockList[indexOfItem].GetYearPublished()), 
+				fmt::format("I{}",newIDNumber));
 			modificationComplete = true;
 			break;
 		case(2):
