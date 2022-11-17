@@ -12,7 +12,7 @@ RentalItem::RentalItem(std::string newTitle, std::string newRentalType,
 	double newRentalFee, std::string newGenre) : title(newTitle), rentalType(newRentalType),
 	loanType(newLoanType), yearPublished(newYearPublished), copiesInStock(initialCopiesInStock),
 	rentalFee(newRentalFee), genre(newGenre) {
-	SetID(stoi(newYearPublished)); }
+	SetID(stoi(newYearPublished), "I-10"); }
 
 
 
@@ -28,25 +28,24 @@ void RentalItem::SetIsAvailableForRent() {
 
 // Public Setters and Getters
 std::string RentalItem::GetID() { return id; }
-void RentalItem::SetID(int yearPublished) {
-		int validRentalID = 0;
-		while (s_rentalIdUsed[validRentalID] == true) {
-			validRentalID++;
-		}
-		if (s_rentalIdUsed[validRentalID] == false) {
-			id = fmt::format("I{:03}-{}", validRentalID, yearPublished);
-			s_rentalIdUsed[validRentalID] = true;
-			validRentalID++;
-		}
-} // std::string RentalItems::SetID(int numberOfItemsAdded) {
 void RentalItem::SetID(int yearPublished, std::string newID) {
 	int newIDNumber = stoi(newID.substr(1, 3));
 	int oldIDNumber = stoi(id.substr(1, 3));
-	if (oldIDNumber != -10)
+	if (newIDNumber != -10){
 		s_rentalIdUsed[oldIDNumber] = false;
-	while (s_rentalIdUsed[newIDNumber]) {
-		std::cout << newIDNumber << " is already in use. Try another xxx number.\n";
-		std::cin >> newIDNumber;
+
+		while (s_rentalIdUsed[newIDNumber]) {
+			std::cout << newIDNumber << " is already in use. Try another xxx number.\n";
+			std::cin >> newIDNumber;
+		}
+	}
+	else {
+		for(int i = 0; i < 1000; i++){
+			if (s_rentalIdUsed[i] == false) {
+				newIDNumber = i;
+				break;
+			}
+		}
 	}
 	if (s_rentalIdUsed[newIDNumber] == false) {
 		id = fmt::format("I{:03}-{}", newIDNumber, yearPublished);
