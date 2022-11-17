@@ -254,28 +254,6 @@ int Shop::GetIndexOfCustomer(std::string customerID, std::vector<Customer> worki
 	return indexOfCustomer;
 }
 
-bool AutomatedCreateCustomerIDLocal(std::vector<Customer> workingCustomerList, std::string& workingCustomerID) {
-	bool idCreatedSucessfully = false;
-	for (int i = 0; i < 1000; i++) {
-		bool notInList = true;
-		std::string testableID;
-		for (int index = 0; index < workingCustomerList.size(); index++) {
-			testableID = fmt::format("C{:0>3}", i);
-			if (workingCustomerList[index].GetID() == testableID) {
-				notInList = false;
-				break;
-			} // if (workingCustomerlist[index].GetID() == testableID) {
-		} // for (int index = 0; index < workingCustomerlist.size(); index++) {
-		if (notInList) {
-			workingCustomerID = testableID;
-			idCreatedSucessfully = true;
-			break;
-		}
-	} // for (int i = 0; i < 1000; i++) {
-	return idCreatedSucessfully;
-}
-
-
 bool Shop::CustomerRentsItem(std::string customerID, std::string itemID, int numberOfItemsToRent,
 	bool rentWithPoints) {
 	bool rentedSucessfully = false;
