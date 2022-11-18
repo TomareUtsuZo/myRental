@@ -345,21 +345,21 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 
 		int userModificationInput = -1;
 		std::vector<std::string> subMenuItems1dot2 = { "The ID", "The Title", "The Rental Type",
-			"The Loan Type", "The Year Published", "The Rental Fee" };
+			"The Loan Type", "The Year Published", "The Rental Fee", "Exit"};
 		std::vector<std::string> subMenuItems1dot2Genres = { "The ID", "The Title", "The Rental Type",
-			"The Loan Type", "The Year Published", "The Rental Fee", "The Genre"};
+			"The Loan Type", "The Year Published", "The Rental Fee", "The Genre", "Exit"};
 		RentalItem workingItem = stockList[indexOfItem];
 		std::string newIDNumber;
 		std::cout << "What did you want to modify?\n";
 		if (stockList[indexOfItem].GetRentalType() == "DVD"){
 			for (int i = 0; i < subMenuItems1dot2Genres.size(); i++)
-				std::cout << fmt::format("{}\t{}\n", i, subMenuItems1dot2Genres[i]);
-			userModificationInput = GetUserInputInt(0, 6);
+				std::cout << fmt::format("{}\t{}\n", i + 1, subMenuItems1dot2Genres[i]);
+			userModificationInput = GetUserInputInt(1, subMenuItems1dot2Genres.size() + 1);
 		}
 		else {
 			for (int i = 0; i < subMenuItems1dot2Genres.size(); i++)
-				std::cout << fmt::format("{}\t{}\n", i, subMenuItems1dot2[i]);
-			userModificationInput = GetUserInputInt(1, 5);
+				std::cout << fmt::format("{}\t{}\n", i + 1, subMenuItems1dot2[i]);
+			userModificationInput = GetUserInputInt(1, subMenuItems1dot2Genres.size() + 1);
 		}
 		switch (userModificationInput) {
 		case(1):
@@ -410,10 +410,14 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 			if (modificationComplete)
 				stockList[indexOfItem].SetGenre(inputGenreType);
 			break;
+		case(8):
+			modificationComplete = true;
+			break;
 		}
 	}
 	else { // if (indexOfItem > -1) {
 		std::cout << "No such Item in the Stock System. Maybe a different Id or Title?";
+		std::cin.sync();
 		return modificationComplete;
 	} // else { // if (indexOfItem > -1) {
 	stockList[indexOfItem].DisplayItemInfo();
@@ -498,11 +502,13 @@ bool Shop::ModifyCustomerInfo(std::string customerIdOrTitle) {
 		int userModificationInput = 0;
 		Customer workingCustomerObject = customerList[indexOfCutomer];
 		workingCustomerObject.DisplayCustomerInfo();
-
-		std::cout << "What did you want to change?\n1. Modify ID\n2. Modify Name\n3. Modify Address\n";
-		std::cout << "4. Modify Phone Nubmer\n5. Modify AccountType\n6. Modify Reward Points\n";
-		std::cout << "7. Modify Rentals Returned\n";
-		userModificationInput = GetUserInputInt(1, 9);
+		std::vector<std::string> customerMenu = { "Modify ID", "Modify Name", "Modify Address",
+		"Modify Phone Nubmer", "Modify AccountType", "Modify Reward Points", "Modify Rentals Returned",
+		"Exit"};
+		std::cout << "What did you want to change?\n";
+		for (int i = 0; i < customerMenu.size(); i++)
+			std::cout << fmt::format("{}\t{}\n", i + 1, customerMenu[i]);
+		userModificationInput = GetUserInputInt(1, customerMenu.size());
 		switch (userModificationInput) {
 		case(1):
 			std::cout << newIDNumber << "What ID number did you want to do? (XXX format)\n";
@@ -552,6 +558,9 @@ bool Shop::ModifyCustomerInfo(std::string customerIdOrTitle) {
 				customerInfoModified, "How many rentals has this customer returned?\n", 0);
 			if(customerInfoModified)
 				customerList[indexOfCutomer].SetNumberOfRentalsReturned(numberOfRentalsReturnedToModify);
+			break;
+		case(8):
+			customerInfoModified = true;
 			break;
 		}
 	}
@@ -718,6 +727,7 @@ void Shop::FrontFacingMenu() {
 				switch (stoi(userInput)) {
 				case(1): // 1. Add a new item, update or delete an existing item
 					DisplaySetVectorOfStrings(subMenuOneOptions);
+					std::cin.sync();
 					userModificationInput = GetUserInputInt(1, subMenuOneOptions.size());
 					std::cin.sync();
 					switch (userModificationInput) {
@@ -730,6 +740,7 @@ void Shop::FrontFacingMenu() {
 						while (gotDone == false) {
 							std::cout << "\nWhat is the Items ID or Title to modify?\n";
 							std::getline(std::cin, itemTitleOrID);
+							std::cin.ignore(INT_MAX, '\n');
 							std::cin.sync();
 							gotDone = ModifyItemInStock(itemTitleOrID);
 						} // while(gotDone == false) {
