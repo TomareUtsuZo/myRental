@@ -322,20 +322,6 @@ bool Shop::CustomerReturnsItem(std::string customerID, std::string itemID, int n
 	return returnedSucessfully;
 } // bool Shop::CustomerReturnsItem(std::string customerID, std::string itemID, int numberOfItemsToRent) {
 
-bool ModifyCustomerTypeLocal(bool customerTypeSet, Customer workingCustomerObject,
-	std::string& accountTypeToModify) {
-	while (customerTypeSet == false) {
-		accountTypeToModify = "";
-		std::cout << "What Account Type is this? (Capitalziation matters.)\n";
-		for (int i = 0; i < workingCustomerObject.GetAvailableAccountTypes().size(); i++)
-			std::cout << workingCustomerObject.GetAvailableAccountTypes()[i] << ", ";
-		std::cout << std::endl;
-		std::getline(std::cin, accountTypeToModify);
-		customerTypeSet = workingCustomerObject.SetAccountType(accountTypeToModify, 
-			workingCustomerObject.GetAvailableAccountTypes());
-	} // while (loanTypeIncorrect) {
-	return customerTypeSet;
-}
 
 // Public Functions
 // Menu Items 1
