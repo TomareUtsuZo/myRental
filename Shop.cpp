@@ -32,6 +32,7 @@ int GetUserInputInt(int minInput, int maxInput) {
 	std::string userInput = "";
 	while (userInput == "") {
 		std::cin >> userInput;
+		std::cin.sync();
 		try {
 			userInputInt = std::stoi(userInput);
 			if (!((userInputInt >= minInput) && (userInputInt <= maxInput))) {
@@ -52,17 +53,17 @@ int GetUserInputInt(int minInput, int maxInput) {
 bool ModiyFromOptionsLocal(bool xTypeSet, std::string& itemToModify,
 	std::vector<std::string> listOfPossibleInputs, std::string inputRequestSting) {
 	while (xTypeSet == false) {
-		itemToModify = "";
+		int userInput = -1;
 		std::cout << inputRequestSting;
 		for (int i = 0; i < listOfPossibleInputs.size(); i++)
-			std::cout << listOfPossibleInputs[i] << ", ";
+			std::cout << fmt::format("{}.\t{}\n",i, listOfPossibleInputs[i]);
 		std::cout << std::endl;
-		std::getline(std::cin, itemToModify);
-		for (int i = 0; i < listOfPossibleInputs.size(); i++) {
-			if (itemToModify == listOfPossibleInputs[i]) {
-				xTypeSet = true;
-				break;
-			}
+		userInput = GetUserInputInt(0, listOfPossibleInputs.size() - 1);
+
+		if (userInput < listOfPossibleInputs.size() && userInput > -1) {
+			xTypeSet = true;
+			itemToModify = listOfPossibleInputs[userInput];
+			break;
 		}
 	} // while (loanTypeIncorrect) {
 
@@ -145,10 +146,8 @@ bool SetCopiesInStockLocal(bool copiesInStockSet, RentalItem workingRentalItem, 
 bool SetGenreTypeLocal(bool genreTypeSet, RentalItem workingRentalItem, std::string& inputGenreType) {
 	while (genreTypeSet == false) {
 		std::cout << "What Genre Type is this? (Capitalziation matters.)\n";
-		for (int i = 0; i < workingRentalItem.GetAvailableGenres().size(); i++)
-			std::cout << workingRentalItem.GetAvailableGenres()[i] << " ";
-		std::cout << std::endl;
-		std::cin >> inputGenreType;
+		ModiyFromOptionsLocal(genreTypeSet, inputGenreType, workingRentalItem.GetAvailableGenres(), 
+			"What Genre Type is this ? (Capitalziation matters.)\n");
 		genreTypeSet = workingRentalItem.SetGenre(inputGenreType);
 	} // while (loanTypeIncorrect) {
 	return genreTypeSet;
@@ -157,11 +156,8 @@ bool SetGenreTypeLocal(bool genreTypeSet, RentalItem workingRentalItem, std::str
 bool SetRentalTypeLocal(bool rentalTypeSet, RentalItem workingRentalItem, std::string& inputRentalType,
 	std::string& inputGenre) {
 	while (rentalTypeSet == false) {
-		std::cout << "What Rental Type is this? (Capitalization matters.)\n";
-		for (int i = 0; i < workingRentalItem.GetAvailableRentalTypes().size(); i++)
-			std::cout << workingRentalItem.GetAvailableRentalTypes()[i] << ", ";
-		std::cout << std::endl;
-		std::getline(std::cin, inputRentalType);
+		rentalTypeSet = ModiyFromOptionsLocal(rentalTypeSet, inputRentalType, workingRentalItem.GetAvailableRentalTypes(),
+			"What Rental Type is this? (Capitalization matters.)\n");
 		if (inputRentalType == "DVD") {
 			bool genreTypeSet = false;
 			genreTypeSet = SetGenreTypeLocal(genreTypeSet, workingRentalItem, inputGenre);
@@ -409,7 +405,6 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 			modificationComplete = true;
 			break;
 		case(3):
-
 			std::cin.ignore(INT_MAX, '\n');
 			modificationComplete = SetRentalTypeLocal(modificationComplete, workingItem, 
 				inputRentalType, inputGenreType);
