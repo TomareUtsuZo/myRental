@@ -186,39 +186,6 @@ bool SetRentalFeeLocal(bool rentalFeeSet, RentalItem workingRentalItem, double& 
 	return rentalFeeSet;
 }
 
-std::string ManualCreateIDRentalItem(std::string yearPublished) {
-	std::string newID = "";
-	std::cout << "What new ID do you want to set? (Ixxx) \n";
-	std::cout << "Or leave empty to auto generate ID";
-	while (newID == "") {
-		std::cin >> newID;
-		int testForInt = 1;
-		bool iFirst = newID[0] == 'I';
-		bool isThreeDigitInt = false;
-		if (iFirst && newID.size() == 4) {
-			std::string workingID = newID;
-			workingID.erase(0, 1);
-			try {
-				int digitsString = std::stoi(workingID);
-				isThreeDigitInt = true;
-			}
-			catch (const std::exception& e) {
-				std::cout << "Invalid input: Must conform to IXXX format.\n";
-			}
-		}
-		else{
-			std::cout << "This requires an IXXX format.";
-		}
-		
-		if (isThreeDigitInt == true) {
-			break;			
-		}
-		else
-			newID = "";		
-	}
-	return newID + "-" + yearPublished;
-}
-
 // Customer Related Utilites
 int Shop::GetIndexOfCustomer(std::string customerID) {
 	int indexOfCustomer = -1;
@@ -375,17 +342,25 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 	double inputRentalFee;
 	int indexOfItem = GetIndexOfRentalItem(itemIdOrTitle);
 	if (indexOfItem > -1) {
-		int userModificationInput = 0;
+
+		int userModificationInput = -1;
+		std::vector<std::string> subMenuItems1dot2 = { "The ID", "The Title", "The Rental Type",
+			"The Loan Type", "The Year Published", "The Rental Fee" };
+		std::vector<std::string> subMenuItems1dot2Genres = { "The ID", "The Title", "The Rental Type",
+			"The Loan Type", "The Year Published", "The Rental Fee", "The Genre"};
 		RentalItem workingItem = stockList[indexOfItem];
 		std::string newIDNumber;
-		std::cout << "What did you want to change?\n1. The ID\n2. The Title\n3. The Rental Type\n";
-		std::cout << "4. The Loan Type\n5. The Year Published \n6. The Rental Fee\n";
+		std::cout << "What did you want to modify?\n";
 		if (stockList[indexOfItem].GetRentalType() == "DVD"){
-			std::cout << "7. The Genre\n";
-			userModificationInput = GetUserInputInt(1, 7);
+			for (int i = 0; i < subMenuItems1dot2Genres.size(); i++)
+				std::cout << fmt::format("{}\t{}\n", i, subMenuItems1dot2Genres[i]);
+			userModificationInput = GetUserInputInt(0, 6);
 		}
-		else
-			userModificationInput = GetUserInputInt(1, 6);
+		else {
+			for (int i = 0; i < subMenuItems1dot2Genres.size(); i++)
+				std::cout << fmt::format("{}\t{}\n", i, subMenuItems1dot2[i]);
+			userModificationInput = GetUserInputInt(1, 5);
+		}
 		switch (userModificationInput) {
 		case(1):
 			std::cout << newIDNumber << "What ID number did you want to do? (XXX format)\n";
