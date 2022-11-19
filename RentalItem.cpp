@@ -7,12 +7,22 @@
 
 // Constructors
 RentalItem::RentalItem() {}
-RentalItem::RentalItem(std::string newTitle, std::string newRentalType,
-	std::string newLoanType, std::string newYearPublished, int initialCopiesInStock,
-	double newRentalFee, std::string newGenre) : title(newTitle), rentalType(newRentalType),
-	loanType(newLoanType), yearPublished(newYearPublished), copiesInStock(initialCopiesInStock),
-	rentalFee(newRentalFee), genre(newGenre) {
-	SetID(stoi(newYearPublished), "I-10"); }
+RentalItem::RentalItem(std::string newTitle, 
+	std::string newRentalType,
+	std::string newLoanType, 
+	std::string newYearPublished, 
+	int initialCopiesInStock,
+	double newRentalFee, 
+	std::string newGenre) : 
+	title(newTitle), 
+	rentalType(newRentalType),
+	loanType(newLoanType), 
+	yearPublished(newYearPublished), 
+	copiesInStock(initialCopiesInStock),
+	rentalFee(newRentalFee), 
+	genre(newGenre) {
+	SetID(stoi(newYearPublished), "I-10"); 
+}
 
 
 

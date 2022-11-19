@@ -3,7 +3,6 @@
 #include <string>
 #include <iostream>
 #include "Customer.h"
-#include "Shop.h"
 
 // Constructors
 Customer::Customer(std::string newName, std::string newAddress, std::string newPhoneNumber,

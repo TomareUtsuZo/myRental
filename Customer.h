@@ -16,7 +16,11 @@ private:
 	int rewardPointCost = 100;
 	int rewardPointsSize = 10;
 	bool canBePromoted = false;
-	std::vector<std::string> availableAccountTypes = { "Guest", "Regular", "VIP" };
+	std::vector<std::string> availableAccountTypes = { 
+		"Guest", 
+		"Regular", 
+		"VIP" 
+	};
 
 	// Internal Methods
 	void SetCanBePromoted(int numberOfRetruns);

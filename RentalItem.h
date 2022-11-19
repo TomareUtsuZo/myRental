@@ -12,12 +12,25 @@ private:
 	std::string yearPublished;
 	double rentalFee;
 	bool isAvailableForRent;
-	std::vector<std::string> availableRentalTypes = { "Record", "DVD", "Game"};
-	std::vector<std::string> availableLoanTypes = { "two day rental", "one week rental" };
+	std::vector<std::string> availableRentalTypes = { 
+		"Record", 
+		"DVD", 
+		"Game"
+	};
+	std::vector<std::string> availableLoanTypes = { 
+		"two day rental", 
+		"one week rental" 
+	};
 
 
 	std::string genre;
-	std::vector<std::string> availableGenres = { "Action", "Horror", "Drama", "Comedy", "None"};
+	std::vector<std::string> availableGenres = { 
+		"Action", 
+		"Horror", 
+		"Drama", 
+		"Comedy", 
+		"None"
+	};
 
 	// Internal Methods
 	void SetIsAvailableForRent();
