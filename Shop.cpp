@@ -60,7 +60,7 @@ bool ModiyFromOptionsLocal(bool xTypeSet, std::string& itemToModify,
 		for (int i = 0; i < listOfPossibleInputs.size(); i++)
 			std::cout << fmt::format("{}.\t{}\n", i + 1, listOfPossibleInputs[i]);
 		std::cout << std::endl;
-		userInput = GetUserInputInt(1, listOfPossibleInputs.size());
+		userInput = GetUserInputInt(1, listOfPossibleInputs.size()) - 1;
 
 		if (userInput < listOfPossibleInputs.size() && userInput > -1) {
 			xTypeSet = true;
@@ -158,10 +158,12 @@ bool SetGenreTypeLocal(bool genreTypeSet, RentalItem workingRentalItem, std::str
 bool SetRentalTypeLocal(bool rentalTypeSet, RentalItem workingRentalItem, std::string& inputRentalType,
 	std::string& inputGenre) {
 	while (rentalTypeSet == false) {
-		rentalTypeSet = ModiyFromOptionsLocal(rentalTypeSet, 
+		rentalTypeSet = ModiyFromOptionsLocal(
+			rentalTypeSet, 
 			inputRentalType, 
 			workingRentalItem.GetAvailableRentalTypes(),
-			"What Rental Type is this? (Capitalization matters.)\n");
+			"What Rental Type is this? (Capitalization matters.)\n"
+		);
 		if (inputRentalType == "DVD") {
 			bool genreTypeSet = false;
 			genreTypeSet = SetGenreTypeLocal(genreTypeSet, workingRentalItem, inputGenre);
@@ -348,10 +350,25 @@ bool Shop::ModifyItemInStock(std::string itemIdOrTitle) {
 	if (indexOfItem > -1) {
 
 		int userModificationInput = -1;
-		std::vector<std::string> subMenuItems1dot2 = { "The ID", "The Title", "The Rental Type",
-			"The Loan Type", "The Year Published", "The Rental Fee", "Exit"};
-		std::vector<std::string> subMenuItems1dot2Genres = { "The ID", "The Title", "The Rental Type",
-			"The Loan Type", "The Year Published", "The Rental Fee", "The Genre", "Exit"};
+		std::vector<std::string> subMenuItems1dot2 = { 
+			"The ID", 
+			"The Title", 
+			"The Rental Type",
+			"The Loan Type", 
+			"The Year Published", 
+			"The Rental Fee", 
+			"Exit"
+		};
+		std::vector<std::string> subMenuItems1dot2Genres = { 
+			"The ID", 
+			"The Title", 
+			"The Rental Type",
+			"The Loan Type", 
+			"The Year Published", 
+			"The Rental Fee", 
+			"The Genre", 
+			"Exit"
+		};
 		RentalItem workingItem = stockList[indexOfItem];
 		std::string newIDNumber;
 		std::cout << "What did you want to modify?\n";
@@ -506,9 +523,16 @@ bool Shop::ModifyCustomerInfo(std::string customerIdOrTitle) {
 		int userModificationInput = 0;
 		Customer workingCustomerObject = customerList[indexOfCutomer];
 		workingCustomerObject.DisplayCustomerInfo();
-		std::vector<std::string> customerMenu = { "Modify ID", "Modify Name", "Modify Address",
-		"Modify Phone Nubmer", "Modify AccountType", "Modify Reward Points", "Modify Rentals Returned",
-		"Exit"};
+		std::vector<std::string> customerMenu = { 
+			"Modify ID", 
+			"Modify Name", 
+			"Modify Address",
+			"Modify Phone Nubmer", 
+			"Modify AccountType", 
+			"Modify Reward Points", 
+			"Modify Rentals Returned",
+			"Exit"
+		};
 		std::cout << "What did you want to change?\n";
 		for (int i = 0; i < customerMenu.size(); i++)
 			std::cout << fmt::format("{}\t{}\n", i + 1, customerMenu[i]);
