@@ -158,7 +158,9 @@ bool SetGenreTypeLocal(bool genreTypeSet, RentalItem workingRentalItem, std::str
 bool SetRentalTypeLocal(bool rentalTypeSet, RentalItem workingRentalItem, std::string& inputRentalType,
 	std::string& inputGenre) {
 	while (rentalTypeSet == false) {
-		rentalTypeSet = ModiyFromOptionsLocal(rentalTypeSet, inputRentalType, workingRentalItem.GetAvailableRentalTypes(),
+		rentalTypeSet = ModiyFromOptionsLocal(rentalTypeSet, 
+			inputRentalType, 
+			workingRentalItem.GetAvailableRentalTypes(),
 			"What Rental Type is this? (Capitalization matters.)\n");
 		if (inputRentalType == "DVD") {
 			bool genreTypeSet = false;
